@@ -1,4 +1,4 @@
-/* global width, height, scale, isMobile, makeShip */
+/* global width, height, scale, isMobile, makeShip, makeBackground */
 
 var cm = document.getElementById('m');
 var cfx = document.getElementById('fx');
@@ -28,3 +28,5 @@ function resize() {
 resize();
 
 var player = makeShip([50, -0.5, 0.5, 0, -0.5, 0.5, 0.5], '#fff', width / 2, height / 2);
+
+makeBackground();

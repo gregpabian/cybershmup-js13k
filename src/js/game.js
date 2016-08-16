@@ -1,4 +1,4 @@
-/* global performance, width, height, ctx, ctxUI, drawShip, updatePlayer, handleKeys, isMobile, player */
+/* global performance, width, height, ctx, ctxUI, drawShip, updatePlayer, handleKeys, isMobile, player, drawBackground, updateBackground */
 
 requestAnimationFrame(render);
 
@@ -26,8 +26,9 @@ function renderUI() {
 function renderGame() {
   ctx.clearRect(0, 0, width, height);
   ctx.save();
-// 	ctx.translate(Math.round(camera.x) + camera.sx, Math.round(camera.y) + camera.sy);
+// 	ctx.translate(camera.sx, camera.sy);
 
+  drawBackground();
   drawShip(player);
 	
 	ctx.restore();
@@ -40,4 +41,5 @@ function renderFX() {
 function update() {
   if (!isMobile) handleKeys();
   updatePlayer();
+  updateBackground();
 }

@@ -1,6 +1,6 @@
 /* global ctx, dt, TWO_PI, vectorAdd, vectorMultiply, width, height */
 
-var drag = 0.90;
+var drag = 0.8;
 
 function makeShip(shape, color, x, y, s) {
   return [
@@ -8,7 +8,7 @@ function makeShip(shape, color, x, y, s) {
     color,
     [x || 0, y || 0], // position
     [0, 0], // velocity
-    s || 10 // speed
+    s || 15 // speed
   ];
 }
 
