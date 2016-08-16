@@ -1,24 +1,41 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-	<meta charset="UTF-8">
-	<title>Captain Reverso</title>
-	<!-- ref:inlinecss build/style.min.css -->
-	<link rel="stylesheet" href="style.css">
-	<!-- endref -->
+  <meta charset="utf-8">
+  <title>CyberShmup</title>
+  <!-- ref:inlinecss build/style.min.css -->
+  <link rel="stylesheet" href="style.css">
+  <!-- endref -->
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  <meta name=viewport content="width=480, user-scalable=no">
 </head>
 <body>
-	<div id="wrap">
-		<canvas id="cm"></canvas>
-		<canvas id="cfg"></canvas>
-	</div>
-	<script>
-		<!-- ref:include source -->
-		<!-- endref -->
-	</script>
-	<!-- ref:remove -->
-	<script src="js/_definitions.js"></script>
-	<script src="js/game.js"></script>
-	<!-- endref -->
+  <div id="w">
+    <canvas id="m"></canvas>
+    <canvas id="fx"></canvas>
+    <canvas id="ui"></canvas>
+  </div>
+  <script>
+    <!-- ref:include source -->
+    <!-- endref -->
+  </script>
+  <!-- ref:remove -->
+  <script src="lib/stats.js"></script>
+  <script>
+    var stats = new Stats();
+    stats.showPanel(0);
+		document.body.appendChild(stats.dom);
+  </script>
+  <script src="js/_definitions.js"></script>
+  <script src="js/utils.js"></script>
+  <script src="js/vector.js"></script>
+  <script src="js/controls.js"></script>
+  <script src="js/ship.js"></script>
+  <script src="js/player.js"></script>
+  <script src="js/init.js"></script>
+  <script src="js/game.js"></script>
+  <!-- endref -->
 </body>
 </html>
