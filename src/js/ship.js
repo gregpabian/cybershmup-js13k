@@ -29,7 +29,7 @@ function drawShip(ship) {
   ctx.closePath();
   ctx.stroke();
   
-  ctx.beginPath()
+  ctx.beginPath();
   ctx.arc(0, 0, size / 2, 0, TWO_PI);
   ctx.strokeStyle = '#0c0';
   ctx.lineWidth = 2;

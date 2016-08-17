@@ -1,4 +1,5 @@
 module.exports = function(grunt) {
+  require('google-closure-compiler').grunt(grunt);
   require('load-grunt-tasks')(grunt);
 
   var src = 'src/';
@@ -25,9 +26,9 @@ module.exports = function(grunt) {
 
     'closure-compiler': {
       build: {
-        js: '<%= wrap.build.dest %>',
-        jsOutputFile: '<%= build %>game.min.js',
-        noreport: true,
+        files: {
+           '<%= build %>game.min.js': ['<%= wrap.build.dest %>']
+        },
         options: {
           compilation_level: 'ADVANCED_OPTIMIZATIONS',
           language_in: 'ECMASCRIPT5_STRICT'
@@ -151,6 +152,18 @@ module.exports = function(grunt) {
         }
       }
     },
+    
+    strip_code: {
+      options: {
+        blocks: [{
+          start_block: '/* dev */',
+          end_block: '/* end-dev */'
+        }]
+      },
+      build: {
+        src: '<%= concat.build.dest %>'
+      }
+    },
 
     wrap: {
       options: {
@@ -169,8 +182,8 @@ module.exports = function(grunt) {
   grunt.registerTask('lint', ['jshint', 'csslint']);
 
   grunt.registerTask('build', [
-    'lint', 'clean:build', 'sprite', 'copy:sprite', 'concat', 'wrap',
-    'closure-compiler', 'cssmin', 'htmlrefs', 'htmlmin', 'imagemin', 'clean:postbuild'
+    'lint', 'clean:build', /*'sprite', 'copy:sprite',*/ 'concat', 'strip_code', 'wrap',
+    'closure-compiler', 'cssmin', 'htmlrefs', 'htmlmin', /*'imagemin',*/ 'clean:postbuild'
   ]);
 
   grunt.registerTask('dist', ['clean:dist', 'compress']);

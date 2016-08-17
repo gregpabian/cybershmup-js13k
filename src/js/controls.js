@@ -1,4 +1,4 @@
-/* global cfx, wrapper, scale, clamp, width, height, isMobile */
+/* global cfx, wrapper, sc, clamp, width, height, isMobile, resize */
 
 var mx = isMobile ? -1 : 0;
 var my = isMobile ? -1 : 0;
@@ -8,7 +8,7 @@ var kr = 0;
 var ku = 0;
 var kd = 0;
 
-var isFullScreen = true;
+var isFullScreen = false;
 var a1 = false;
 var a2 = false;
 var a3 = false;
@@ -28,12 +28,14 @@ function touchMove(event) {
   
   if (!isFullScreen && wrapper.webkitRequestFullScreen) {
     wrapper.webkitRequestFullScreen();
+    resize();
+    isFullScreen = true;
   }
   
   var touch = event.touches[0];
   var pos = cfx.getBoundingClientRect();
-  mx = clamp((touch.clientX - pos.left) / scale, 0, width);
-  my = clamp((touch.clientY - pos.top) / scale, 0, height);
+  mx = clamp((touch.clientX - pos.left) / sc, 0, width);
+  my = clamp((touch.clientY - pos.top) / sc, 0, height);
 }
 
 function touchEnd(event) {

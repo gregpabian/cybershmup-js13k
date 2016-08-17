@@ -14,7 +14,7 @@ function makePattern(wn, ww, h) {
   
   tmpCtx.beginPath();
   tmpCtx.lineWidth = 2;
-  tmpCtx.strokeStyle = '#234';
+  tmpCtx.strokeStyle = '#369';
   tmpCtx.moveTo(d, 0);
   tmpCtx.lineTo(0, h /2);
   tmpCtx.lineTo(d, h);
