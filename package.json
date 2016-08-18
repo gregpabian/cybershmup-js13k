@@ -24,7 +24,7 @@
   },
   "scripts": {
     "build": "grunt build",
-    "dist": "grunt dist"
+    "dist": "grunt"
   },
   "author": "Greg Pabian",
   "license": "MIT"

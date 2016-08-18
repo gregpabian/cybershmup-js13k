@@ -39,7 +39,7 @@ module.exports = function(grunt) {
     compress: {
       dist: {
         options: {
-          archive: '<%= dist %>captainreverso.zip',
+          archive: '<%= dist %><%= pkg.name %>.zip',
           level: 9
         },
         files: [{

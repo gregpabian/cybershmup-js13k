@@ -30,3 +30,7 @@ function vectorAdd(v1, v2) {
 function vectorSubtract(v1, v2) {
   return [v1[0] - v2[0], v1[1] - v2[1]];
 }
+
+function lerp(v1, v2, t) {
+  return vectorAdd(v1, vectorMultiply(vectorSubtract(v2, v1), t));
+}

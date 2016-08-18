@@ -25,24 +25,24 @@ if (isMobile) {
 
 function touchMove(event) {
   event.preventDefault();
-  
-  if (!isFullScreen && wrapper.webkitRequestFullScreen) {
-    wrapper.webkitRequestFullScreen();
+
+  if (!isFullScreen && document.body.webkitRequestFullScreen) {
+    document.body.webkitRequestFullScreen();
     resize();
     isFullScreen = true;
   }
-  
+
   var touch = event.touches[0];
   var pos = cfx.getBoundingClientRect();
   mx = clamp((touch.clientX - pos.left) / sc, 0, width);
-  my = clamp((touch.clientY - pos.top) / sc, 0, height);
+  my = clamp((touch.clientY - 40 - pos.top) / sc, 0, height);
 }
 
 function touchEnd(event) {
   event.preventDefault();
-  
+
   var touch = event.touches[0];
-  
+
   if (!touch) {
     mx = my = -1;
   }
@@ -51,7 +51,7 @@ function touchEnd(event) {
 function handleKeyDown(event) {
   var dx = 0;
   var dy = 0;
-  
+
   switch (event.which) {
     case 13: a2 = true; break; // enter
     case 27: a3 = true; break; // escape
@@ -61,7 +61,7 @@ function handleKeyDown(event) {
     case 39: case 68: kr = 1; break; // right, d
     case 40: case 83: kd = 1; break; // down, s
   }
-  
+
   mx = dx;
   my = dy;
 }
@@ -80,7 +80,7 @@ function handleKeyUp(event) {
 
 function handleKeys() {
   mx = my = 0;
-  
+
   if (kl) mx--;
   if (kr) mx++;
   if (ku) my--;

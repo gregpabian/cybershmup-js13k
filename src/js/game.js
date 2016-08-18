@@ -1,4 +1,12 @@
-/* global width, height, ctx, ctxUI, resize, drawShip, updatePlayer, handleKeys, isMobile, player, drawBackground, updateBackground, stats, performance */
+/* global Stats, width, height, ctx, ctxUI, resize, drawShip, updatePlayer,
+handleKeys,isMobile, player, drawBackground, updateBackground,
+performance, waves, drawWave, updateWave */
+
+/* dev */
+var stats = new Stats();
+stats.showPanel(0);
+document.body.appendChild(stats.dom);
+/* end-dev */
 
 requestAnimationFrame(render);
 
@@ -24,7 +32,7 @@ function render(now) {
 }
 
 function renderUI() {
-  ctxUI.clearRect(0, 0, width, height);
+  // ctxUI.clearRect(0, 0, width, height);
 }
 
 function renderGame() {
@@ -34,12 +42,13 @@ function renderGame() {
 
   drawBackground();
   drawShip(player);
-	
+  waves.forEach(drawWave);
+
 	ctx.restore();
 }
 
 function renderFX() {
-  
+
 }
 
 var sw = 0;
@@ -50,19 +59,20 @@ function update() {
   if (!isMobile) handleKeys();
   updatePlayer();
   updateBackground();
-  
+  waves.forEach(updateWave);
+
   var now = performance.now();
-  
+
   if (now - lastResize > 250) {
     lastResize = now;
-    
+
     var ww = window.innerWidth;
     var wh = window.innerHeight;
-    
+
     if (ww !== sw || wh !== sh) {
       sw = ww;
       sh = wh;
-      
+
       resize(sw, sh);
     }
   }
