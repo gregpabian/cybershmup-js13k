@@ -71,10 +71,6 @@ function updateShip(ship, path) {
   ship[2] = pos;
 }
 
-function collide(a, b) {
-  return vectorDistance(a[1], b[1]) < (a[0][0] + b[0][0]) / 2;
-}
-
 function disposeDead(bodies) {
   var i = bodies.length - 1;
 

@@ -25,7 +25,7 @@ function makeWave(delay, type, path, count) {
 }
 
 function updateWave(wave) {
-  if (wave[0] + 5 > 0) {
+  if (wave[0] > 0) {
     wave[0] -= dt / 1000;
     return;
   }
@@ -47,13 +47,13 @@ function drawWave(wave) {
   wave[2].forEach(drawShip);
 }
 
-waves.push(makeWave(1, 'ss', 'z', 25));
-waves.push(makeWave(1, 'ss', 'zm', 25));
-waves.push(makeWave(11, 'ss', 'c', 15));
-waves.push(makeWave(11, 'ss', 'cm', 15));
-waves.push(makeWave(16, 'ss', 's', 10));
-waves.push(makeWave(16, 'ss', 'sm', 10));
+waves.push(makeWave(1, 'ss', 'z', 10));
+waves.push(makeWave(1, 'ss', 'zm', 10));
+waves.push(makeWave(9, 'ss', 'c', 10));
+waves.push(makeWave(9, 'ss', 'cm', 10));
+waves.push(makeWave(14, 'ss', 's', 10));
+waves.push(makeWave(14, 'ss', 'sm', 10));
 waves.push(makeWave(20, 'ss', 'a', 10));
 waves.push(makeWave(20, 'ss', 'am', 10));
-waves.push(makeWave(25, 'ss', 'ux', 10));
-waves.push(makeWave(25, 'ss', 'umx', 10));
+waves.push(makeWave(27, 'ss', 'ux', 10));
+waves.push(makeWave(27, 'ss', 'umx', 10));
