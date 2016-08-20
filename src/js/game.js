@@ -22,7 +22,7 @@ function render(now) {
 
 	update();
 
-  renderUI();
+  // renderUI();
   renderGame();
   renderFX();
   /* dev */
@@ -31,15 +31,14 @@ function render(now) {
   requestAnimationFrame(render);
 }
 
-function renderUI() {
-  // ctxUI.clearRect(0, 0, width, height);
-}
+// function renderUI() {
+//   // ctxUI.clearRect(0, 0, width, height);
+// }
 
 function renderGame() {
   ctx.clearRect(0, 0, width, height);
   ctx.save();
 // 	ctx.translate(camera.sx, camera.sy);
-
   drawBackground();
   drawShip(player);
   waves.forEach(drawWave);

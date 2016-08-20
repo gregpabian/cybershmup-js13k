@@ -59,7 +59,7 @@ function updateBackground() {
 }
 
 function drawBackground() {
-  ctx.drawImage(bg[0], bg[1], bg[2]);
+  ctx.drawImage(bg[0], ~~bg[1], ~~bg[2]);
 }
 
 makeBackground();

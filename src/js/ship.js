@@ -13,7 +13,7 @@ function makeShip(img, size, x, y) {
 }
 
 function drawShip(ship) {
-  ctx.drawImage(ship[0], ship[2][0] - ship[1] / 2, ship[2][1] - ship[1] / 2);
+  ctx.drawImage(ship[0], ~~(ship[2][0] - ship[1] / 2), ~~(ship[2][1] - ship[1] / 2));
 }
 
 // example shape: [40, 'fff', -0.5, 0.5, 0, -0.5, 0.5, 0.5]

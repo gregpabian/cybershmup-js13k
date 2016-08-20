@@ -23,6 +23,7 @@ function resize(ww, wh) {
 
 resize(window.innerWidth, window.innerHeight);
 
+// pre-render player and enemy shapes
 PLAYER = [PLAYER[0], renderShip(PLAYER)];
 
 for (var enemy in ENEMY) {
@@ -48,3 +49,11 @@ waves.push(makeWave(36, 'ss', '4', 10));
 waves.push(makeWave(37, 'ss', '5', 10));
 waves.push(makeWave(38, 'ss', '6', 10));
 waves.push(makeWave(39, 'ss', '7', 10));
+
+// waves.push(makeWave(1, 'ss', '1', 30));
+// waves.push(makeWave(1, 'ss', '2', 30));
+// waves.push(makeWave(1, 'ss', '3', 30));
+// waves.push(makeWave(1, 'ss', '4', 30));
+// waves.push(makeWave(1, 'ss', '5', 30));
+// waves.push(makeWave(1, 'ss', '6', 30));
+// waves.push(makeWave(1, 'ss', '7', 30));
