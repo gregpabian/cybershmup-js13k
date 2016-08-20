@@ -1,5 +1,5 @@
 /* global width, height, sc:true, PLAYER:true, ENEMY, renderShip, waves,
-makeWave */
+makeWave, BULLET, renderBullet */
 
 var cm = document.getElementById('m');
 var cfx = document.getElementById('fx');
@@ -30,7 +30,18 @@ for (var enemy in ENEMY) {
   ENEMY[enemy] = [ENEMY[enemy][0], renderShip(ENEMY[enemy])];
 }
 
-var player = [PLAYER[1], PLAYER[0], [width / 2, height - 100], [0, 0]];
+for (var bullet in BULLET) {
+  BULLET[bullet] = [BULLET[bullet][0], renderBullet(BULLET[bullet])];
+}
+
+
+var player = [
+  PLAYER[1], // player image
+  PLAYER[0], // player size
+  [width / 2, height - 100], // position vector
+  [0, 0], // velocity vector
+  [] // bullets
+];
 
 waves.push(makeWave(1, 'ss', 'z', 10));
 waves.push(makeWave(1, 'ss', 'zm', 10));

@@ -1,10 +1,15 @@
 /* global mx, my, dt, vectorAdd, isMobile, vectorNormalize, vectorDistance,
-vectorMultiply, vectorSubtract, width, height, PLAYER, player */
+vectorMultiply, vectorSubtract, width, height, PLAYER, player, updateBullet,
+makeBullet, disposeDead */
 
 var followSpeed = 15;
 var drag = 0.8;
+var weaponLevel = 0;
+var shotDelay = 0.25;
+var shotTimer = 0;
 
 function updatePlayer() {
+  var t = dt / 1000;
   var v = [0, 0];
 
   if (isMobile) {
@@ -27,7 +32,7 @@ function updatePlayer() {
   player[3] = vectorMultiply(player[3], drag);
 
   // calculate movement vector
-  var d = vectorMultiply(player[3], followSpeed * dt / 1000);
+  var d = vectorMultiply(player[3], followSpeed * t);
 
   // constrain to screen boundaries
 
@@ -58,4 +63,18 @@ function updatePlayer() {
 
   // move to new position
   player[2] = vectorAdd(player[2], d);
+
+  shotTimer -= t;
+
+  if (shotTimer <= 0) {
+    shotTimer = shotDelay;
+    playerShoot();
+  }
+
+player[4].forEach(updateBullet);
+disposeDead(player[4]);
+}
+
+function playerShoot() {
+  player[4].push(makeBullet(weaponLevel, player[2][0], player[2][1], 0, -500));
 }

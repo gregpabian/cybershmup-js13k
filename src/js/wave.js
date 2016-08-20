@@ -1,4 +1,4 @@
-/* global ENEMY, dt, makeShip, drawShip, makePath, updateShip, width, height */
+/* global ENEMY, dt, makeShip, drawBody, makePath, updateShip, width, height */
 
 var waves = [];
 
@@ -44,5 +44,5 @@ function updateWave(wave) {
 }
 
 function drawWave(wave) {
-  wave[2].forEach(drawShip);
+  wave[2].forEach(drawBody);
 }

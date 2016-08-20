@@ -40,7 +40,8 @@ function renderGame() {
   ctx.save();
 // 	ctx.translate(camera.sx, camera.sy);
   drawBackground();
-  drawShip(player);
+  drawBody(player);
+  player[4].forEach(drawBody);
   waves.forEach(drawWave);
 
 	ctx.restore();
@@ -75,4 +76,11 @@ function update() {
       resize(sw, sh);
     }
   }
+}
+
+
+function drawBody(body) {
+  if (!body[4]) return;
+
+  ctx.drawImage(body[0], ~~(body[2][0] - body[1] / 2), ~~(body[2][1] - body[1] / 2));
 }

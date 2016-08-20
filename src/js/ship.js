@@ -8,12 +8,8 @@ function makeShip(img, size, x, y) {
     size, // size
     [x, y], // x,y position
     0, // position along a path
-    0 // alive flag
+    1 // alive flag
   ];
-}
-
-function drawShip(ship) {
-  ctx.drawImage(ship[0], ~~(ship[2][0] - ship[1] / 2), ~~(ship[2][1] - ship[1] / 2));
 }
 
 // example shape: [40, 'fff', -0.5, 0.5, 0, -0.5, 0.5, 0.5]
@@ -69,6 +65,8 @@ function renderShip(shape) {
 }
 
 function updateShip(ship, path) {
+  if (!ship[4]) return;
+
   var pos = ship[3] + dt / 1000;
 
   if (pos * 4 > path.length) {
@@ -78,12 +76,4 @@ function updateShip(ship, path) {
 
   ship[2] = getPathPosition(path, pos);
   ship[3] = pos;
-}
-
-function disposeDead(bodies) {
-  var i = bodies.length - 1;
-
-  while(bodies[i]) {
-    if (!bodies[i--][4]) bodies.pop();
-  }
 }

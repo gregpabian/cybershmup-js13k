@@ -9,3 +9,14 @@ function hex2rgba(hex, a) {
     parseInt(hex[1] + hex[1], 16) + ', ' +
     parseInt(hex[2] + hex[2], 16) + ',' + a + ')';
 }
+
+function disposeDead(bodies) {
+  var i = bodies.length - 1;
+
+  while (bodies[i]) {
+    if (!bodies[i][4]) {
+      bodies.splice(i, 1);
+    }
+    i--;
+  }
+}

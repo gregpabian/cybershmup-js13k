@@ -3,18 +3,20 @@ var isMobile = 'ontouchstart' in document;
 var width = isMobile ? 480 : 600;
 var height = isMobile ? 640 : 800;
 var sc = 1;
+var rs = width / 600;
 var wx = 0;
 var wy = 0;
 
 var TWO_PI = 2 * Math.PI;
 
-var SIZE_XS = 0.0375 * width; // 18 or 24px
-var SIZE_S = 0.05 * width; // 24 or 32px
-var SIZE_M = 0.0625 * width; // 30 or 40px
-var SIZE_L = 0.075 * width; // 36 or 48px
-var SIZE_XL = 0.0875 * width; // 42 or 56px
-var SIZE_XXL = 0.1 * width; // 48 or 64px
-var SIZE_XXXL = 0.125 * width; // 60 or 80px
+var SIZE_XXS = 10 * rs; // 8 or 10px
+var SIZE_XS = 22.5 * rs; // 18px or 22.5px
+var SIZE_S = 30 * rs; // 24 or 30px
+var SIZE_M = 37.5 * rs; // 30 or 37.5px
+var SIZE_L = 45 * rs; // 36 or 45px
+var SIZE_XL = 52.5 * rs; // 42 or 52.5px
+var SIZE_XXL = 60 * rs; // 48 or 60px
+var SIZE_XXXL = 67.5 * rs; // 54 or 67.5px
 
 var ENEMY = {
   'ss': [
@@ -41,6 +43,10 @@ var PLAYER = [
   0, -0.2,
   0.1, 0,
   -0.1, 0
+];
+
+var BULLET = [
+  [SIZE_XXS, 'fc0']
 ];
 
 var PATH = {
