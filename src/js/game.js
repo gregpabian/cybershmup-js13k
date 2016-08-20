@@ -1,6 +1,6 @@
 /* global Stats, width, height, ctx, ctxUI, resize, drawShip, updatePlayer,
 handleKeys,isMobile, player, drawBackground, updateBackground,
-performance, waves, drawWave, updateWave */
+performance, waves, drawWave, updateWave, collideBulletWithEnemies */
 
 /* dev */
 var stats = new Stats();
@@ -58,6 +58,9 @@ var lastResize = 0;
 function update() {
   if (!isMobile) handleKeys();
   updatePlayer();
+
+  player[4].forEach(collideBulletWithEnemies);
+
   updateBackground();
   waves.forEach(updateWave);
 
@@ -77,7 +80,6 @@ function update() {
     }
   }
 }
-
 
 function drawBody(body) {
   if (!body[4]) return;

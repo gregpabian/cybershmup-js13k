@@ -1,5 +1,5 @@
 /* global hex2rgba, TWO_PI, BULLET, dt, width, height, vectorMultiply,
-vectorAdd */
+vectorAdd, waves, collideCircles */
 
 function renderBullet(bullet) {
   var c = document.createElement('canvas');
@@ -34,7 +34,20 @@ function updateBullet(bullet) {
 
   bullet[2] = vectorAdd(bullet[2], d);
 
+  // kill the bullet when it leaves the screen
   if (bullet[2][0] < 0 || bullet[2][0] > width || bullet[2][1] < 0 || bullet[2][1] > height) {
     bullet[4] = 0;
   }
+}
+
+function collideBulletWithEnemies(bullet) {
+  waves.forEach(function (wave) {
+    wave[2].forEach(function (ship) {
+      if (!ship[4]) return;
+
+      if (collideCircles(bullet[2], bullet[1], ship[2], ship[1])) {
+        bullet[4] = ship[4] = 0;
+      }
+    });
+  });
 }
