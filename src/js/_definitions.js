@@ -115,3 +115,13 @@ var PATH = {
     0.8, -0.1
   ]
 };
+
+(function () {
+  for (var i = 1; i <= 7; i++) {
+    var p = PATH[i] = [];
+
+    for (var j = -1; j < 12; j += 2) {
+      p.push(i * 0.125, j / 10);
+   }
+  }
+})();
