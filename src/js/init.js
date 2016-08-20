@@ -1,4 +1,5 @@
-/* global width, height, sc:true, isMobile, makeShip, makeBackground */
+/* global width, height, sc:true, PLAYER:true, ENEMY, renderShip, waves,
+makeWave */
 
 var cm = document.getElementById('m');
 var cfx = document.getElementById('fx');
@@ -19,5 +20,31 @@ function resize(ww, wh) {
   wrapper.style.top = ~~((wh - (height * sc)) / 2) + 'px';
   wrapper.style.left = ~~((ww - (width * sc)) / 2) + 'px';
 }
-  
+
 resize(window.innerWidth, window.innerHeight);
+
+PLAYER = [PLAYER[0], renderShip(PLAYER)];
+
+for (var enemy in ENEMY) {
+  ENEMY[enemy] = [ENEMY[enemy][0], renderShip(ENEMY[enemy])];
+}
+
+var player = [PLAYER[1], PLAYER[0], [width / 2, height - 100], [0, 0]];
+
+waves.push(makeWave(1, 'ss', 'z', 10));
+waves.push(makeWave(1, 'ss', 'zm', 10));
+waves.push(makeWave(9, 'ss', 'c', 10));
+waves.push(makeWave(9, 'ss', 'cm', 10));
+waves.push(makeWave(14, 'ss', 's', 10));
+waves.push(makeWave(14, 'ss', 'sm', 10));
+waves.push(makeWave(20, 'ss', 'a', 10));
+waves.push(makeWave(20, 'ss', 'am', 10));
+waves.push(makeWave(27, 'ss', 'ux', 10));
+waves.push(makeWave(27, 'ss', 'umx', 10));
+waves.push(makeWave(33, 'ss', '1', 10));
+waves.push(makeWave(34, 'ss', '2', 10));
+waves.push(makeWave(35, 'ss', '3', 10));
+waves.push(makeWave(36, 'ss', '4', 10));
+waves.push(makeWave(37, 'ss', '5', 10));
+waves.push(makeWave(38, 'ss', '6', 10));
+waves.push(makeWave(39, 'ss', '7', 10));

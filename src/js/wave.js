@@ -12,7 +12,7 @@ function makeWave(delay, type, path, count) {
   var shape = ENEMY[type];
 
   for (var i = 0; i < count; i++) {
-    ships.push(makeShip(shape, x, y));
+    ships.push(makeShip(shape[1], shape[0], x, y));
   }
 
   return [
@@ -46,21 +46,3 @@ function updateWave(wave) {
 function drawWave(wave) {
   wave[2].forEach(drawShip);
 }
-
-waves.push(makeWave(1, 'ss', 'z', 10));
-waves.push(makeWave(1, 'ss', 'zm', 10));
-waves.push(makeWave(9, 'ss', 'c', 10));
-waves.push(makeWave(9, 'ss', 'cm', 10));
-waves.push(makeWave(14, 'ss', 's', 10));
-waves.push(makeWave(14, 'ss', 'sm', 10));
-waves.push(makeWave(20, 'ss', 'a', 10));
-waves.push(makeWave(20, 'ss', 'am', 10));
-waves.push(makeWave(27, 'ss', 'ux', 10));
-waves.push(makeWave(27, 'ss', 'umx', 10));
-waves.push(makeWave(33, 'ss', '1', 10));
-waves.push(makeWave(34, 'ss', '2', 10));
-waves.push(makeWave(35, 'ss', '3', 10));
-waves.push(makeWave(36, 'ss', '4', 10));
-waves.push(makeWave(37, 'ss', '5', 10));
-waves.push(makeWave(38, 'ss', '6', 10));
-waves.push(makeWave(39, 'ss', '7', 10));

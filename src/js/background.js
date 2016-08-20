@@ -50,7 +50,7 @@ function makeBackground() {
 }
 
 function updateBackground() {
-  bg[1] = -SIZE_XXL * 2 * player[1][0] / width;
+  bg[1] = -SIZE_XXL * 2 * player[2][0] / width;
   bg[2] += dt / 10;
 
   if (bg[2] >= 0) {
