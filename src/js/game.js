@@ -1,6 +1,6 @@
-/* global Stats, width, height, ctx, ctxUI, resize, drawShip, updatePlayer,
+/* global Stats, width, height, ctx, resize, updatePlayer,
 handleKeys,isMobile, player, drawBackground, updateBackground,
-performance, waves, drawWave, updateWave, collideBulletWithEnemies */
+performance, waves, drawWave, updateWave, collideCircles, startPos */
 
 /* dev */
 var stats = new Stats();
@@ -41,7 +41,7 @@ function renderGame() {
 // 	ctx.translate(camera.sx, camera.sy);
   drawBackground();
   drawBody(player);
-  player[4].forEach(drawBody);
+  player[5].forEach(drawBody);
   waves.forEach(drawWave);
 
 	ctx.restore();
@@ -59,7 +59,13 @@ function update() {
   if (!isMobile) handleKeys();
   updatePlayer();
 
-  player[4].forEach(collideBulletWithEnemies);
+  player[5].forEach(collideWithEnemies);
+  collideWithEnemies(player);
+
+  if(!player[4]) {
+    player[4] = 1;
+    player[2] = [].concat(startPos);
+  }
 
   updateBackground();
   waves.forEach(updateWave);
@@ -85,4 +91,16 @@ function drawBody(body) {
   if (!body[4]) return;
 
   ctx.drawImage(body[0], ~~(body[2][0] - body[1] / 2), ~~(body[2][1] - body[1] / 2));
+}
+
+function collideWithEnemies(body) {
+  waves.forEach(function (wave) {
+    wave[2].forEach(function (ship) {
+      if (!ship[4]) return;
+
+      if (collideCircles(body[2], body[1], ship[2], ship[1])) {
+        body[4] = ship[4] = 0;
+      }
+    });
+  });
 }

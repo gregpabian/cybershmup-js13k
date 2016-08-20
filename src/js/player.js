@@ -7,8 +7,11 @@ var drag = 0.8;
 var weaponLevel = 0;
 var shotDelay = 0.25;
 var shotTimer = 0;
+var startPos = [width / 2, height - 100];
 
 function updatePlayer() {
+  if (!player[4]) return;
+
   var t = dt / 1000;
   var v = [0, 0];
 
@@ -71,10 +74,10 @@ function updatePlayer() {
     playerShoot();
   }
 
-player[4].forEach(updateBullet);
-disposeDead(player[4]);
+  player[5].forEach(updateBullet);
+  disposeDead(player[5]);
 }
 
 function playerShoot() {
-  player[4].push(makeBullet(weaponLevel, player[2][0], player[2][1], 0, -500));
+  player[5].push(makeBullet(weaponLevel, player[2][0], player[2][1], 0, -500));
 }

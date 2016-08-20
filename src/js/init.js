@@ -1,5 +1,5 @@
 /* global width, height, sc:true, PLAYER:true, ENEMY, renderShip, waves,
-makeWave, BULLET, renderBullet */
+makeWave, BULLET, renderBullet, startPos */
 
 var cm = document.getElementById('m');
 var cfx = document.getElementById('fx');
@@ -38,8 +38,9 @@ for (var bullet in BULLET) {
 var player = [
   PLAYER[1], // player image
   PLAYER[0], // player size
-  [width / 2, height - 100], // position vector
+  [].concat(startPos), // position vector
   [0, 0], // velocity vector
+  1, // alive flag
   [] // bullets
 ];
 

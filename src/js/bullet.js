@@ -39,15 +39,3 @@ function updateBullet(bullet) {
     bullet[4] = 0;
   }
 }
-
-function collideBulletWithEnemies(bullet) {
-  waves.forEach(function (wave) {
-    wave[2].forEach(function (ship) {
-      if (!ship[4]) return;
-
-      if (collideCircles(bullet[2], bullet[1], ship[2], ship[1])) {
-        bullet[4] = ship[4] = 0;
-      }
-    });
-  });
-}
