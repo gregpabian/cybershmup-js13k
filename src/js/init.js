@@ -13,6 +13,9 @@ var ctx = cm.getContext('2d');
 var ctxUI = cui.getContext('2d');
 var gl = cfx.getContext('webgl') || cfx.getContext('experimental-webgl');
 
+gl.viewport(0, 0, width, height);
+gl.clearColor(0, 0, 0, 0);
+
 function resize(ww, wh) {
   sc = Math.min(1 / Math.max(width / ww, height / wh), 1);
 

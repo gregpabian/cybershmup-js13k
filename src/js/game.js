@@ -24,7 +24,6 @@ function render(now) {
 
   // renderUI();
   renderGame();
-  renderFX();
   /* dev */
   stats.end();
   /* end-dev */
@@ -47,9 +46,6 @@ function renderGame() {
 	ctx.restore();
 }
 
-function renderFX() {
-
-}
 
 var sw = 0;
 var sh = 0;

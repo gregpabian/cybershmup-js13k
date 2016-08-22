@@ -79,5 +79,5 @@ function updatePlayer() {
 }
 
 function playerShoot() {
-  player[5].push(makeBullet(weaponLevel, player[2][0], player[2][1], 0, -500));
+  player[5].push(makeBullet(weaponLevel, player[2][0], player[2][1], 0, -1000));
 }
