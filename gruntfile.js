@@ -15,15 +15,25 @@ module.exports = function(grunt) {
     dist: dist,
     sources: buildSources(),
 
+    base64: {
+      build: {
+        files: {
+          '<%= build %>f.64': ['<%= src %>img/f.png'],
+          '<%= build %>l.64': ['<%= src %>img/l.png']
+        }
+      }
+    },
+
     clean: {
       build: ['<%= build %>'],
       dist: ['<%= dist %>'],
       postbuild: [
         '<%= build %>game.min.js',
         '<%= build %>style.min.css',
-        '<%= build %>sprites.js'
-      ],
-      shaders: ['<%= src %>js/shaders.js']
+        '<%= build %>sprites.js',
+        '<%= build %>f.64',
+        '<%= build %>l.64'
+      ]
     },
 
     'closure-compiler': {
@@ -102,7 +112,7 @@ module.exports = function(grunt) {
           stripComments: true
         },
         files: {
-          '<%= src %>js/shaders.js': buildShaderSources()
+          '<%= src %>js/_shaders.js': buildShaderSources()
         }
       }
     },
@@ -135,6 +145,13 @@ module.exports = function(grunt) {
       build: {
         src: '<%= build %>sprites.png',
         dest: '<%= build %>sprites.png'
+      }
+    },
+
+    injectImages: {
+      build: {
+        src: ['<%= build %>f.64', '<%= build %>l.64'],
+        dest: '<%= src %>js/_images.js'
       }
     },
 
@@ -183,8 +200,8 @@ module.exports = function(grunt) {
     wrap: {
       options: {
         wrapper: [
-          '( function ( document, window, undefined ) {\n\t\'use strict\';\n',
-          '\n} )( document, this );'
+          '(function (document, window, undefined) {\n\t"use strict";\n',
+          '\n} )(document, this);'
         ]
       },
       build: {
@@ -194,15 +211,57 @@ module.exports = function(grunt) {
     }
   });
 
+  grunt.registerMultiTask('injectImages', 'Injects base64 images as variables into a JS file', function () {
+    var src = [].concat(this.data.src);
+    var dest = this.data.dest;
+    var done = this.async();
+    var contents = {};
+    var namePattern = /\/([^.]+)\.64/;
+
+    function nextFile() {
+      var file = src.pop();
+
+      if (file) {
+        fs.readFile(file, function (err, content) {
+          if (err) {
+            throw err;
+          }
+
+          var match = namePattern.exec(file);
+          contents[match[1]] = content;
+          nextFile();
+        });
+      } else {
+        var fileContent = '';
+
+        for (file in contents) {
+          fileContent += 'var ' + file + 'Image = "data:image/png;base64,' + contents[file] + '";\n';
+        }
+
+        fs.writeFile(dest, fileContent, 'UTF-8', function (err) {
+          if (err) {
+            throw err;
+          }
+
+          done();
+        });
+      }
+    }
+
+    nextFile();
+  });
+
+  grunt.registerTask('images', ['base64', 'injectImages']);
+
   grunt.registerTask('lint', ['jshint', 'csslint']);
 
   grunt.registerTask('dev', [
-    'lint', 'clean:build', 'glsl', 'concat', 'strip_code', 'wrap', 'cssmin',
+    'images', 'glsl', 'lint', 'clean:build', 'concat', 'strip_code', 'wrap', 'cssmin',
     'htmlrefs', 'clean:postbuild'
   ]);
 
   grunt.registerTask('build', [
-    'lint', 'clean:build', 'clean:shaders', 'glsl', 'concat', 'strip_code', 'wrap',
+    'images', 'glsl', 'lint', 'clean:build', 'concat', 'strip_code', 'wrap',
     'closure-compiler', 'cssmin', 'htmlrefs', 'htmlmin', 'clean:postbuild'
   ]);
 

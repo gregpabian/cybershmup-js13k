@@ -62,7 +62,7 @@ function updatePlayer() {
     d[1] -= e;
   }
 
-  e = player[2][1] + d[1] + size / 2;
+  e = player[2][1] + d[1] + size;
 
   if (e > height) {
     d[1] -= e - height;

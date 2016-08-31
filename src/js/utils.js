@@ -3,11 +3,19 @@ function clamp(number, min, max) {
 }
 
 function hex2rgba(hex, a) {
+  var rgb = hex2rgb(hex);
+
+  return 'rgba(' + rgb[0] + ', ' + rgb[1] + ', ' + rgb[2] + ',' + a + ')';
+}
+
+function hex2rgb(hex) {
   hex = hex.split('');
 
-  return 'rgba(' + parseInt(hex[0] + hex[0], 16) + ', ' +
-    parseInt(hex[1] + hex[1], 16) + ', ' +
-    parseInt(hex[2] + hex[2], 16) + ',' + a + ')';
+  return [
+    parseInt(hex[0] + hex[0], 16),
+    parseInt(hex[1] + hex[1], 16),
+    parseInt(hex[2] + hex[2], 16)
+  ];
 }
 
 function disposeDead(bodies) {
@@ -19,4 +27,12 @@ function disposeDead(bodies) {
     }
     i--;
   }
+}
+
+function dis(ctx) {
+	['mozI', 'webkitI', 'msI', 'i'].forEach(function(name) {
+		ctx[name + 'mageSmoothingEnabled'] = false;
+	});
+
+	return ctx;
 }

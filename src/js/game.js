@@ -60,6 +60,8 @@ function renderGame() {
 	drawGauge(healthGauge);
 	drawGauge(weaponGauge);
 	drawGauge(glitchGauge);
+
+	drawLabel(testLabel);
 }
 
 

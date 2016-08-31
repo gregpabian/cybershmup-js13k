@@ -13,6 +13,8 @@ var ctx = cm.getContext('2d');
 var ctxUI = cui.getContext('2d');
 var gl = cfx.getContext('webgl') || cfx.getContext('experimental-webgl');
 
+dis(ctxUI);
+
 gl.viewport(0, 0, width, height);
 gl.clearColor(0, 0, 0, 0);
 
@@ -49,6 +51,8 @@ var player = [
 var glitchGauge = makeGauge(width / 2 + 17, height, 480, '0cf', '022', 10, 0, -0.05);
 var healthGauge = makeGauge(-20, 430, 300, '0d0', '020', 5, 0, -1.6);
 var weaponGauge = makeGauge(480, 450, 300, 'f0c', '202', 10, 0, -1.53, 1);
+
+var testLabel = makeLabel(100, 100, 'lorem ipsum', 'f0f', 3);
 
 waves.push(makeWave(1, 'ss', 'z', 10));
 waves.push(makeWave(1, 'ss', 'zm', 10));

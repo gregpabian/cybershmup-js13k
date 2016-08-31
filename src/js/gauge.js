@@ -28,8 +28,7 @@ function drawGauge(gauge) {
 
   ctxUI.translate(gauge[0], gauge[1]);
   ctxUI.rotate(gauge[6]);
-  ctxUI.translate(-w / 2, -h / 2);
-  ctxUI.transform(1, 0, Math.PI / (gauge[7] ? 4 : -4), 1, 0, 0);
+  ctxUI.transform(1, 0, Math.PI / (gauge[7] ? 4 : -4), 1, -w / 2, -h / 2);
 
 
   ctxUI.fillStyle = '#' + gauge[4];
