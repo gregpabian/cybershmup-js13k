@@ -1,7 +1,7 @@
 var isMobile = 'ontouchstart' in document;
 
-var width = isMobile ? 480 : 600;
-var height = isMobile ? 640 : 800;
+var width = 480;
+var height = 640;
 var sc = 1;
 var rs = width / 600;
 var wx = 0;

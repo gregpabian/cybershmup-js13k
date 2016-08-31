@@ -14,6 +14,7 @@ function makePattern(wn, ww, h) {
   tmpCtx.fillStyle = '#000';
   tmpCtx.fillRect(0, 0, wn + ww, h);
 
+  // draw hexagon
   tmpCtx.beginPath();
   tmpCtx.lineWidth = 2;
   tmpCtx.strokeStyle = '#247';
@@ -32,10 +33,10 @@ function makePattern(wn, ww, h) {
 }
 
 function makeBackground() {
-  bg[3] = width + SIZE_XXL * 2;
+  bg[3] = width * 1.33;
   bg[4] = Math.ceil(height / SIZE_S) * SIZE_S;
 
-  bg[1] = 0;
+  bg[1] = (width - bg[3]) / 2;
   bg[2] = -bg[4];
 
   bg[0] = document.createElement('canvas');
@@ -46,11 +47,11 @@ function makeBackground() {
 
   var pattern = bgctx.createPattern(makePattern(SIZE_XS, SIZE_L, SIZE_S), 'repeat');
   bgctx.fillStyle = pattern;
-  bgctx.fillRect(0, 0, width + SIZE_XXL * 2, height * 2);
+  bgctx.fillRect(0, 0, bg[3], 2 * bg[4]);
 }
 
 function updateBackground() {
-  bg[1] = -SIZE_XXL * 2 * player[2][0] / width;
+  bg[1] = player[2][0] / width * (width - bg[3]);
   bg[2] += dt / 10;
 
   if (bg[2] >= 0) {

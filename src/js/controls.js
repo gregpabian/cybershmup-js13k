@@ -8,7 +8,7 @@ var kr = 0;
 var ku = 0;
 var kd = 0;
 
-var isFullScreen = false;
+var isFullScreen = true;
 var a1 = false;
 var a2 = false;
 var a3 = false;

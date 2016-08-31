@@ -8,12 +8,12 @@ stats.showPanel(0);
 document.body.appendChild(stats.dom);
 /* end-dev */
 
-requestAnimationFrame(render);
+requestAnimationFrame(loop);
 
 var last = 0;
 var dt = 0;
 
-function render(now) {
+function loop(now) {
   /* dev */
   stats.begin();
   /* end-dev */
@@ -27,7 +27,7 @@ function render(now) {
   /* dev */
   stats.end();
   /* end-dev */
-  requestAnimationFrame(render);
+  requestAnimationFrame(loop);
 }
 
 // function renderUI() {
