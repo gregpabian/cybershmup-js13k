@@ -1,5 +1,5 @@
 /* global width, height, sc:true, PLAYER:true, ENEMY, renderShip, waves,
-makeWave, BULLET, renderBullet, startPos */
+makeWave, BULLET, renderBullet, startPos, makeGauge */
 
 var cm = document.getElementById('m');
 var cfx = document.getElementById('fx');
@@ -37,7 +37,6 @@ for (var bullet in BULLET) {
   BULLET[bullet] = [BULLET[bullet][0], renderBullet(BULLET[bullet])];
 }
 
-
 var player = [
   PLAYER[1], // player image
   PLAYER[0], // player size
@@ -46,6 +45,10 @@ var player = [
   1, // alive flag
   [] // bullets
 ];
+
+var glitchGauge = makeGauge(width / 2 + 17, height, 480, '0cf', '022', 10, 0, -0.05);
+var healthGauge = makeGauge(-20, 430, 300, '0d0', '020', 5, 0, -1.6);
+var weaponGauge = makeGauge(480, 450, 300, 'f0c', '202', 10, 0, -1.53, 1);
 
 waves.push(makeWave(1, 'ss', 'z', 10));
 waves.push(makeWave(1, 'ss', 'zm', 10));

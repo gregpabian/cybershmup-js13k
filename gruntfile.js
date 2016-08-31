@@ -202,7 +202,7 @@ module.exports = function(grunt) {
   ]);
 
   grunt.registerTask('build', [
-    'lint', 'clean:build', 'clean:shades', 'glsl', 'concat', 'strip_code', 'wrap',
+    'lint', 'clean:build', 'clean:shaders', 'glsl', 'concat', 'strip_code', 'wrap',
     'closure-compiler', 'cssmin', 'htmlrefs', 'htmlmin', 'clean:postbuild'
   ]);
 

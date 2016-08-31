@@ -1,6 +1,7 @@
-/* global Stats, width, height, ctx, resize, updatePlayer,
-handleKeys,isMobile, player, drawBackground, updateBackground,
-performance, waves, drawWave, updateWave, collideCircles, startPos */
+/* global Stats, width, height, ctx, resize, updatePlayer, ctxUI,
+handleKeys,isMobile, player, drawBackground, updateBackground, drawGauge,
+performance, waves, drawWave, updateWave, collideCircles, startPos,
+updateGauge, glitchGauge, weaponGauge, healthGauge */
 
 /* dev */
 var stats = new Stats();
@@ -12,6 +13,8 @@ requestAnimationFrame(loop);
 
 var last = 0;
 var dt = 0;
+var glitchValueTimer = 0;
+var glitchValue = 1;
 
 function loop(now) {
   /* dev */
@@ -22,7 +25,19 @@ function loop(now) {
 
 	update();
 
-  // renderUI();
+	glitchValueTimer += dt;
+
+	if (glitchValueTimer > 500) {
+	  glitchValueTimer = 0;
+	  glitchValue++;
+
+	  if (glitchValue > 10) glitchValue = 0;
+	}
+
+	updateGauge(glitchGauge, glitchValue);
+	updateGauge(weaponGauge, glitchValue);
+	updateGauge(healthGauge, glitchValue);
+
   renderGame();
   /* dev */
   stats.end();
@@ -30,20 +45,21 @@ function loop(now) {
   requestAnimationFrame(loop);
 }
 
-// function renderUI() {
-//   // ctxUI.clearRect(0, 0, width, height);
-// }
-
 function renderGame() {
   ctx.clearRect(0, 0, width, height);
   ctx.save();
-// 	ctx.translate(camera.sx, camera.sy);
   drawBackground();
   drawBody(player);
   player[5].forEach(drawBody);
   waves.forEach(drawWave);
 
 	ctx.restore();
+
+	ctxUI.clearRect(0, 0, width, height);
+
+	drawGauge(healthGauge);
+	drawGauge(weaponGauge);
+	drawGauge(glitchGauge);
 }
 
 

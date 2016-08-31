@@ -11,13 +11,13 @@ function makePattern(wn, ww, h) {
 
   var tmpCtx = tmp.getContext('2d');
 
-  tmpCtx.fillStyle = '#000';
-  tmpCtx.fillRect(0, 0, wn + ww, h);
+  // tmpCtx.fillStyle = '#247';
+  // tmpCtx.fillRect(0, 0, wn + ww, h);
 
   // draw hexagon
   tmpCtx.beginPath();
-  tmpCtx.lineWidth = 2;
-  tmpCtx.strokeStyle = '#247';
+  tmpCtx.lineWidth = 4;
+  tmpCtx.strokeStyle = '#046';
   tmpCtx.moveTo(d, 0);
   tmpCtx.lineTo(0, h /2);
   tmpCtx.lineTo(d, h);
@@ -27,6 +27,10 @@ function makePattern(wn, ww, h) {
   tmpCtx.lineTo(d, 0);
   tmpCtx.moveTo(ww, h / 2);
   tmpCtx.lineTo(ww + wn, h / 2);
+  tmpCtx.stroke();
+
+  tmpCtx.lineWidth = 2;
+  tmpCtx.strokeStyle = '#000';
   tmpCtx.stroke();
 
   return tmp;
@@ -60,6 +64,14 @@ function updateBackground() {
 }
 
 function drawBackground() {
+  var grd = ctx.createRadialGradient(player[2][0], player[2][1], height, player[2][0], player[2][1], 0);
+  grd.addColorStop(0, '#000');
+  grd.addColorStop(1, '#046');
+
+  // Fill with gradient
+  ctx.fillStyle = grd;
+  ctx.fillRect(0, 0, width, height);
+
   ctx.drawImage(bg[0], ~~bg[1], ~~bg[2]);
 }
 

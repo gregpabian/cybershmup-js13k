@@ -14,7 +14,6 @@ function updatePlayer() {
 
   var t = dt / 1000;
   var v = [0, 0];
-  var d;
 
   if (isMobile) {
     if (mx >= 0 && my >= 0) {
@@ -84,5 +83,5 @@ function updatePlayer() {
 }
 
 function playerShoot() {
-  player[5].push(makeBullet(weaponLevel, player[2][0], player[2][1], 0, -1000));
+  player[5].push(makeBullet(weaponLevel, player[2][0], player[2][1], 0, -1500));
 }

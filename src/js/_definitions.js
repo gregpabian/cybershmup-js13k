@@ -3,20 +3,20 @@ var isMobile = 'ontouchstart' in document;
 var width = 480;
 var height = 640;
 var sc = 1;
-var rs = width / 600;
 var wx = 0;
 var wy = 0;
 
 var TWO_PI = 2 * Math.PI;
 
-var SIZE_XXS = 10 * rs; // 8 or 10px
-var SIZE_XS = 22.5 * rs; // 18px or 22.5px
-var SIZE_S = 30 * rs; // 24 or 30px
-var SIZE_M = 37.5 * rs; // 30 or 37.5px
-var SIZE_L = 45 * rs; // 36 or 45px
-var SIZE_XL = 52.5 * rs; // 42 or 52.5px
-var SIZE_XXL = 60 * rs; // 48 or 60px
-var SIZE_XXXL = 67.5 * rs; // 54 or 67.5px
+var SIZE_XXXS = 12;
+var SIZE_XXS = 16;
+var SIZE_XS = 24;
+var SIZE_S = 32;
+var SIZE_M = 40;
+var SIZE_L = 48;
+var SIZE_XL = 56;
+var SIZE_XXL = 64;
+var SIZE_XXXL = 72;
 
 var ENEMY = {
   'ss': [
@@ -46,7 +46,7 @@ var PLAYER = [
 ];
 
 var BULLET = [
-  [SIZE_XXS, 'fc0']
+  [SIZE_XXXS, 'fc0']
 ];
 
 var PATH = {
@@ -132,4 +132,86 @@ var PATH = {
   }
 })();
 
+var currentState = 0;
 
+var states = [
+  // menu
+  [
+    // 0 init
+    function () {
+
+    },
+    // 1 update
+    function () {
+
+    },
+    // 2 render
+    function () {
+
+    }
+  ],
+
+  // level picker
+  [
+    // init
+    function () {
+
+    },
+    // update
+    function () {
+
+    },
+    // render
+    function () {
+
+    }
+  ],
+
+  // gameplay
+  [
+    // init
+    function () {
+
+    },
+    // update
+    function () {
+
+    },
+    // render
+    function () {
+
+    }
+  ],
+
+  // pause
+  [
+    // init
+    function () {
+
+    },
+    // update
+    function () {
+
+    },
+    // render
+    function () {
+
+    }
+  ],
+
+  // credits
+  [
+    // init
+    function () {
+
+    },
+    // update
+    function () {
+
+    },
+    // render
+    function () {
+
+    }
+  ]
+];
