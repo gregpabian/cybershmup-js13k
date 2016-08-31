@@ -1,3 +1,5 @@
+var fs = require('fs');
+
 module.exports = function(grunt) {
   require('google-closure-compiler').grunt(grunt);
   require('load-grunt-tasks')(grunt);
@@ -17,11 +19,11 @@ module.exports = function(grunt) {
       build: ['<%= build %>'],
       dist: ['<%= dist %>'],
       postbuild: [
-        '<%= build %>game.js',
         '<%= build %>game.min.js',
         '<%= build %>style.min.css',
         '<%= build %>sprites.js'
-      ]
+      ],
+      shaders: ['<%= src %>js/shaders.js']
     },
 
     'closure-compiler': {
@@ -56,7 +58,7 @@ module.exports = function(grunt) {
       },
       build: {
         src: '<%= sources %>',
-        dest: '<%= build %>game.js'
+        dest: '<%= build %>game.min.js'
       }
     },
 
@@ -89,6 +91,19 @@ module.exports = function(grunt) {
       build: {
         src: '<%= src %>style.css',
         dest: '<%= build %>style.min.css'
+      }
+    },
+
+    glsl: {
+      build: {
+        options: {
+          oneString: true,
+          optimize: false,
+          stripComments: true
+        },
+        files: {
+          '<%= src %>js/shaders.js': buildShaderSources()
+        }
       }
     },
 
@@ -152,7 +167,7 @@ module.exports = function(grunt) {
         }
       }
     },
-    
+
     strip_code: {
       options: {
         blocks: [{
@@ -181,9 +196,14 @@ module.exports = function(grunt) {
 
   grunt.registerTask('lint', ['jshint', 'csslint']);
 
+  grunt.registerTask('dev', [
+    'lint', 'clean:build', 'glsl', 'concat', 'strip_code', 'wrap', 'cssmin',
+    'htmlrefs', 'clean:postbuild'
+  ]);
+
   grunt.registerTask('build', [
-    'lint', 'clean:build', /*'sprite', 'copy:sprite',*/ 'concat', 'strip_code', 'wrap',
-    'closure-compiler', 'cssmin', 'htmlrefs', 'htmlmin', /*'imagemin',*/ 'clean:postbuild'
+    'lint', 'clean:build', 'clean:shades', 'glsl', 'concat', 'strip_code', 'wrap',
+    'closure-compiler', 'cssmin', 'htmlrefs', 'htmlmin', 'clean:postbuild'
   ]);
 
   grunt.registerTask('dist', ['clean:dist', 'compress']);
@@ -191,16 +211,25 @@ module.exports = function(grunt) {
   grunt.registerTask('default', ['build', 'dist']);
 
   function buildSources() {
-    var fs = require('fs'),
-      scriptPattern = /script src="([^"]+)/g,
+    var scriptPattern = /script src="([^"]+)/g,
       html = fs.readFileSync(src + 'index.html').toString(),
       scripts = [],
       match;
 
     while ((match = scriptPattern.exec(html))) {
+      // if (match[1] !== 'lib/stats.js') {
       scripts.push('<%= src %>' + match[1]);
+      // }
     }
 
     return scripts;
+  }
+
+  function buildShaderSources() {
+    var files = fs.readdirSync(src + 'shaders/');
+
+    return files.map(function (file) {
+      return '<%= src %>shaders/' + file;
+    });
   }
 };
