@@ -136,3 +136,8 @@ var sounds = [
   // coin
   [0, , 0.0135, 0.32, 0.16, 0.33, , , , , , , 0.5, , , , , , 1, , , , , 0.4]
 ];
+
+var soundOn = true;
+var highQuality = true;
+
+var version = '0.1';

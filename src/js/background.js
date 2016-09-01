@@ -31,12 +31,14 @@ function makePattern(wn, ww, h, color) {
   return tmp;
 }
 
-function makeBackground(color) {
+function makeBackground(color, speed) {
   var bg = [];
 
   bg[3] = width * 1.33;
   bg[4] = Math.ceil(height / SIZE_S) * SIZE_S;
   bg[5] = '#' + color;
+  bg[6] = speed;
+  bg[7] = bg[8] = 0; // player coordinates
 
   bg[1] = (width - bg[3]) / 2;
   bg[2] = -bg[4];
@@ -54,17 +56,19 @@ function makeBackground(color) {
   return bg;
 }
 
-function updateBackground(bg) {
-  bg[1] = player[2][0] / width * (width - bg[3]);
-  bg[2] += dt / 10;
+function updateBackground(bg, x, y, gradientOnly) {
+  if (!gradientOnly) bg[1] = x / width * (width - bg[3]);
+  bg[2] += bg[6] * dt / 10;
+  bg[7] = x;
+  bg[8] = y;
 
   if (bg[2] >= 0) {
     bg[2] -= bg[4];
   }
 }
 
-function drawBackground(bg, x, y) {
-  var grd = ctx.createRadialGradient(x, y, height, x, y, 0);
+function drawBackground(bg) {
+  var grd = ctx.createRadialGradient(bg[7], bg[8], height, bg[7], bg[8], 0);
   grd.addColorStop(0, '#000');
   grd.addColorStop(1, bg[5]);
 
@@ -72,5 +76,5 @@ function drawBackground(bg, x, y) {
   ctx.fillStyle = grd;
   ctx.fillRect(0, 0, width, height);
 
-  ctx.drawImage(bg[0], ~~bg[1], ~~bg[2]);
+  ctx.drawImage(bg[0], bg[1], bg[2]);
 }

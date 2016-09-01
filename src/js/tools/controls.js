@@ -64,9 +64,6 @@ function touchEnd(event) {
 }
 
 function handleKeyDown(event) {
-  var dx = 0;
-  var dy = 0;
-
   switch (event.which) {
     case 13: a2 = 1; break; // enter
     case 27: a3 = 1; break; // escape
@@ -76,9 +73,6 @@ function handleKeyDown(event) {
     case 39: case 68: kr = 1; break; // right, d
     case 40: case 83: kd = 1; break; // down, s
   }
-
-  mx = dx;
-  my = dy;
 }
 
 function handleKeyUp(event) {

@@ -31,6 +31,13 @@ function vectorSubtract(v1, v2) {
   return [v1[0] - v2[0], v1[1] - v2[1]];
 }
 
+function vectorRotate(v, rad) {
+		return [
+		  v[0] * Math.cos(rad) + v[1] * Math.sin(rad),
+		  -v[0] * Math.sin(rad) + v[1] * Math.cos(rad)
+		];
+}
+
 function lerp(v1, v2, t) {
   return vectorAdd(v1, vectorMultiply(vectorSubtract(v2, v1), t));
 }

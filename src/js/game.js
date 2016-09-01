@@ -1,8 +1,5 @@
-/* global Stats, width, height, ctx, resize, updatePlayer, ctxUI,
-handleKeys,isMobile, player, drawBackground, updateBackground, drawGauge,
-performance, waves, drawWave, updateWave, collideCircles, startPos,
-updateGauge, glitchGauge, weaponGauge, healthGauge, drawLabel, drawButton,
-testLabel, testButton */
+/* global Stats width height ctx resize ctxUI performance waves collideCircles
+clicked: true scenes currentScene: true isMobile handleKeys */
 
 /* dev */
 var stats = new Stats();
@@ -10,12 +7,8 @@ stats.showPanel(0);
 document.body.appendChild(stats.dom);
 /* end-dev */
 
-requestAnimationFrame(loop);
-
 var last = 0;
 var dt = 0;
-var glitchValueTimer = 0;
-var glitchValue = 1;
 
 function loop(now) {
   /* dev */
@@ -24,74 +17,22 @@ function loop(now) {
   dt = Math.min(now - last, 100);
 	last = now;
 
+  handleInput();
+
 	update();
 
-	glitchValueTimer += dt;
-
-	if (glitchValueTimer > 500) {
-	  glitchValueTimer = 0;
-	  glitchValue++;
-
-	  if (glitchValue > 10) glitchValue = 0;
-	}
-
-	updateGauge(glitchGauge, glitchValue);
-	updateGauge(weaponGauge, glitchValue);
-	updateGauge(healthGauge, glitchValue);
-
-	if (clicked) {
-	  if (handleClick(mx, my, testButton)) {
-	    clicked = false;
-	  }
-	}
-
-  renderGame();
+  render();
   /* dev */
   stats.end();
   /* end-dev */
   requestAnimationFrame(loop);
 }
 
-function renderGame() {
-  ctx.clearRect(0, 0, width, height);
-  ctx.save();
-  drawBackground(bg, player[2][0], player[2][1]);
-  drawBody(player);
-  player[5].forEach(drawBody);
-  waves.forEach(drawWave);
-
-	ctx.restore();
-
-	ctxUI.clearRect(0, 0, width, height);
-
-	drawGauge(healthGauge);
-	drawGauge(weaponGauge);
-	drawGauge(glitchGauge);
-
-	drawLabel(testLabel);
-	drawButton(testButton);
-}
-
-
 var sw = 0;
 var sh = 0;
 var lastResize = 0;
 
 function update() {
-  if (!isMobile) handleKeys();
-  updatePlayer();
-
-  player[5].forEach(collideWithEnemies);
-  collideWithEnemies(player);
-
-  if(!player[4]) {
-    player[4] = 1;
-    player[2] = [].concat(startPos);
-  }
-
-  updateBackground(bg);
-  waves.forEach(updateWave);
-
   var now = performance.now();
 
   if (now - lastResize > 250) {
@@ -107,7 +48,32 @@ function update() {
       resize(sw, sh);
     }
   }
+
+  scenes[currentScene][1]();
 }
+
+function handleInput() {
+  if (!isMobile) handleKeys();
+  scenes[currentScene][2]();
+}
+
+function render() {
+  ctx.clearRect(0, 0, width, height);
+ 	ctxUI.clearRect(0, 0, width, height);
+
+  // render scene
+  scenes[currentScene][3]();
+}
+
+function changeScene(id) {
+  currentScene = id;
+  // initialize scene
+  scenes[currentScene][0]();
+}
+
+changeScene(currentScene);
+requestAnimationFrame(loop);
+
 
 function drawBody(body) {
   if (!body[4]) return;

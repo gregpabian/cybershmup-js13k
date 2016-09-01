@@ -7,7 +7,11 @@ var pause = [
   function () {
 
   },
-  // 2 render
+  // 2 input
+  function () {
+
+  },
+  // 3 render
   function () {
 
   }
