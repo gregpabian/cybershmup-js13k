@@ -95,7 +95,7 @@ function drawLevels() {
   ctxUI.lineWidth = 5;
   ctxUI.moveTo(levels[0][0], levels[0][1]);
 
-  for (var i = 1; i < unlockedLevel; i++) {
+  for (var i = 1; i <= unlockedLevel; i++) {
     ctxUI.lineTo(levels[i][0], levels[i][1]);
     ctxUI.strokeStyle = '#' + levels[i][4];
     ctxUI.stroke();
