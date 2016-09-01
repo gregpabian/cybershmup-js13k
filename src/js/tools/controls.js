@@ -10,7 +10,7 @@ var kr = 0;
 var ku = 0;
 var kd = 0;
 
-var isFullScreen = 1;
+var isFullScreen = 0;
 var a1 = 0;
 var a2 = 0;
 var a3 = 0;

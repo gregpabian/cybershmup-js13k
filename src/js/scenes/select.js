@@ -1,7 +1,8 @@
 /* global makeBackground updateBackground drawBackground height levels
 makeButton changeScene handleButtonClick mx my isMobile focusButton drawButton
 a1: true a2: true clickButton clicked: true blurButton ku: true kd: true clamp
-kl: true kr: true unlockedLevel ctxUI a3: true */
+kl: true kr: true unlockedLevel ctxUI a3: true width vectorRotate vectorAdd
+dt */
 
 var select = [
   // 0 init
@@ -20,6 +21,9 @@ var select = [
 
     // current button
     select[6] = 0;
+
+    // background angle
+    select[7] = 0;
   },
   // 1 update
   function () {
@@ -27,6 +31,15 @@ var select = [
       select[5].forEach(blurButton);
       focusButton(select[5][select[6]]);
     }
+
+    select[7] += dt / 1000;
+
+    var c = [width / 2, height / 2];
+    var r = vectorRotate([0, width], select[7]);
+
+    c = vectorAdd(c, r);
+
+    updateBackground(select[4], c[0], c[1], 1);
   },
   // 2 input
   function () {

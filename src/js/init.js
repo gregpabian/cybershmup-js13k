@@ -46,7 +46,7 @@ var scenes = [gameplay, home, select];
 var currentScene = 1;
 
 // TODO load from local storage
-var unlockedLevel = 5;
+var unlockedLevel = 9;
 var health = 100;
 var maxHealth = 100;
 var energy = 0;
