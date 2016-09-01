@@ -55,7 +55,7 @@ function loop(now) {
 function renderGame() {
   ctx.clearRect(0, 0, width, height);
   ctx.save();
-  drawBackground();
+  drawBackground(bg, player[2][0], player[2][1]);
   drawBody(player);
   player[5].forEach(drawBody);
   waves.forEach(drawWave);
@@ -89,7 +89,7 @@ function update() {
     player[2] = [].concat(startPos);
   }
 
-  updateBackground();
+  updateBackground(bg);
   waves.forEach(updateWave);
 
   var now = performance.now();

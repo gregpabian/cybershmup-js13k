@@ -1,6 +1,6 @@
 /* global width, height, sc:true, PLAYER:true, ENEMY, renderShip, waves,
 makeWave, BULLET, renderBullet, startPos, makeGauge, makeLabel, dis,
-makeButton, focusButton */
+makeButton, credits, gameplay, home, pause, select */
 
 var cm = document.getElementById('m');
 var cfx = document.getElementById('fx');
@@ -60,6 +60,12 @@ var testButton = makeButton(100, 100, 300, 60, 'start game', 4, '0cf', '022', -1
 
   testButton[11] = !testButton[11];
 });
+
+var currentScene = 0;
+
+var scenes = [credits, gameplay, home, pause, select];
+
+var bg = makeBackground('064');
 
 waves.push(makeWave(1, 'ss', 'z', 10));
 waves.push(makeWave(1, 'ss', 'zm', 10));

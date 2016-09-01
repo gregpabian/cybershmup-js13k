@@ -4,7 +4,7 @@ var fontImage = new Image();
 fontImage.src = fImage;
 document.body.appendChild(fontImage);
 
-var chars = 'abcdefghijklmnopqrstuvwxyz1234567890!?".,\'';
+var chars = 'abcdefghijklmnopqrstuvwxyz1234567890!?".,\':';
 
 function makeLabel(x, y, text, color, size) {
   color = color || 'fff';

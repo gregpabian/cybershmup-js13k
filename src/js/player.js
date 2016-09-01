@@ -16,10 +16,11 @@ function updatePlayer() {
   var v = [0, 0];
 
   if (isMobile) {
+    var mmy = my - 50;
     if (mx >= 0 && my >= 0) {
-      var r = vectorDistance(player[2], [mx, my]);
+      var r = vectorDistance(player[2], [mx, mmy]);
 
-      v = vectorSubtract([mx, my], player[2]);
+      v = vectorSubtract([mx, mmy], player[2]);
       v = vectorNormalize(v);
       v = vectorMultiply(v, followSpeed);
 

@@ -1,8 +1,6 @@
 /* global ctx, width, height, player, dt, SIZE_S, SIZE_L, SIZE_XS, SIZE_XXL */
 
-var bg = [];
-
-function makePattern(wn, ww, h) {
+function makePattern(wn, ww, h, color) {
   var d = (ww - wn) / 2;
 
   var tmp = document.createElement('canvas');
@@ -11,13 +9,10 @@ function makePattern(wn, ww, h) {
 
   var tmpCtx = tmp.getContext('2d');
 
-  // tmpCtx.fillStyle = '#247';
-  // tmpCtx.fillRect(0, 0, wn + ww, h);
-
   // draw hexagon
   tmpCtx.beginPath();
   tmpCtx.lineWidth = 4;
-  tmpCtx.strokeStyle = '#046';
+  tmpCtx.strokeStyle = color;
   tmpCtx.moveTo(d, 0);
   tmpCtx.lineTo(0, h /2);
   tmpCtx.lineTo(d, h);
@@ -36,9 +31,12 @@ function makePattern(wn, ww, h) {
   return tmp;
 }
 
-function makeBackground() {
+function makeBackground(color) {
+  var bg = [];
+
   bg[3] = width * 1.33;
   bg[4] = Math.ceil(height / SIZE_S) * SIZE_S;
+  bg[5] = '#' + color;
 
   bg[1] = (width - bg[3]) / 2;
   bg[2] = -bg[4];
@@ -49,12 +47,14 @@ function makeBackground() {
 
   var bgctx = bg[0].getContext('2d');
 
-  var pattern = bgctx.createPattern(makePattern(SIZE_XS, SIZE_L, SIZE_S), 'repeat');
+  var pattern = bgctx.createPattern(makePattern(SIZE_XS, SIZE_L, SIZE_S, bg[5]), 'repeat');
   bgctx.fillStyle = pattern;
   bgctx.fillRect(0, 0, bg[3], 2 * bg[4]);
+
+  return bg;
 }
 
-function updateBackground() {
+function updateBackground(bg) {
   bg[1] = player[2][0] / width * (width - bg[3]);
   bg[2] += dt / 10;
 
@@ -63,10 +63,10 @@ function updateBackground() {
   }
 }
 
-function drawBackground() {
-  var grd = ctx.createRadialGradient(player[2][0], player[2][1], height, player[2][0], player[2][1], 0);
+function drawBackground(bg, x, y) {
+  var grd = ctx.createRadialGradient(x, y, height, x, y, 0);
   grd.addColorStop(0, '#000');
-  grd.addColorStop(1, '#046');
+  grd.addColorStop(1, bg[5]);
 
   // Fill with gradient
   ctx.fillStyle = grd;
@@ -74,5 +74,3 @@ function drawBackground() {
 
   ctx.drawImage(bg[0], ~~bg[1], ~~bg[2]);
 }
-
-makeBackground();
