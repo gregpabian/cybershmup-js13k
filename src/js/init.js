@@ -41,7 +41,17 @@ for (var bullet in BULLET) {
   BULLET[bullet] = [BULLET[bullet][0], renderBullet(BULLET[bullet])];
 }
 
-var scenes = [gameplay, home, pause, select];
+var scenes = [gameplay, home, select];
+
 var currentScene = 1;
 
-var unlockedLevel = 1;
+// TODO load from local storage
+var unlockedLevel = 0;
+var health = 100;
+var maxHealth = 100;
+var energy = 0;
+var maxEnergy = 100;
+var weapon = 0;
+var maxWeapon = 100;
+var highscore = 0;
+var score = 0;

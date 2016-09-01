@@ -1,6 +1,6 @@
 /* global mx, my, dt, vectorAdd, isMobile, vectorNormalize, vectorDistance,
 vectorMultiply, vectorSubtract, width, height, PLAYER, player, updateBullet,
-makeBullet, disposeDead, vectorLength */
+makeBullet, disposeDead */
 
 var followSpeed = 120;
 var drag = 0.8;
@@ -9,7 +9,18 @@ var shotDelay = 0.2;
 var shotTimer = 0;
 var startPos = [width / 2, height - 100];
 
-function updatePlayer() {
+function makePlayer() {
+  return [
+    PLAYER[1], // player image
+    PLAYER[0], // player size
+    [].concat(startPos), // position vector
+    [0, 0], // velocity vector
+    1, // alive flag
+    [] // bullets
+  ];
+}
+
+function updatePlayer(player) {
   if (!player[4]) return;
 
   var t = dt / 1000;
@@ -76,13 +87,13 @@ function updatePlayer() {
 
   if (shotTimer <= 0) {
     shotTimer = shotDelay;
-    playerShoot();
+    playerShoot(player);
   }
 
   player[5].forEach(updateBullet);
   disposeDead(player[5]);
 }
 
-function playerShoot() {
-  player[5].push(makeBullet(weaponLevel, player[2][0], player[2][1], 0, -1500));
+function playerShoot(player) {
+  // player[5].push(makeBullet(weaponLevel, player[2][0], player[2][1], 0, -1500));
 }

@@ -36,3 +36,10 @@ function dis(ctx) {
 
 	return ctx;
 }
+
+function padZero(value) {
+  value += '';
+  var l = 9 - value.length + 1;
+
+  return (new Array(l < 0 ? 0 : l)).join(0) + value;
+}

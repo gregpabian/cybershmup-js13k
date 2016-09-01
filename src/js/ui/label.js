@@ -34,7 +34,7 @@ function updateLabel(label, text, color) {
 }
 
 function drawLabel(label) {
-  if (!label[7]) {
+  if (!label[7] || label[4] !== label[6] || label[3] !== label[5]) {
     var c = label[7] = document.createElement('canvas');
     c.height = 5;
     c.width = 4 * label[4].length - 1;

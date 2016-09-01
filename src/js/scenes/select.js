@@ -1,44 +1,7 @@
-/* global makeBackground updateBackground drawBackground width height
-makeButton changeScene handleButtonClick mx my isMobile updateButton version
-focusButton soundOn: true highQuality: true makeLabel drawButton drawLabel
+/* global makeBackground updateBackground drawBackground height levels
+makeButton changeScene handleButtonClick mx my isMobile focusButton drawButton
 a1: true a2: true clickButton clicked: true blurButton ku: true kd: true clamp
-kl: true kr: true unlockedLevel ctxUI */
-
-var selectPath = [
-  [80, 50, '1', 'ff0', '440'],
-  [180, 130, '2', '6f0', '240'],
-  [300, 130, '3', '0f0', '040'],
-  [400, 210, '4', '0f6', '042'],
-  [300, 290, '5', '0ff', '044'],
-  [180, 290, '6', '06f', '024'],
-  [80, 370, '7', '60f', '204'],
-  [180, 450, '8', 'f0f', '404'],
-  [300, 450, '9', 'f06', '402'],
-  [400, 520, 'c', 'f00', '400']
-];
-
-function makeSelectButtons() {
-  return selectPath.map(function (button, i) {
-    return makeButton(button[0], button[1], 60, 60, button[2], 4, button[3], button[4], 0, function () {
-        // go to the select scene
-        changeScene(0, i);
-      }, 1, i >= unlockedLevel);
-  });
-}
-
-function drawSelectPath() {
-  ctxUI.beginPath();
-  ctxUI.lineWidth = 5;
-  ctxUI.moveTo(selectPath[0][0], selectPath[0][1]);
-
-  for (var i = 1; i < unlockedLevel; i++) {
-    ctxUI.lineTo(selectPath[i][0], selectPath[i][1]);
-    ctxUI.strokeStyle = '#' + selectPath[i][4];
-    ctxUI.stroke();
-    ctxUI.beginPath();
-    ctxUI.moveTo(selectPath[i][0], selectPath[i][1]);
-  }
-}
+kl: true kr: true unlockedLevel ctxUI a3: true */
 
 var select = [
   // 0 init
@@ -74,6 +37,12 @@ var select = [
         a1 = a2 = 0;
       }
 
+      // escape - show pause menu
+      if (a3) {
+        changeScene(1);
+        a3 = 0;
+      }
+
       if (ku || kl) {
         do {
           select[6]--;
@@ -106,8 +75,31 @@ var select = [
   function () {
     drawBackground(select[4]);
 
-    drawSelectPath();
+    drawLevels();
 
     select[5].forEach(drawButton);
   }
 ];
+
+function makeSelectButtons() {
+  return levels.map(function (button, i) {
+    return makeButton(button[0], button[1], 60, 60, button[2], 4, button[3], button[4], 0, function () {
+        // go to the select scene
+        changeScene(0, i);
+      }, 1, i > unlockedLevel);
+  });
+}
+
+function drawLevels() {
+  ctxUI.beginPath();
+  ctxUI.lineWidth = 5;
+  ctxUI.moveTo(levels[0][0], levels[0][1]);
+
+  for (var i = 1; i < unlockedLevel; i++) {
+    ctxUI.lineTo(levels[i][0], levels[i][1]);
+    ctxUI.strokeStyle = '#' + levels[i][4];
+    ctxUI.stroke();
+    ctxUI.beginPath();
+    ctxUI.moveTo(levels[i][0], levels[i][1]);
+  }
+}
