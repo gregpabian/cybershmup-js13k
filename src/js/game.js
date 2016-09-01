@@ -68,10 +68,10 @@ function render() {
 function changeScene(id) {
   currentScene = id;
   // initialize scene
-  scenes[currentScene][0]();
+  scenes[currentScene][0].apply(null, Array.prototype.slice.call(arguments, 1));
 }
 
-changeScene(currentScene);
+changeScene(currentScene, true);
 requestAnimationFrame(loop);
 
 

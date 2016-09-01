@@ -41,5 +41,5 @@ for (var bullet in BULLET) {
   BULLET[bullet] = [BULLET[bullet][0], renderBullet(BULLET[bullet])];
 }
 
-var scenes = [credits, gameplay, home, pause, select];
-var currentScene = 2;
+var scenes = [gameplay, home, pause, select];
+var currentScene = 1;
