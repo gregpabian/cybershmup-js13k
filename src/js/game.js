@@ -71,7 +71,7 @@ function changeScene(id) {
   scenes[currentScene][0].apply(null, Array.prototype.slice.call(arguments, 1));
 }
 
-changeScene(currentScene, true);
+changeScene(currentScene);
 requestAnimationFrame(loop);
 
 

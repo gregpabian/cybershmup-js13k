@@ -43,3 +43,5 @@ for (var bullet in BULLET) {
 
 var scenes = [gameplay, home, pause, select];
 var currentScene = 1;
+
+var unlockedLevel = 1;
