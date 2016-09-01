@@ -2,19 +2,21 @@
 
 var mx = isMobile ? -1 : 0;
 var my = isMobile ? -1 : 0;
+var clicked = 0;
+var firstClick = 0;
 
 var kl = 0;
 var kr = 0;
 var ku = 0;
 var kd = 0;
 
-var isFullScreen = true;
-var a1 = false;
-var a2 = false;
-var a3 = false;
+var isFullScreen = 1;
+var a1 = 0;
+var a2 = 0;
+var a3 = 0;
 
 if (isMobile) {
-  document.addEventListener('touchstart', touchMove);
+  document.addEventListener('touchstart', touchStart);
   document.addEventListener('touchmove', touchMove);
   document.addEventListener('touchend', touchEnd);
   document.addEventListener('touchcancel', touchEnd);
@@ -23,19 +25,31 @@ if (isMobile) {
   document.addEventListener('keyup', handleKeyUp);
 }
 
+function touchStart(event) {
+  clicked = 1;
+  firstClick = 1;
+  touchMove(event);
+}
+
 function touchMove(event) {
   event.preventDefault();
+
+  if (firstClick) {
+    firstClick = 0;
+  } else {
+    clicked = 0;
+  }
 
   if (!isFullScreen && document.body.webkitRequestFullScreen) {
     document.body.webkitRequestFullScreen();
     resize();
-    isFullScreen = true;
+    isFullScreen = 1;
   }
 
   var touch = event.touches[0];
   var pos = cfx.getBoundingClientRect();
   mx = clamp((touch.clientX - pos.left) / sc, 0, width);
-  my = clamp((touch.clientY - 40 - pos.top) / sc, 0, height);
+  my = clamp((touch.clientY - pos.top) / sc, 0, height);
 }
 
 function touchEnd(event) {
@@ -44,6 +58,7 @@ function touchEnd(event) {
   var touch = event.touches[0];
 
   if (!touch) {
+    clicked = 0;
     mx = my = -1;
   }
 }
@@ -53,9 +68,9 @@ function handleKeyDown(event) {
   var dy = 0;
 
   switch (event.which) {
-    case 13: a2 = true; break; // enter
-    case 27: a3 = true; break; // escape
-    case 32: a1 = true; break; // space
+    case 13: a2 = 1; break; // enter
+    case 27: a3 = 1; break; // escape
+    case 32: a1 = 1; break; // space
     case 37: case 65: kl = 1; break; // left, a
     case 38: case 87: ku = 1; break; // up, w
     case 39: case 68: kr = 1; break; // right, d
@@ -68,9 +83,9 @@ function handleKeyDown(event) {
 
 function handleKeyUp(event) {
   switch (event.which) {
-    case 13: a2 = false; break; // enter
-    case 27: a3 = false; break; // escape
-    case 32: a1 = false; break; // space
+    case 13: a2 = 0; break; // enter
+    case 27: a3 = 0; break; // escape
+    case 32: a1 = 0; break; // space
     case 37: case 65: kl = 0; break; // left, a
     case 38: case 87: ku = 0; break; // up, w
     case 39: case 68: kr = 0; break; // right, d

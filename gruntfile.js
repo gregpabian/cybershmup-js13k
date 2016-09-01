@@ -276,9 +276,9 @@ module.exports = function(grunt) {
       match;
 
     while ((match = scriptPattern.exec(html))) {
-      // if (match[1] !== 'lib/stats.js') {
-      scripts.push('<%= src %>' + match[1]);
-      // }
+      if (match[1] !== 'lib/stats.js') {
+        scripts.push('<%= src %>' + match[1]);
+      }
     }
 
     return scripts;

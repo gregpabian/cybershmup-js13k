@@ -10,7 +10,8 @@ function renderBullet(bullet) {
   ctx.strokeStyle = '#' + bullet[1];
   ctx.lineWidth = 2;
   ctx.fillStyle = hex2rgba(bullet[1], 0.5);
-  ctx.arc(bullet[0] / 2, bullet[0] / 2, bullet[0] / 2 - 1, 0, TWO_PI, false);
+  var hs = bullet[0] / 2;
+  ctx.arc(hs, hs, hs - 1, 0, TWO_PI, false);
   ctx.fill();
   ctx.stroke();
 

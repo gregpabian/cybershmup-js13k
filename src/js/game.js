@@ -1,7 +1,8 @@
 /* global Stats, width, height, ctx, resize, updatePlayer, ctxUI,
 handleKeys,isMobile, player, drawBackground, updateBackground, drawGauge,
 performance, waves, drawWave, updateWave, collideCircles, startPos,
-updateGauge, glitchGauge, weaponGauge, healthGauge */
+updateGauge, glitchGauge, weaponGauge, healthGauge, drawLabel, drawButton,
+testLabel, testButton */
 
 /* dev */
 var stats = new Stats();
@@ -38,6 +39,12 @@ function loop(now) {
 	updateGauge(weaponGauge, glitchValue);
 	updateGauge(healthGauge, glitchValue);
 
+	if (clicked) {
+	  if (handleClick(mx, my, testButton)) {
+	    clicked = false;
+	  }
+	}
+
   renderGame();
   /* dev */
   stats.end();
@@ -62,6 +69,7 @@ function renderGame() {
 	drawGauge(glitchGauge);
 
 	drawLabel(testLabel);
+	drawButton(testButton);
 }
 
 

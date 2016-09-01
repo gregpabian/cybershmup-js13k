@@ -1,5 +1,6 @@
 /* global width, height, sc:true, PLAYER:true, ENEMY, renderShip, waves,
-makeWave, BULLET, renderBullet, startPos, makeGauge */
+makeWave, BULLET, renderBullet, startPos, makeGauge, makeLabel, dis,
+makeButton, focusButton */
 
 var cm = document.getElementById('m');
 var cfx = document.getElementById('fx');
@@ -52,7 +53,13 @@ var glitchGauge = makeGauge(width / 2 + 17, height, 480, '0cf', '022', 10, 0, -0
 var healthGauge = makeGauge(-20, 430, 300, '0d0', '020', 5, 0, -1.6);
 var weaponGauge = makeGauge(480, 450, 300, 'f0c', '202', 10, 0, -1.53, 1);
 
-var testLabel = makeLabel(100, 100, 'lorem ipsum', 'f0f', 3);
+var testLabel = makeLabel(20, 20, '00001234', 'fff', 4);
+
+var testButton = makeButton(100, 100, 300, 60, 'start game', 4, '0cf', '022', -1, function () {
+  console.log('click!');
+
+  testButton[11] = !testButton[11];
+});
 
 waves.push(makeWave(1, 'ss', 'z', 10));
 waves.push(makeWave(1, 'ss', 'zm', 10));

@@ -60,12 +60,10 @@ function collideCircleRect(v1, d1, v2, w, h) {
 }
 
 function isVectorInRect(v1, v2, w, h) {
-  return !(
-    v1[0] < v2[0] - w / 2 ||
-    v1[0] > v2[0] + w / 2 ||
-    v1[1] < v2[1] - h / 2 ||
-    v1[1] > v2[1] + h / 2
-  );
+  return v1[0] > v2[0] - w / 2 &&
+    v1[0] < v2[0] + w / 2 &&
+    v1[1] > v2[1] - h / 2 &&
+    v1[1] < v2[1] + h / 2;
 }
 
 function projectOnSegment(p, v1, v2) {
