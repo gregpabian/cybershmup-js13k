@@ -1,5 +1,15 @@
 /* global gl, width, height */
 
+// px, py, ux, uy, r, g, b, a x 4
+var defaultVertices = [
+    0, 0, 0, 0, 1, 1, 1, 1,
+    1, 0, 1, 0, 1, 1, 1, 1,
+    1, 1, 1, 1, 1, 1, 1, 1,
+    0, 1, 0, 1, 1, 1, 1, 1
+];
+
+var stepSize = defaultVertices.length / 4;
+
 function getUniformLocation(program, name) {
     return program[name] || (program[name] = gl.getUniformLocation(program[0], name));
 }
@@ -112,9 +122,9 @@ function drawBatch(batch, program, count) {
     gl.bindBuffer(gl.ARRAY_BUFFER, batch[2]);
     gl.bufferData(gl.ARRAY_BUFFER, batch[1], gl.STATIC_DRAW);
 
-    gl.vertexAttribPointer(program['a_pos'], 2, gl.FLOAT, false, 7 * 4, 0);
-    gl.vertexAttribPointer(program['a_uv'], 2, gl.FLOAT, false, 7 * 4, 4 * 2);
-    gl.vertexAttribPointer(program['a_color'], 3, gl.FLOAT, false, 7 * 4, 4 * 4);
+    gl.vertexAttribPointer(program['a_pos'], 2, gl.FLOAT, false, stepSize * 4, 0);
+    gl.vertexAttribPointer(program['a_uv'], 2, gl.FLOAT, false, stepSize * 4, 4 * 2);
+    gl.vertexAttribPointer(program['a_color'], 4, gl.FLOAT, false, stepSize * 4, 4 * 4);
 
     gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, batch[3]);
 
@@ -138,14 +148,6 @@ function makeIndices(length) {
     return new Uint16Array(indices);
 }
 
-// px, py, ux, uy, r, g, b
-var defaultVertices = [
-    0, 0, 0, 0, 1, 1, 1,
-    1, 0, 1, 0, 1, 1, 1,
-    1, 1, 1, 1, 1, 1, 1,
-    0, 1, 0, 1, 1, 1, 1
-];
-
 function makeVertices(length) {
     var vertices = [];
 
@@ -155,4 +157,28 @@ function makeVertices(length) {
     }
 
     return new Float32Array(vertices);
+}
+
+function updateBatchVertices(batch, i, p0, p1, p2, p3, color) {
+    var vertices = batch[1];
+    var offset = i * 4 * stepSize;
+
+    vertices[offset + 0] = p0[0];
+    vertices[offset + 1] = p0[1];
+
+    vertices[offset + stepSize + 0] = p1[0];
+    vertices[offset + stepSize + 1] = p1[1];
+
+    vertices[offset + stepSize * 2 + 0] = p2[0];
+    vertices[offset + stepSize * 2 + 1] = p2[1];
+
+    vertices[offset + stepSize * 3 + 0] = p3[0];
+    vertices[offset + stepSize * 3 + 1] = p3[1];
+
+    for (var j = 0; j < 4; j++) {
+        vertices[offset + stepSize * j + 4] = color[0];
+        vertices[offset + stepSize * j + 5] = color[1];
+        vertices[offset + stepSize * j + 6] = color[2];
+        vertices[offset + stepSize * j + 7] = color[3];
+    }
 }
