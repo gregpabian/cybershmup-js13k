@@ -18,13 +18,8 @@ var home = [
 
     // background
     home[4] = makeBackground('046', 0);
-
     // current button
     home[6] = 0;
-
-    // background angle
-    home[8] = 0;
-
     // labels
     home[7] = [
       makeLabel(25, 40, 'cyber shmup', 'fff', 10),
@@ -123,10 +118,8 @@ var home = [
       focusButton(home[5][home[6]]);
     }
 
-    home[8] += dt / 1000;
-
     var c = [width / 2, height / 2];
-    var r = vectorRotate([0, width], home[8]);
+    var r = vectorRotate([0, width], Date.now() / 1000);
 
     c = vectorAdd(c, r);
 

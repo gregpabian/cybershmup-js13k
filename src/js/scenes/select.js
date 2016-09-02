@@ -18,12 +18,8 @@ var select = [
         changeScene(1);
       })
     ]);
-
     // current button
     select[6] = 0;
-
-    // background angle
-    select[7] = 0;
   },
   // 1 update
   function () {
@@ -32,10 +28,8 @@ var select = [
       focusButton(select[5][select[6]]);
     }
 
-    select[7] += dt / 1000;
-
     var c = [width / 2, height / 2];
-    var r = vectorRotate([0, width], select[7]);
+    var r = vectorRotate([0, width], Date.now() / 1000);
 
     c = vectorAdd(c, r);
 

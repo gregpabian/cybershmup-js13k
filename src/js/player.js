@@ -1,6 +1,6 @@
-/* global mx, my, dt, vectorAdd, isMobile, vectorNormalize, vectorDistance,
-vectorMultiply, vectorSubtract, width, height, PLAYER, player, updateBullet,
-makeBullet, disposeDead */
+/* global mx my kx ky dt vectorAdd isMobile vectorNormalize vectorDistance
+vectorMultiply vectorSubtract width height PLAYER drawProgram makeSprite
+drawSprite */
 
 var followSpeed = 120;
 var drag = 0.8;
@@ -11,12 +11,11 @@ var startPos = [width / 2, height - 100];
 
 function makePlayer() {
   return [
-    PLAYER[1], // player image
+    makeSprite(PLAYER[1], drawProgram), // player sprite
     PLAYER[0], // player size
     [].concat(startPos), // position vector
     [0, 0], // velocity vector
-    1, // alive flag
-    [] // bullets
+    1 // alive flag
   ];
 }
 
@@ -87,13 +86,10 @@ function updatePlayer(player) {
 
   if (shotTimer <= 0) {
     shotTimer = shotDelay;
-    playerShoot(player);
+    // playerShoot(player);
   }
-
-  player[5].forEach(updateBullet);
-  disposeDead(player[5]);
 }
 
-function playerShoot(player) {
-  // player[5].push(makeBullet(weaponLevel, player[2][0], player[2][1], 0, -1500));
+function drawPlayer(player) {
+  drawSprite(player[0]);
 }

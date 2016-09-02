@@ -1,7 +1,8 @@
 /* global makeButton changeScene isMobile drawButton a1: true a2: true a3: true
 clicked:true handleButtonClick mx my levels makeBackground makeGauge makeLabel
 drawBackground drawGauge drawLabel updateGauge updateLabel health energy
-weapon score padZero PLAYER updatePlayer makePlayer updateBackground drawBody */
+weapon score padZero PLAYER updatePlayer makePlayer updateBackground drawPlayer
+*/
 
 var gameplay = [
   // 0 init
@@ -103,7 +104,7 @@ var gameplay = [
     gameplay[6].forEach(drawGauge);
     gameplay[7].forEach(drawLabel);
 
-    drawBody(gameplay[8]);
+    drawPlayer(gameplay[8]);
   }
 ];
 
@@ -112,10 +113,4 @@ function getBackgroundColor(color) {
     c = parseInt(c, 10);
     return c ? c + 2 : c;
   }).join('');
-}
-
-function drawBody(body) {
-  if (!body[4]) return;
-
-  ctx.drawImage(body[0], ~~(body[2][0] - body[1] / 2), ~~(body[2][1] - body[1] / 2));
 }
