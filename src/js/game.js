@@ -1,11 +1,20 @@
-/* global Stats width height ctx ctxUI performance clicked: true scenes
-currentScene: true isMobile handleKeys wrapper sc: true disableAA */
+/* global Stats width height ctx ctxUI performance clicked: true scenes gl
+currentScene: true isMobile handleKeys wrapper sc: true disableAA makeProgram
+baseVert staticVert textureFrag blurFrag mixFrag makeFramebuffer setFramebuffer
+*/
 
 var last = 0;
 var dt = 0;
 var sw = 0;
 var sh = 0;
 var lastResize = 0;
+
+var drawProgram;
+var blurProgram;
+var mainProgram;
+var baseFBO;
+var tmpFBO1;
+var tmpFBO2;
 
 function loop(now) {
   /* dev */
@@ -48,11 +57,29 @@ function checkResize() {
 }
 
 function render() {
-  ctx.clearRect(0, 0, width, height);
- 	ctxUI.clearRect(0, 0, width, height);
+  ctxUI.clearRect(0, 0, width, height);
+
+  setFramebuffer(null);
+
+  gl.clear(gl.COLOR_BUFFER_BIT);
 
   // render scene
   scenes[currentScene][3]();
+}
+
+function initGL() {
+  gl.viewport(0, 0, width, height);
+  gl.clearColor(0, 0, 0, 1);
+  gl.blendFunc(gl.SRC_ALPHA, gl.ONE_MINUS_SRC_ALPHA);
+  gl.enable(gl.BLEND);
+
+  drawProgram = makeProgram(baseVert, textureFrag, ['a_pos', 'a_uv', 'a_color']);
+  blurProgram = makeProgram(staticVert, blurFrag, ['a_pos']);
+  mainProgram = makeProgram(staticVert, mixFrag, ['a_pos']);
+
+  baseFBO = makeFramebuffer();
+  tmpFBO1 = makeFramebuffer();
+  tmpFBO2 = makeFramebuffer();
 }
 
 function changeScene(id) {
@@ -79,6 +106,8 @@ document.body.appendChild(stats.dom);
 disableAA(ctxUI);
 
 resize(window.innerWidth, window.innerHeight);
+
+initGL();
 
 changeScene(currentScene);
 

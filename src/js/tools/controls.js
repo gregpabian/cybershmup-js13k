@@ -1,4 +1,4 @@
-/* global cfx, wrapper, sc, clamp, width, height, isMobile, resize */
+/* global wrapper sc clamp width height isMobile resize */
 
 var mx = -1;
 var my = -1;
@@ -51,7 +51,7 @@ function touchMove(event) {
   }
 
   var touch = event.touches ? event.touches[0] : event;
-  var pos = cfx.getBoundingClientRect();
+  var pos = wrapper.getBoundingClientRect();
   mx = clamp((touch.clientX - pos.left) / sc, 0, width);
   my = clamp((touch.clientY - pos.top) / sc, 0, height);
 }

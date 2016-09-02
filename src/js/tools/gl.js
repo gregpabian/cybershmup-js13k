@@ -9,6 +9,15 @@ var defaultVertices = [
     0, 1, 0, 1, 1, 1, 1, 1
 ];
 
+var quadVertices = [
+    -1, -1,
+    1, -1,
+    1, 1,
+    -1, -1,
+    1, 1,
+    -1, 1
+];
+
 var stepSize = defaultVertices.length / 4;
 
 function getUniformLocation(program, name) {
@@ -54,13 +63,13 @@ function makeProgram(vs, fs, attributes) {
     return program;
 }
 
-function makeTexture(image) {
+function makeTexture(image, repeat) {
     var texture = gl.createTexture();
 
     gl.bindTexture(gl.TEXTURE_2D, texture);
 
-    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.CLAMP_TO_EDGE);
-    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE);
+    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, repeat ? gl.REPEAT : gl.CLAMP_TO_EDGE);
+    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, repeat ? gl.REPEAT : gl.CLAMP_TO_EDGE);
     gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.NEAREST);
     gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.NEAREST);
 
@@ -109,17 +118,21 @@ function makeBuffer(items, type) {
     return buffer;
 }
 
-function makeBatch(image, width, height, program, batchSize) {
+function makeQuadBuffer() {
+  return makeBuffer(new Float32Array(quadVertices));
+}
+
+function makeBatch(image, program, batchSize, repeat, rx, ry) {
     var vertices = makeVertices(batchSize);
 
     return [
-        makeTexture(image),
+        makeTexture(image, repeat),
         vertices,
         makeBuffer(vertices),
         makeBuffer(makeIndices(batchSize), gl.ELEMENT_ARRAY_BUFFER),
         program,
-        width,
-        height
+        image.width * (rx || 1),
+        image.height * (ry || 1)
     ];
 }
 
@@ -174,12 +187,12 @@ function updateBatchItem(batch, i, tx, ty, r, a, sx, sy, color) {
 
     var translationMatrix = makeTranslation(tx, ty);
 
-    if (sx || sy) {
-        var scaleMatrix = makeScale(1, 1);
+    if ((sx && sx !== 1) || (sy && sy !== 1)) {
+        var scaleMatrix = makeScale(sx, sy);
         matrix = matrixMultiply(matrix, scaleMatrix);
     }
 
-    if (typeof r !== 'undefined') {
+    if (r) {
         var rotationMatrix = makeRotation(r);
         matrix = matrixMultiply(matrix, rotationMatrix);
     }
@@ -213,9 +226,9 @@ function updateBatchVertices(batch, i, p0, p1, p2, p3, color, a) {
 
     for (var j = 0; j < 4; j++) {
         if (color) {
-            vertices[offset + stepSize * j + 4] = color[0];
-            vertices[offset + stepSize * j + 5] = color[1];
-            vertices[offset + stepSize * j + 6] = color[2];
+            vertices[offset + stepSize * j + 4] = color[0] / 255;
+            vertices[offset + stepSize * j + 5] = color[1] / 255;
+            vertices[offset + stepSize * j + 6] = color[2] / 255;
         }
 
         if (typeof a != 'undefined') {
@@ -224,8 +237,8 @@ function updateBatchVertices(batch, i, p0, p1, p2, p3, color, a) {
     }
 }
 
-function makeSprite(image, width, height, program) {
-    return makeBatch(image, width, height, program, 1);
+function makeSprite(image, program, repeat, rx, ry) {
+    return makeBatch(image, program, 1, repeat, rx, ry);
 }
 
 function updateSprite(sprite, tx, ty, r, a, sx, sy, color) {
@@ -234,4 +247,20 @@ function updateSprite(sprite, tx, ty, r, a, sx, sy, color) {
 
 function drawSprite(sprite) {
     drawBatch(sprite, 1);
+}
+
+function updateSpriteUVs(sprite, tx, ty, rx, ry) {
+  var vertices = sprite[1];
+
+  vertices[2] = tx;
+  vertices[3] = ty;
+
+  vertices[stepSize + 2] = tx + 1 * rx;
+  vertices[stepSize + 3] = ty;
+
+  vertices[stepSize * 2 + 2] = tx + 1 * rx;
+  vertices[stepSize * 2 + 3] = ty + 1 * ry;
+
+  vertices[stepSize * 3 + 2] = tx;
+  vertices[stepSize * 3 + 3] = ty + 1 * ry;
 }

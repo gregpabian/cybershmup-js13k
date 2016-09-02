@@ -27,7 +27,7 @@ function SfxrParams() {
 
   /**
    * Parses a settings array into the parameters
-   * @param array Array of the settings values, where elements 0 - 23 are
+   * @param values Array of the settings values, where elements 0 - 23 are
    *                a: waveType
    *                b: attackTime
    *                c: sustainTime

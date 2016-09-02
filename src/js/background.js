@@ -1,32 +1,46 @@
-/* global ctx, width, height, player, dt, SIZE_S, SIZE_L, SIZE_XS, SIZE_XXL */
+/* global width height hex2rgb hex2rgba dt SIZE_S SIZE_L SIZE_XS SIZE_XXL
+makeSprite drawProgram drawSprite updateSprite updateSpriteUVs */
 
-function makePattern(wn, ww, h, color) {
+function makePattern(wn, ww, h) {
   var d = (ww - wn) / 2;
 
   var tmp = document.createElement('canvas');
   tmp.width = wn + ww;
   tmp.height = h;
 
-  var tmpCtx = tmp.getContext('2d');
+  var ctx = tmp.getContext('2d');
 
   // draw hexagon
-  tmpCtx.beginPath();
-  tmpCtx.lineWidth = 4;
-  tmpCtx.strokeStyle = color;
-  tmpCtx.moveTo(d, 0);
-  tmpCtx.lineTo(0, h /2);
-  tmpCtx.lineTo(d, h);
-  tmpCtx.lineTo(d + wn, h);
-  tmpCtx.lineTo(ww, h / 2);
-  tmpCtx.lineTo(d + wn, 0);
-  tmpCtx.lineTo(d, 0);
-  tmpCtx.moveTo(ww, h / 2);
-  tmpCtx.lineTo(ww + wn, h / 2);
-  tmpCtx.stroke();
+  ctx.beginPath();
+  ctx.lineWidth = 4;
+  ctx.strokeStyle = '#fff';
+  ctx.moveTo(d, 0);
+  ctx.lineTo(1, h /2);
+  ctx.lineTo(d, h);
+  ctx.lineTo(d + wn, h);
+  ctx.lineTo(ww, h / 2);
+  ctx.lineTo(d + wn, 0);
+  ctx.lineTo(d, 0);
+  ctx.moveTo(ww, h / 2);
+  ctx.lineTo(ww + wn, h / 2);
+  ctx.stroke();
+  ctx.lineWidth = 2;
+  ctx.strokeStyle = '#000';
+  ctx.stroke();
 
-  tmpCtx.lineWidth = 2;
-  tmpCtx.strokeStyle = '#000';
-  tmpCtx.stroke();
+  return tmp;
+}
+
+function makeGradient() {
+  var tmp = document.createElement('canvas');
+  var gs = height / 4;
+  tmp.width = tmp.height = gs * 2;
+  var ctx = tmp.getContext('2d');
+  var gradient = ctx.createRadialGradient(gs, gs, gs, gs, gs, 0);
+  gradient.addColorStop(0, hex2rgba('fff', 0));
+  gradient.addColorStop(1, '#fff');
+  ctx.fillStyle = gradient;
+  ctx.fillRect(0, 0, gs * 2, gs * 2);
 
   return tmp;
 }
@@ -34,47 +48,42 @@ function makePattern(wn, ww, h, color) {
 function makeBackground(color, speed) {
   var bg = [];
 
-  bg[3] = width * 1.33;
-  bg[4] = Math.ceil(height / SIZE_S) * SIZE_S;
-  bg[5] = '#' + color;
-  bg[6] = speed;
-  bg[7] = bg[8] = 0; // player coordinates
+  // gradient texture
+  bg[1] = makeSprite(makeGradient(), drawProgram);
+  // pattern position
+  bg[2] = [width / 2, 0];
+  // gradient position
+  bg[3] = [0, 0];
+  // width
+  bg[4] = width;
+  // height
+  bg[5] = Math.ceil(height / SIZE_S) * SIZE_S;
+  // background color
+  bg[6] = hex2rgb(color);
+  // scroll speed
+  bg[7] = speed;
+  bg[8] = [20, 40];
 
-  bg[1] = (width - bg[3]) / 2;
-  bg[2] = -bg[4];
-
-  bg[0] = document.createElement('canvas');
-  bg[0].width = bg[3];
-  bg[0].height = 2 * bg[4];
-
-  var bgctx = bg[0].getContext('2d');
-
-  var pattern = bgctx.createPattern(makePattern(SIZE_XS, SIZE_L, SIZE_S, bg[5]), 'repeat');
-  bgctx.fillStyle = pattern;
-  bgctx.fillRect(0, 0, bg[3], 2 * bg[4]);
+  // pattern texture
+  bg[0] = makeSprite(makePattern(24, 40, 32), drawProgram, 1, bg[8][0], bg[8][1]);
+  updateSprite(bg[0], bg[2][0], bg[2][1], 0, 1, 1, 1, bg[6]);
 
   return bg;
 }
 
 function updateBackground(bg, x, y, gradientOnly) {
-  if (!gradientOnly) bg[1] = x / width * (width - bg[3]);
-  bg[2] += bg[6] * dt / 10;
-  bg[7] = x;
-  bg[8] = y;
+  if (!gradientOnly) bg[2][0] = x / width * (width - bg[4]);
+  bg[2][1] -= bg[7] * dt / 500;
 
-  if (bg[2] >= 0) {
-    bg[2] -= bg[4];
-  }
+  bg[3][0] = x;
+  bg[3][1] = y;
+
+  // simulate sprite scrolling by moving the UVs
+  updateSpriteUVs(bg[0], 0, bg[2][1], bg[8][0], bg[8][1]);
+  updateSprite(bg[1], bg[3][0], bg[3][1], 0, 1, 4, 4, bg[6]);
 }
 
 function drawBackground(bg) {
-  var grd = ctx.createRadialGradient(bg[7], bg[8], height, bg[7], bg[8], 0);
-  grd.addColorStop(0, '#000');
-  grd.addColorStop(1, bg[5]);
-
-  // Fill with gradient
-  ctx.fillStyle = grd;
-  ctx.fillRect(0, 0, width, height);
-
-  ctx.drawImage(bg[0], bg[1], bg[2]);
+  drawSprite(bg[1]);
+  drawSprite(bg[0]);
 }

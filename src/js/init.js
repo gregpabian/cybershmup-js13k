@@ -2,16 +2,14 @@
 dis gameplay home select make2DProjection */
 
 var cm = document.getElementById('m');
-var cfx = document.getElementById('fx');
 var cui = document.getElementById('ui');
 var wrapper = document.getElementById('w');
 
-cm.width = cui.width = cfx.width = width;
-cm.height = cui.height = cfx.height = height;
+cm.width = cui.width = width;
+cm.height = cui.height = height;
 
-var ctx = cm.getContext('2d');
 var ctxUI = cui.getContext('2d');
-var gl = cfx.getContext('webgl') || cfx.getContext('experimental-webgl');
+var gl = cm.getContext('webgl') || cm.getContext('experimental-webgl');
 
 // pre-render shapes
 PLAYER = [PLAYER[0], renderShip(PLAYER)];
@@ -29,7 +27,8 @@ var projectionMatrix = make2DProjection(width, height);
 var scenes = [gameplay, home, select];
 
 var currentScene = 1;
-var loaded = false;
+// show splash screen if false
+var loaded = true;
 
 // TODO load from local storage
 var unlockedLevel = 9;
