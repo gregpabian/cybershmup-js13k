@@ -41,7 +41,7 @@ function updatePlayer(player) {
       }
     }
   } else {
-    v = vectorNormalize([mx, my]);
+    v = vectorNormalize([kx, ky]);
     v = vectorMultiply(v, followSpeed);
   }
 

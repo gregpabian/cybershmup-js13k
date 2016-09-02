@@ -29,8 +29,8 @@ function disposeDead(bodies) {
   }
 }
 
-function dis(ctx) {
-	['mozI', 'webkitI', 'msI', 'i'].forEach(function(name) {
+function disableAA(ctx) {
+	['mozI', 'msI', 'i'].forEach(function(name) {
 		ctx[name + 'mageSmoothingEnabled'] = false;
 	});
 

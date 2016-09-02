@@ -100,6 +100,7 @@ var home = [
   },
   // 1 update
   function () {
+    // update splash screen
     if (!loaded) {
       loadingTimer += dt / 2000;
 
@@ -159,8 +160,6 @@ var home = [
       }
 
       home[6] = clamp(home[6], 0 ,home[5].length - 1);
-
-      return;
     }
 
     if (clicked) {
@@ -174,6 +173,7 @@ var home = [
   },
   // 3 render
   function () {
+    // render splash screen
     if (!loaded) {
       ctxUI.drawImage(logoImage, 0, 0, 32, 32, 185, 256, 128, 128);
       drawLabel(pixelLabel);

@@ -1,4 +1,5 @@
-/* global gl, width, height */
+/* global gl width height matrixVectorMultiply makeResizeCenter
+makeTranslation makeScale matrixMultiply makeRotation projectionMatrix */
 
 // px, py, ux, uy, r, g, b, a x 4
 var defaultVertices = [
@@ -63,11 +64,7 @@ function makeTexture(image) {
     gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.NEAREST);
     gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.NEAREST);
 
-    if (image) {
-        gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, image);
-    } else {
-        gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, width, height, 0, gl.RGBA, gl.UNSIGNED_BYTE, null);
-    }
+    setTexture(image);
 
     return texture;
 }
@@ -77,6 +74,14 @@ function useTexture(texture, unit) {
     gl.bindTexture(gl.TEXTURE_2D, texture);
 
     return unit;
+}
+
+function setTexture(image) {
+  if (image) {
+    gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, image);
+  } else {
+    gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, width, height, 0, gl.RGBA, gl.UNSIGNED_BYTE, null);
+  }
 }
 
 function makeFramebuffer() {
@@ -104,18 +109,23 @@ function makeBuffer(items, type) {
     return buffer;
 }
 
-function makeBatch(image, size) {
-    var vertices = makeVertices(size);
+function makeBatch(image, width, height, program, batchSize) {
+    var vertices = makeVertices(batchSize);
 
     return [
         makeTexture(image),
         vertices,
         makeBuffer(vertices),
-        makeBuffer(makeIndices(size), gl.ELEMENT_ARRAY_BUFFER)
+        makeBuffer(makeIndices(batchSize), gl.ELEMENT_ARRAY_BUFFER),
+        program,
+        width,
+        height
     ];
 }
 
-function drawBatch(batch, program, count) {
+function drawBatch(batch, count) {
+    var program = batch[4];
+
     gl.useProgram(program[0]);
     gl.uniform1i(getUniformLocation(program, 'texture'), useTexture(batch[0], 0));
 
@@ -159,7 +169,33 @@ function makeVertices(length) {
     return new Float32Array(vertices);
 }
 
-function updateBatchVertices(batch, i, p0, p1, p2, p3, color) {
+function updateBatchItem(batch, i, tx, ty, r, a, sx, sy, color) {
+    var matrix = makeResizeCenter(batch[5], batch[6]);
+
+    var translationMatrix = makeTranslation(tx, ty);
+
+    if (sx || sy) {
+        var scaleMatrix = makeScale(1, 1);
+        matrix = matrixMultiply(matrix, scaleMatrix);
+    }
+
+    if (typeof r !== 'undefined') {
+        var rotationMatrix = makeRotation(r);
+        matrix = matrixMultiply(matrix, rotationMatrix);
+    }
+
+    matrix = matrixMultiply(matrix, translationMatrix);
+    matrix = matrixMultiply(matrix, projectionMatrix);
+
+    var p0 = matrixVectorMultiply(matrix, 0, 0);
+    var p1 = matrixVectorMultiply(matrix, 1, 0);
+    var p2 = matrixVectorMultiply(matrix, 1, 1);
+    var p3 = matrixVectorMultiply(matrix, 0, 1);
+
+    updateBatchVertices(batch, i, p0, p1, p2, p3, color, a);
+}
+
+function updateBatchVertices(batch, i, p0, p1, p2, p3, color, a) {
     var vertices = batch[1];
     var offset = i * 4 * stepSize;
 
@@ -176,9 +212,26 @@ function updateBatchVertices(batch, i, p0, p1, p2, p3, color) {
     vertices[offset + stepSize * 3 + 1] = p3[1];
 
     for (var j = 0; j < 4; j++) {
-        vertices[offset + stepSize * j + 4] = color[0];
-        vertices[offset + stepSize * j + 5] = color[1];
-        vertices[offset + stepSize * j + 6] = color[2];
-        vertices[offset + stepSize * j + 7] = color[3];
+        if (color) {
+            vertices[offset + stepSize * j + 4] = color[0];
+            vertices[offset + stepSize * j + 5] = color[1];
+            vertices[offset + stepSize * j + 6] = color[2];
+        }
+
+        if (typeof a != 'undefined') {
+            vertices[offset + stepSize * j + 7] = a;
+        }
     }
+}
+
+function makeSprite(image, width, height, program) {
+    return makeBatch(image, width, height, program, 1);
+}
+
+function updateSprite(sprite, tx, ty, r, a, sx, sy, color) {
+    updateBatchItem(sprite, 0, tx, ty, r, a, sx, sy, color);
+}
+
+function drawSprite(sprite) {
+    drawBatch(sprite, 1);
 }

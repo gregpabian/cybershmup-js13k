@@ -1,4 +1,5 @@
-/* global ENEMY, dt, makeShip, drawBody, makePath, updateShip, width, height */
+/* global ENEMY dt makeShip drawBody makePath updateShip width height
+collideCircles */
 
 var waves = [];
 
@@ -45,4 +46,19 @@ function updateWave(wave) {
 
 function drawWave(wave) {
   wave[2].forEach(drawBody);
+}
+
+
+
+
+function collideWithEnemies(body) {
+  waves.forEach(function (wave) {
+    wave[2].forEach(function (ship) {
+      if (!ship[4]) return;
+
+      if (collideCircles(body[2], body[1], ship[2], ship[1])) {
+        body[4] = ship[4] = 0;
+      }
+    });
+  });
 }

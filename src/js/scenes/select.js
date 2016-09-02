@@ -71,8 +71,6 @@ var select = [
       }
 
       select[6] = clamp(select[6], 0 ,select[5].length - 1);
-
-      return;
     }
 
     if (clicked) {

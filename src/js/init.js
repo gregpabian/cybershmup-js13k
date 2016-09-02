@@ -1,6 +1,5 @@
-/* global width, height, sc:true, PLAYER:true, ENEMY, renderShip, waves,
-makeWave, BULLET, renderBullet, startPos, makeGauge, makeLabel, dis,
-makeButton, credits, gameplay, home, pause, select */
+/* global width height sc:true PLAYER:true ENEMY renderShip BULLET renderBullet
+dis gameplay home select make2DProjection */
 
 var cm = document.getElementById('m');
 var cfx = document.getElementById('fx');
@@ -14,22 +13,6 @@ var ctx = cm.getContext('2d');
 var ctxUI = cui.getContext('2d');
 var gl = cfx.getContext('webgl') || cfx.getContext('experimental-webgl');
 
-// disable antialiasing
-dis(ctxUI);
-
-gl.viewport(0, 0, width, height);
-gl.clearColor(0, 0, 0, 0);
-
-function resize(ww, wh) {
-  sc = Math.min(1 / Math.max(width / ww, height / wh), 1);
-
-  wrapper.style.webkitTransform = 'scale(' + (sc) + ')';
-  wrapper.style.top = ~~((wh - (height * sc)) / 2) + 'px';
-  wrapper.style.left = ~~((ww - (width * sc)) / 2) + 'px';
-}
-
-resize(window.innerWidth, window.innerHeight);
-
 // pre-render shapes
 PLAYER = [PLAYER[0], renderShip(PLAYER)];
 
@@ -40,6 +23,8 @@ for (var enemy in ENEMY) {
 for (var bullet in BULLET) {
   BULLET[bullet] = [BULLET[bullet][0], renderBullet(BULLET[bullet])];
 }
+
+var projectionMatrix = make2DProjection(width, height);
 
 var scenes = [gameplay, home, select];
 

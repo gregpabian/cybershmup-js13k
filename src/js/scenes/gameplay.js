@@ -7,12 +7,10 @@ var gameplay = [
   // 0 init
   function (level) {
     // menu button
-    if (isMobile) {
-      gameplay[4] = makeButton(430, 50, 60, 60, 'x', 4, '0cf', '024', 0, function () {
-        // go to the select scene
-        changeScene(1, 1);
-      }, 1);
-    }
+    gameplay[4] = makeButton(430, 50, 60, 60, 'x', 4, '0cf', '024', 0, function () {
+      // go to the select scene
+      changeScene(1, 1);
+    }, 1);
     // background
     gameplay[5] = makeBackground(getBackgroundColor(levels[level][4]), 1 + level * 0.1);
     // gauges
@@ -88,8 +86,6 @@ var gameplay = [
         changeScene(1, 1);
         a3 = 0;
       }
-
-      return;
     }
 
     if (clicked) {
@@ -101,7 +97,7 @@ var gameplay = [
   },
   // 3 render
   function () {
-    if (isMobile) drawButton(gameplay[4]);
+    drawButton(gameplay[4]);
 
     drawBackground(gameplay[5]);
     gameplay[6].forEach(drawGauge);
@@ -116,4 +112,10 @@ function getBackgroundColor(color) {
     c = parseInt(c, 10);
     return c ? c + 2 : c;
   }).join('');
+}
+
+function drawBody(body) {
+  if (!body[4]) return;
+
+  ctx.drawImage(body[0], ~~(body[2][0] - body[1] / 2), ~~(body[2][1] - body[1] / 2));
 }

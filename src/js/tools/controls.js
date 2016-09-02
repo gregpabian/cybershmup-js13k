@@ -1,7 +1,9 @@
 /* global cfx, wrapper, sc, clamp, width, height, isMobile, resize */
 
-var mx = isMobile ? -1 : 0;
-var my = isMobile ? -1 : 0;
+var mx = -1;
+var my = -1;
+var kx = 0;
+var ky = 0;
 var clicked = 0;
 var firstClick = 0;
 
@@ -23,6 +25,8 @@ if (isMobile) {
 } else {
   document.addEventListener('keydown', handleKeyDown);
   document.addEventListener('keyup', handleKeyUp);
+  document.addEventListener('mousedown', touchStart);
+  document.addEventListener('mouseup', touchEnd);
 }
 
 function touchStart(event) {
@@ -40,13 +44,13 @@ function touchMove(event) {
     clicked = 0;
   }
 
-  if (!isFullScreen && document.body.webkitRequestFullScreen) {
+  if (isMobile && !isFullScreen && document.body.webkitRequestFullScreen) {
     document.body.webkitRequestFullScreen();
     resize();
     isFullScreen = 1;
   }
 
-  var touch = event.touches[0];
+  var touch = event.touches ? event.touches[0] : event;
   var pos = cfx.getBoundingClientRect();
   mx = clamp((touch.clientX - pos.left) / sc, 0, width);
   my = clamp((touch.clientY - pos.top) / sc, 0, height);
@@ -55,7 +59,7 @@ function touchMove(event) {
 function touchEnd(event) {
   event.preventDefault();
 
-  var touch = event.touches[0];
+  var touch = event.touches ? event.touches[0] : null;
 
   if (!touch) {
     clicked = 0;
@@ -88,10 +92,10 @@ function handleKeyUp(event) {
 }
 
 function handleKeys() {
-  mx = my = 0;
+  kx = ky = 0;
 
-  if (kl) mx--;
-  if (kr) mx++;
-  if (ku) my--;
-  if (kd) my++;
+  if (kl) kx--;
+  if (kr) kx++;
+  if (ku) ky--;
+  if (kd) ky++;
 }
