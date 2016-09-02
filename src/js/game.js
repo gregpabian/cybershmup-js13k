@@ -72,7 +72,6 @@ function initGL() {
   gl.clearColor(0, 0, 0, 1);
   gl.blendFunc(gl.SRC_ALPHA, gl.ONE_MINUS_SRC_ALPHA);
   gl.enable(gl.BLEND);
-  gl.pixelStorei(gl.UNPACK_FLIP_Y_WEBGL, true)
 
   drawProgram = makeProgram(baseVert, textureFrag, ['a_pos', 'a_uv', 'a_color']);
   blurProgram = makeProgram(staticVert, blurFrag, ['a_pos']);

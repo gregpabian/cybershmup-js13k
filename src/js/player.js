@@ -1,6 +1,6 @@
 /* global mx my kx ky dt vectorAdd isMobile vectorNormalize vectorDistance
 vectorMultiply vectorSubtract width height PLAYER drawProgram makeSprite
-drawSprite */
+drawSprite, updateSprite */
 
 var followSpeed = 120;
 var drag = 0.8;
@@ -10,8 +10,11 @@ var shotTimer = 0;
 var startPos = [width / 2, height - 100];
 
 function makePlayer() {
+  var sprite = makeSprite(PLAYER[1], drawProgram);
+  updateSprite(sprite, 0, 0, 0, 1, 1, 1);
+
   return [
-    makeSprite(PLAYER[1], drawProgram), // player sprite
+    sprite, // player sprite
     PLAYER[0], // player size
     [].concat(startPos), // position vector
     [0, 0], // velocity vector
@@ -81,6 +84,8 @@ function updatePlayer(player) {
 
   // move to new position
   player[2] = vectorAdd(player[2], d);
+
+  updateSprite(player[0], player[2][0], player[2][1]);
 
   shotTimer -= t;
 
