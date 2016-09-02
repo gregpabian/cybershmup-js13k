@@ -2,7 +2,6 @@
 
 var fontImage = new Image();
 fontImage.src = fImage;
-document.body.appendChild(fontImage);
 
 var chars = 'abcdefghijklmnopqrstuvwxyz1234567890!?".,\':';
 

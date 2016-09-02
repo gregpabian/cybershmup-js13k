@@ -1,12 +1,21 @@
-/* global makeBackground updateBackground drawBackground width height dt
+/* global makeBackground updateBackground drawBackground width height dt ctxUI
 makeButton changeScene handleButtonClick mx my isMobile updateButton version
 focusButton soundOn: true highQuality: true makeLabel drawButton drawLabel
 a1: true a2: true clickButton clicked: true blurButton ku: true kd: true clamp
-a3: true vectorRotate vectorAdd currentScene: true */
+a3: true vectorRotate vectorAdd currentScene: true loaded: true Image lImage */
+
+var logoImage = new Image();
+logoImage.src = lImage;
+
+var loadingTimer = 0;
+var pixelLabel = makeLabel(113, 404, 'pixel chinchilla', 'fff', 4);
+var presentsLabel = makeLabel(193, 434, 'presents', 'fff', 3);
 
 var home = [
   // 0 init
   function (mode) {
+    if (!loaded) return;
+
     // background
     home[4] = makeBackground('046', 0);
 
@@ -57,7 +66,7 @@ var home = [
       case 1:
         home[5] = [
           makeButton(107, 270, 290, 60, 'resume game', 4, '0cf', '024', -1, function () {
-            // go to the home scene
+            // back to game without re-initialising
             currentScene = 0;
           }),
           makeButton(114, 350, 300, 60, 'change level', 4, '0cf', '024', -1, function () {
@@ -91,6 +100,23 @@ var home = [
   },
   // 1 update
   function () {
+    if (!loaded) {
+      loadingTimer += dt / 2000;
+
+      if (loadingTimer < 1) {
+        ctxUI.globalAlpha = loadingTimer;
+      } else {
+        ctxUI.globalAlpha = 1;
+      }
+
+      if (loadingTimer > 1.7) {
+        loaded = true;
+        changeScene(1);
+      }
+
+      return;
+    }
+
     if (!isMobile) {
       home[5].forEach(blurButton);
       focusButton(home[5][home[6]]);
@@ -107,6 +133,8 @@ var home = [
   },
   // 2 input
   function () {
+    if (!loaded) return;
+
     if (!isMobile) {
       // if enter or space - click focused button
       if (a1 || a2) {
@@ -146,6 +174,17 @@ var home = [
   },
   // 3 render
   function () {
+    if (!loaded) {
+      ctxUI.drawImage(logoImage, 0, 0, 32, 32, 185, 256, 128, 128);
+      drawLabel(pixelLabel);
+
+      if (loadingTimer > 1) {
+        drawLabel(presentsLabel);
+      }
+
+      return;
+    }
+
     drawBackground(home[4]);
 
     home[5].forEach(drawButton);

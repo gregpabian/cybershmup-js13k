@@ -44,6 +44,7 @@ for (var bullet in BULLET) {
 var scenes = [gameplay, home, select];
 
 var currentScene = 1;
+var loaded = false;
 
 // TODO load from local storage
 var unlockedLevel = 9;
