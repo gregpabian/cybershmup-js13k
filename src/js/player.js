@@ -1,11 +1,10 @@
 /* global mx my kx ky dt vectorAdd isMobile vectorNormalize vectorDistance
 vectorMultiply vectorSubtract width height PLAYER drawProgram makeSprite
-drawSprite, updateSprite */
+drawSprite, updateSprite addBullet WEAPON */
 
-var followSpeed = 120;
+var followSpeed = 100;
 var drag = 0.8;
-var weaponLevel = 0;
-var shotDelay = 0.2;
+var weaponLevel = 3;
 var shotTimer = 0;
 var startPos = [width / 2, height - 100];
 
@@ -22,7 +21,7 @@ function makePlayer() {
   ];
 }
 
-function updatePlayer(player) {
+function updatePlayer(player, bullets) {
   if (!player[4]) return;
 
   var t = dt / 1000;
@@ -87,11 +86,23 @@ function updatePlayer(player) {
 
   updateSprite(player[0], player[2][0], player[2][1]);
 
-  shotTimer -= t;
+  shotTimer -= dt;
 
   if (shotTimer <= 0) {
-    shotTimer = shotDelay;
-    // playerShoot(player);
+    shotTimer = WEAPON[weaponLevel][1];
+    playerShoot(player, bullets);
+  }
+}
+
+function playerShoot(player, bullets) {
+  var weapon = WEAPON[weaponLevel];
+  var guns = weapon.slice(2);
+
+  for (var i = 0; i < guns.length; i++) {
+    var a = guns[i][0];
+    var o = guns[i][1] || [0, 0];
+
+    addBullet(bullets, weapon[0], vectorAdd(player[2], vectorMultiply(o, player[1])), a, 1);
   }
 }
 

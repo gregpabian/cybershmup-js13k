@@ -1,19 +1,33 @@
-/* global makeBackground updateBackground drawBackground height levels
+/* global makeBackground updateBackground drawBackground height
 makeButton changeScene handleButtonClick mx my isMobile focusButton drawButton
 a1: true a2: true clickButton clicked: true blurButton ku: true kd: true clamp
-kl: true kr: true unlockedLevel ctxUI a3: true width vectorRotate vectorAdd
-dt */
+kl: true kr: true unlockedLevel ctxUI a3: true width vectorRotate vectorAdd */
+
+// level markers shown on the select level screen
+var levels = [
+  // x, y, label, foreground color, background color
+  [80, 50, '1', '0ff', '044'],
+  [180, 130, '2', '0af', '034'],
+  [300, 130, '3', '05f', '014'],
+  [400, 210, '4', '00f', '004'],
+  [300, 290, '5', '50f', '104'],
+  [180, 290, '6', 'a0f', '304'],
+  [80, 370, '7', 'f0f', '404'],
+  [180, 450, '8', 'f0a', '403'],
+  [300, 450, '9', 'f05', '401'],
+  [400, 520, 'c', 'f00', '400']
+];
 
 var select = [
   // 0 init
   function () {
     // background
-    select[4] = makeBackground('420', 0);
+    select[4] = makeBackground('043', 0);
     updateBackground(select[4], 0, height, 1);
 
     // buttons array
     select[5] = makeSelectButtons().concat([
-      makeButton(100, 580, 260, 60, 'main menu', 4, 'fc0', '420', -1, function () {
+      makeButton(100, 580, 260, 60, 'main menu', 4, '0fa', '043', -1, function () {
         // go to the select scene
         changeScene(1);
       })

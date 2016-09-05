@@ -1,6 +1,8 @@
 /* global width height hex2rgb hex2rgba dt SIZE_S SIZE_L SIZE_XS SIZE_XXL
 makeSprite drawProgram drawSprite updateSprite updateSpriteUVs */
 
+var background;
+
 function makePattern(wn, ww, h) {
   var d = (ww - wn) / 2;
 

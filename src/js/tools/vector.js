@@ -1,3 +1,5 @@
+/* global width, height */
+
 function vectorLength(v) {
   return Math.sqrt(v[0] * v[0] + v[1] * v[1]);
 }
@@ -67,10 +69,14 @@ function collideCircleRect(v1, d1, v2, w, h) {
 }
 
 function isVectorInRect(v1, v2, w, h) {
-  return v1[0] > v2[0] - w / 2 &&
-    v1[0] < v2[0] + w / 2 &&
-    v1[1] > v2[1] - h / 2 &&
-    v1[1] < v2[1] + h / 2;
+  return v1[0] >= v2[0] - w / 2 &&
+    v1[0] <= v2[0] + w / 2 &&
+    v1[1] >= v2[1] - h / 2 &&
+    v1[1] <= v2[1] + h / 2;
+}
+
+function isVectorOnScreen(v, w, h) {
+  return v[0] >= 0 && v[0] <= w && v[1] >= 0 && v[1] <= h;
 }
 
 function projectOnSegment(p, v1, v2) {
@@ -89,4 +95,8 @@ function projectOnSegment(p, v1, v2) {
   } else {
     return [].concat(p);
   }
+}
+
+function getAngleBetweenVectors(v1, v2) {
+  return Math.atan2(v2[1] - v1[1], v2[0] - v1[0]);
 }

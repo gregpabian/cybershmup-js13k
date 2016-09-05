@@ -1,5 +1,5 @@
-/* global width height sc:true PLAYER:true ENEMY renderShip BULLET renderBullet
-dis gameplay home select make2DProjection */
+/* global PLAYER ENEMY renderShip BULLET renderBullet gameplay home select
+make2DProjection TURRET renderTurret width height BULLET_IMG:true hex2rgb */
 
 var cm = document.getElementById('m');
 var cui = document.getElementById('ui');
@@ -14,21 +14,29 @@ var gl = cm.getContext('webgl') || cm.getContext('experimental-webgl');
 // pre-render shapes
 PLAYER = [PLAYER[0], renderShip(PLAYER)];
 
-for (var enemy in ENEMY) {
-  ENEMY[enemy] = [ENEMY[enemy][0], renderShip(ENEMY[enemy])];
+var item;
+
+for (item in ENEMY) {
+  ENEMY[item] = [ENEMY[item][0], renderShip(ENEMY[item])];
 }
 
-for (var bullet in BULLET) {
-  BULLET[bullet] = [BULLET[bullet][0], renderBullet(BULLET[bullet])];
+for (item in TURRET) {
+  TURRET[item][1] = renderTurret(TURRET[item]);
+  // copy turrets to enemies
+  ENEMY[item] = TURRET[item];
 }
+
+for (item in BULLET) {
+  BULLET[item][0] = hex2rgb(BULLET[item][0]);
+}
+
+BULLET_IMG = renderBullet();
 
 var projectionMatrix = make2DProjection(width, height);
 
 var scenes = [gameplay, home, select];
 
-var currentScene = 1;
-// show splash screen if false
-var loaded = true;
+var currentScene = 0;
 
 // TODO load from local storage
 var unlockedLevel = 9;

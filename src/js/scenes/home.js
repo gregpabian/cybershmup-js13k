@@ -2,7 +2,10 @@
 makeButton changeScene handleButtonClick mx my isMobile updateButton version
 focusButton soundOn: true highQuality: true makeLabel drawButton drawLabel
 a1: true a2: true clickButton clicked: true blurButton ku: true kd: true clamp
-a3: true vectorRotate vectorAdd currentScene: true loaded: true Image lImage */
+a3: true vectorRotate vectorAdd currentScene: true Image lImage */
+
+// show splash screen if false
+var loaded = true;
 
 var logoImage = new Image();
 logoImage.src = lImage;
@@ -178,9 +181,9 @@ var home = [
       return;
     }
 
-    drawBackground(home[4]);
-
     home[5].forEach(drawButton);
     home[7].forEach(drawLabel);
+
+    drawBackground(home[4]);
   }
 ];

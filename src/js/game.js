@@ -1,7 +1,8 @@
-/* global Stats width height ctx ctxUI performance clicked: true scenes gl
+/* global Stats width height ctxUI performance scenes gl useProgram thresholdFrag
 currentScene: true isMobile handleKeys wrapper sc: true disableAA makeProgram
 baseVert staticVert textureFrag blurFrag mixFrag makeFramebuffer setFramebuffer
-*/
+highQuality getUniformLocation useTexture makeQuadBuffer drawBackground
+copyFrag trailFrag */
 
 var last = 0;
 var dt = 0;
@@ -10,11 +11,17 @@ var sh = 0;
 var lastResize = 0;
 
 var drawProgram;
+var thresholdProgram;
+var copyProgram;
+var trailProgram;
 var blurProgram;
 var mainProgram;
 var baseFBO;
+var copyFBO;
 var tmpFBO1;
 var tmpFBO2;
+var trailFBO;
+var quadBuffer;
 
 function loop(now) {
   /* dev */
@@ -59,12 +66,67 @@ function checkResize() {
 function render() {
   ctxUI.clearRect(0, 0, width, height);
 
-  setFramebuffer(null);
+  setFramebuffer(highQuality ? baseFBO : null);
 
   gl.clear(gl.COLOR_BUFFER_BIT);
 
+  drawBackground(scenes[currentScene][4]);
+
   // render scene
   scenes[currentScene][3]();
+
+  if (!highQuality) return;
+  // do the post-processing
+  // setFramebuffer(copyFBO);
+
+  // apply threshold
+  setFramebuffer(tmpFBO2);
+
+  useProgram(thresholdProgram);
+  gl.uniform1i(getUniformLocation(thresholdProgram, 'texture'), useTexture(baseFBO[1], 0));
+
+  gl.bindBuffer(gl.ARRAY_BUFFER, quadBuffer);
+  gl.vertexAttribPointer(thresholdProgram['a_pos'], 2, gl.FLOAT, false, 0, 0);
+  gl.drawArrays(gl.TRIANGLES, 0, 6);
+
+  // blur 1
+  setFramebuffer(tmpFBO1);
+
+  useProgram(blurProgram);
+  gl.uniform1i(getUniformLocation(blurProgram, 'texture'), useTexture(tmpFBO2[1], 0));
+  gl.uniform2f(getUniformLocation(blurProgram, 'dir'), 1, 1);
+  gl.drawArrays(gl.TRIANGLES, 0, 6);
+
+  // blur 2
+  setFramebuffer(tmpFBO2);
+
+  gl.uniform1i(getUniformLocation(blurProgram, 'texture'), useTexture(tmpFBO1[1], 0));
+  gl.uniform2f(getUniformLocation(blurProgram, 'dir'), -1, 1);
+  gl.drawArrays(gl.TRIANGLES, 0, 6);
+
+  // trail
+  setFramebuffer(trailFBO);
+
+  useProgram(trailProgram);
+  gl.uniform1i(getUniformLocation(trailProgram, 'texture'), useTexture(tmpFBO2[1], 0));
+  gl.uniform1i(getUniformLocation(trailProgram, 'old'), useTexture(copyFBO[1], 1));
+  gl.drawArrays(gl.TRIANGLES, 0, 6);
+
+  // copy
+  setFramebuffer(copyFBO);
+
+  useProgram(copyProgram);
+  gl.uniform1i(getUniformLocation(copyProgram, 'texture'), useTexture(trailFBO[1], 0));
+  gl.drawArrays(gl.TRIANGLES, 0, 6);
+
+  setFramebuffer(null);
+
+  // compose all the effects
+  useProgram(mainProgram);
+  gl.uniform1i(getUniformLocation(mainProgram, 'base'), useTexture(baseFBO[1], 0));
+  gl.uniform1i(getUniformLocation(mainProgram, 'blur'), useTexture(tmpFBO2[1], 1));
+  gl.uniform1i(getUniformLocation(mainProgram, 'trail'), useTexture(trailFBO[1], 2));
+  gl.drawArrays(gl.TRIANGLES, 0, 6);
 }
 
 function initGL() {
@@ -76,10 +138,17 @@ function initGL() {
   drawProgram = makeProgram(baseVert, textureFrag, ['a_pos', 'a_uv', 'a_color']);
   blurProgram = makeProgram(staticVert, blurFrag, ['a_pos']);
   mainProgram = makeProgram(staticVert, mixFrag, ['a_pos']);
+  thresholdProgram = makeProgram(staticVert, thresholdFrag, ['a_pos']);
+  copyProgram = makeProgram(staticVert, copyFrag, ['a_pos']);
+  trailProgram = makeProgram(staticVert, trailFrag, ['a_pos']);
 
   baseFBO = makeFramebuffer();
+  copyFBO = makeFramebuffer();
   tmpFBO1 = makeFramebuffer();
   tmpFBO2 = makeFramebuffer();
+  trailFBO = makeFramebuffer();
+
+  quadBuffer = makeQuadBuffer();
 }
 
 function changeScene(id) {

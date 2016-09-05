@@ -1,4 +1,7 @@
-/* global wrapper sc clamp width height isMobile resize */
+/* global wrapper clamp width height isMobile resize */
+
+// screen scale, used to compute pointer position properly
+var sc = 1;
 
 var mx = -1;
 var my = -1;

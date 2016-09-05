@@ -1,10 +1,8 @@
-var isMobile = 'ontouchstart' in document;
+var version = '0.1';
 
+var isMobile = 'ontouchstart' in document;
 var width = 480;
 var height = 640;
-var sc = 1;
-var wx = 0;
-var wy = 0;
 
 var TWO_PI = 2 * Math.PI;
 
@@ -18,35 +16,114 @@ var SIZE_XL = 56;
 var SIZE_XXL = 64;
 var SIZE_XXXL = 72;
 
+var BULLET = [
+  ['fc0', 15],
+  ['ff0', 20],
+  ['ff6', 25]
+];
+
+var BULLET_IMG;
+
 var ENEMY = {
   'ss': [
-    SIZE_S, // size 30 or 40px
-    'f00', // main shape color
-    0, -0.5,
-    0.5, -0.25,
-    0.5, 0.25,
-    0, 0.5,
-    -0.5, 0.25,
-    -0.5, -0.25
+    SIZE_S,
+    [ // enemy shape
+      'fff', // main shape color
+      0, -0.5,
+      0.5, -0.25,
+      0.5, 0.25,
+      0, 0.5,
+      -0.5, 0.25,
+      -0.5, -0.25
+    ],
+    30, // hp
+    -1 // weapon level, -1 = no weapon
+  ],
+  'sm': [
+    SIZE_M,
+    [ // enemy shape
+      'fff', // main shape color
+      0, -0.5,
+      0.5, -0.25,
+      0.5, 0.25,
+      0, 0.5,
+      -0.5, 0.25,
+      -0.5, -0.25,
+      'fff', // gun shape color
+      0, -0.1,
+      0.1, 0,
+      0, 0.1,
+      -0.1, 0
+    ],
+    50, // hp
+    0 // weapon level, -1 = no weapon
+  ],
+  'sl': [
+    SIZE_L,
+    [ // enemy shape
+      'fff', // main shape color
+      0, -0.5,
+      0.5, -0.25,
+      0.5, 0.25,
+      0, 0.5,
+      -0.5, 0.25,
+      -0.5, -0.25,
+      'fff', // gun shape color
+      0, -0.1,
+      0.1, 0,
+      0, 0.1,
+      -0.1, 0
+    ],
+    70, // hp
+    1 // weapon level, -1 = no weapon
   ]
+};
+
+var TURRET = {
+  // size, color, hp, shot angle, shot angle offset
+  'ts': [SIZE_S, '0f0', 50, Math.PI / 2, Math.PI / 4],
+  'tm': [SIZE_M, 'ff0', 70, Math.PI / 4],
+  'tl': [SIZE_L, 'f03', 100, Math.PI / 6]
 };
 
 var PLAYER = [
   SIZE_XL, // size
-  'fff', // main shape color
-  0, -0.5,
-  0.4, 0.2,
-  0.2, 0.4,
-  -0.2, 0.4,
-  -0.4, 0.2,
-  'f0f', // window shape color
-  0, -0.2,
-  0.1, 0,
-  -0.1, 0
+  [
+    'fff', // main shape color
+    0, -0.5,
+    0.3, 0,
+    0.5, 0.1,
+    0.45, 0.25,
+    0.2, 0.4,
+    0, 0.35,
+    -0.2, 0.4,
+    -0.45, 0.25,
+    -0.5, 0.1,
+    -0.3, 0,
+    'f06', // window shape color
+    0, -0.3,
+    0.1, -0.1,
+    -0.1, -0.1,
+    'fff',
+    0, 0.2,
+    0, 0.5,
+    'fff',
+    0.3, 0,
+    0.1, 0.1,
+    'fff',
+    -0.3, 0,
+    -0.1, 0.1
+  ]
 ];
 
-var BULLET = [
-  [SIZE_XXXS, 'fc0']
+var WEAPON = [
+  // bullet, delay between shots (ms), bullet vector(s) and locations (0, 0 if none given)
+  // pulse laser
+  [0, 500, [Math.PI / 2]],
+  [1, 250, [Math.PI / 2]],
+  [2, 166, [Math.PI / 2]],
+  [2, 200, [Math.PI / 2, [-0.3, 0]], [Math.PI / 2, [0.3, 0]]],
+  [2, 200, [Math.PI * 2 / 3], [Math.PI / 2], [Math.PI / 3]]
 ];
 
 var PATH = {
@@ -122,15 +199,14 @@ var PATH = {
   ]
 };
 
-(function () {
-  for (var i = 1; i <= 7; i++) {
-    var p = PATH[i] = [];
+// generate vertical paths 1 - 7
+for (var i = 1; i <= 7; i++) {
+  var p = PATH[i] = [];
 
-    for (var j = -1; j < 12; j += 2) {
-      p.push(i * 0.125, j / 10);
-   }
-  }
-})();
+  for (var j = -1; j < 12; j += 2) {
+    p.push(i * 0.125, j / 10);
+ }
+}
 
 var sounds = [
   // coin
@@ -139,18 +215,3 @@ var sounds = [
 
 var soundOn = true;
 var highQuality = true;
-
-var version = '0.1';
-
-var levels = [
-  [80, 50, '1', 'ff0', '440'],
-  [180, 130, '2', '6f0', '240'],
-  [300, 130, '3', '0f0', '040'],
-  [400, 210, '4', '0f6', '042'],
-  [300, 290, '5', '0ff', '044'],
-  [180, 290, '6', '06f', '024'],
-  [80, 370, '7', '60f', '204'],
-  [180, 450, '8', 'f0f', '404'],
-  [300, 450, '9', 'f06', '402'],
-  [400, 520, 'c', 'f00', '400']
-];
