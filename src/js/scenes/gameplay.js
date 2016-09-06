@@ -84,9 +84,9 @@ var gameplay = [
   // 3 render
   function () {
     // draw UI
-    // drawButton(gameplay[5]);
-    // gameplay[6].forEach(drawGauge);
-    // gameplay[7].forEach(drawLabel);
+    drawButton(gameplay[5]);
+    gameplay[6].forEach(drawGauge);
+    gameplay[7].forEach(drawLabel);
 
     drawPlayer(gameplay[8]);
     drawWaves(gameplay[9]);
