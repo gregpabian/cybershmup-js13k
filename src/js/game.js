@@ -1,8 +1,8 @@
 /* global Stats width height ctxUI performance scenes gl useProgram thresholdFrag
 currentScene: true isMobile handleKeys wrapper sc: true disableAA makeProgram
 baseVert staticVert textureFrag blurFrag mixFrag makeFramebuffer setFramebuffer
-highQuality getUniformLocation useTexture makeQuadBuffer drawBackground
-copyFrag trailFrag */
+highQuality getUniformLocation useTexture makeQuadBuffer drawBackground cm
+copyFrag trailFrag cancelAnimationFrame */
 
 var last = 0;
 var dt = 0;
@@ -149,6 +149,18 @@ function initGL() {
   trailFBO = makeFramebuffer();
 
   quadBuffer = makeQuadBuffer();
+
+  cm.addEventListener('webglcontextlost', handleContextLost, false);
+  cm.addEventListener('webglcontextrestored', handleContextRestored, false);
+}
+
+function handleContextLost(event) {
+  event.preventDefault();
+  cancelAnimationFrame(rafId);
+}
+
+function handleContextRestored() {
+  rafId = requestAnimationFrame(loop);
 }
 
 function changeScene(id) {
@@ -180,4 +192,4 @@ initGL();
 
 changeScene(currentScene);
 
-requestAnimationFrame(loop);
+var rafId = requestAnimationFrame(loop);
