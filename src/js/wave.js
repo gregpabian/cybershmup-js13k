@@ -1,5 +1,5 @@
-/* global ENEMY dt makeEnemy makePath updateEnemy width height collideCircles
-makeBatch drawProgram updateBatchItem drawBatch waves */
+/* global ENEMY dt makeEnemy makePath updateEnemy width height makeBatch
+updateBatchItem drawBatch waves addExplosion */
 
 // create waves for the given difficulty level
 function makeWaves(level) {
@@ -89,6 +89,7 @@ function updateWave(wave) {
     if (enemy[3] > 0) {
       updateBatchItem(wave[2], i, enemy[1][0], enemy[1][1]);
     } else {
+      addExplosion(enemy[1][0], enemy[1][1], ENEMY[enemy[0]][0]);
       wave[3].splice(i, 1);
       len--;
       i--;
@@ -104,18 +105,4 @@ function drawWaves() {
 
 function drawWave(wave) {
   drawBatch(wave[2], wave[3].length);
-}
-
-
-
-function collideWithEnemies(waves, body) {
-  waves.forEach(function (wave) {
-    wave[2].forEach(function (enemy) {
-      if (!enemy[4]) return;
-
-      if (collideCircles(body[2], body[1], enemy[2], enemy[1])) {
-        body[4] = enemy[4] = 0;
-      }
-    });
-  });
 }

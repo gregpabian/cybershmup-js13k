@@ -2,7 +2,7 @@
 currentScene: true isMobile handleKeys wrapper sc: true disableAA makeProgram
 baseVert staticVert textureFrag blurFrag mixFrag makeFramebuffer setFramebuffer
 highQuality getUniformLocation useTexture makeQuadBuffer drawBackground cm
-copyFrag trailFrag cancelAnimationFrame */
+copyFrag trailFrag cancelAnimationFrame loaded */
 
 var last = 0;
 var dt = 0;
@@ -70,12 +70,12 @@ function render() {
 
   gl.clear(gl.COLOR_BUFFER_BIT);
 
-  drawBackground(scenes[currentScene][4]);
+  if (loaded) drawBackground(scenes[currentScene][4]);
 
   // render scene
   scenes[currentScene][3]();
 
-  if (!highQuality) return;
+  if (!highQuality || !loaded) return;
   // do the post-processing
   // setFramebuffer(copyFBO);
 

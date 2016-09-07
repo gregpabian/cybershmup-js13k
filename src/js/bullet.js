@@ -1,6 +1,6 @@
 /* global TWO_PI BULLET dt width height vectorMultiply vectorAdd makeBatch
 vectorRotate SIZE_XXXS isVectorOnScreen BULLET_IMG updateBatchItem
-drawBatch bullets waves player collideCircles ENEMY SIZE_XS addExplosion */
+drawBatch bullets waves player collideCircles ENEMY addExplosion */
 
 var bulletSpeed = 0.75;
 
@@ -93,7 +93,7 @@ function collideBullets() {
     }
 
     if (!bullet[5]) {
-      addExplosion(bullet[3][0], bullet[3][1], SIZE_XS);
+      addExplosion(bullet[3][0], bullet[3][1], SIZE_XXXS);
     }
   });
 }

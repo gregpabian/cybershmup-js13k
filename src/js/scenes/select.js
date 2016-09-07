@@ -1,7 +1,8 @@
 /* global makeBackground updateBackground drawBackground height
 makeButton changeScene handleButtonClick mx my isMobile focusButton drawButton
 a1: true a2: true clickButton clicked: true blurButton ku: true kd: true clamp
-kl: true kr: true unlockedLevel ctxUI a3: true width vectorRotate vectorAdd */
+kl: true kr: true unlockedLevel ctxUI a3: true width vectorRotate vectorAdd
+playSound SOUNDS */
 
 // level markers shown on the select level screen
 var levels = [
@@ -69,6 +70,7 @@ var select = [
           select[6]--;
         } while (select[5][select[6]] && select[5][select[6]][14]);
         ku = kl = 0;
+        playSound(SOUNDS[0]);
       }
 
       if (kd || kr) {
@@ -76,6 +78,7 @@ var select = [
           select[6]++;
         } while (select[5][select[6]] && select[5][select[6]][14]);
         kd = kr = 0;
+        playSound(SOUNDS[0]);
       }
 
       select[6] = clamp(select[6], 0 ,select[5].length - 1);

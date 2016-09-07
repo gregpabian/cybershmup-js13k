@@ -2,10 +2,12 @@
 makeButton changeScene handleButtonClick mx my isMobile updateButton version
 focusButton soundOn: true highQuality: true makeLabel drawButton drawLabel
 a1: true a2: true clickButton clicked: true blurButton ku: true kd: true clamp
-a3: true vectorRotate vectorAdd currentScene: true Image lImage */
+a3: true vectorRotate vectorAdd currentScene: true Image lImage
+playSound SOUNDS */
 
 // show splash screen if false
-var loaded = true;
+var loaded = false;
+var loadingPlayed = false;
 
 var logoImage = new Image();
 logoImage.src = lImage;
@@ -148,11 +150,13 @@ var home = [
       if (ku) {
         home[6]--;
         ku = 0;
+        playSound(SOUNDS[0]);
       }
 
       if (kd) {
         home[6]++;
         kd = 0;
+        playSound(SOUNDS[0]);
       }
 
       home[6] = clamp(home[6], 0 ,home[5].length - 1);
@@ -176,6 +180,8 @@ var home = [
 
       if (loadingTimer > 1) {
         drawLabel(presentsLabel);
+        if (!loadingPlayed) playSound(SOUNDS[1]);
+        loadingPlayed = true;
       }
 
       return;
@@ -183,7 +189,5 @@ var home = [
 
     home[5].forEach(drawButton);
     home[7].forEach(drawLabel);
-
-    drawBackground(home[4]);
   }
 ];

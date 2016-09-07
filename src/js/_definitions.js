@@ -220,11 +220,3 @@ for (var i = 1; i <= 7; i++) {
     p.push(i * 0.125, j / 10);
  }
 }
-
-var sounds = [
-  // coin
-  [0, , 0.0135, 0.32, 0.16, 0.33, , , , , , , 0.5, , , , , , 1, , , , , 0.4]
-];
-
-var soundOn = true;
-var highQuality = true;

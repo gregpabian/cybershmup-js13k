@@ -1,4 +1,4 @@
-/* global makeLabel ctxUI isVectorInRect drawLabel TWO_PI */
+/* global makeLabel ctxUI isVectorInRect drawLabel TWO_PI playSound SOUNDS */
 
 function makeButton(x, y, w, h, text, s, c1, c2, a1, onClick, round, disabled) {
   return [

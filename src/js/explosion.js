@@ -1,22 +1,24 @@
-/* global explosions makeBatch EXPLOSION_IMG drawBatch dt updateBatchItem
-SIZE_XXL */
+/* global explosions makeBatch EXPLOSION_IMG drawBatch dt updateBatchItem SOUNDS
+SIZE_XXL playSound SIZE_S */
 
 var explosionGrowthSpeed = 10;
 var explosionColor = [255, 100, 0];
 
 function addExplosion(x, y, size) {
-  if (explosions[0].length >= size) {
+  if (explosions[0].length >= explosions[2]) {
     explosions[0].shift();
   }
 
   explosions[0].push([
     [x, y], // pos x, y
     0, // current size
-    size, // size
+    size * 1.5, // size
     1, // alpha
     0, // animation timer
     1 // alive
   ]);
+
+  playSound(SOUNDS[size < SIZE_S ? 3 : 4], true);
 }
 
 function makeExplosions(size) {

@@ -1,6 +1,7 @@
 /* global mx my kx ky dt vectorAdd isMobile vectorNormalize vectorDistance waves
 vectorMultiply vectorSubtract width height PLAYER drawProgram makeSprite player
-drawSprite, updateSprite addBullet WEAPON weaponLevel collideCircles ENEMY */
+drawSprite, updateSprite addBullet WEAPON weaponLevel collideCircles ENEMY
+addExplosion playSound SOUNDS */
 
 var followSpeed = 100;
 var drag = 0.8;
@@ -90,6 +91,7 @@ function updatePlayer() {
   if (shotTimer <= 0) {
     shotTimer = WEAPON[weaponLevel][1];
     playerShoot(player);
+    playSound(SOUNDS[2], true);
   }
 }
 
