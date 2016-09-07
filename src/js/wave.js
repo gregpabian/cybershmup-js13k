@@ -89,7 +89,8 @@ function updateWave(wave) {
     if (enemy[3] > 0) {
       updateBatchItem(wave[2], i, enemy[1][0], enemy[1][1]);
     } else {
-      addExplosion(enemy[1][0], enemy[1][1], ENEMY[enemy[0]][0]);
+      // don't explode when leaving the screen
+      if (enemy[3] > -1000) addExplosion(enemy[1][0], enemy[1][1], ENEMY[enemy[0]][0]);
       wave[3].splice(i, 1);
       len--;
       i--;

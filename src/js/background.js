@@ -57,7 +57,7 @@ function makeBackground(color, speed) {
   // gradient position
   bg[3] = [0, 0];
   // width
-  bg[4] = width;
+  bg[4] = width * 1.33;
   // height
   bg[5] = Math.ceil(height / SIZE_S) * SIZE_S;
   // background color
@@ -74,14 +74,14 @@ function makeBackground(color, speed) {
 }
 
 function updateBackground(bg, x, y, gradientOnly) {
-  if (!gradientOnly) bg[2][0] = x / width * (width - bg[4]);
+  if (!gradientOnly) bg[2][0] = 2 * x / width;
   bg[2][1] -= bg[7] * dt / 500;
 
   bg[3][0] = x;
   bg[3][1] = y;
 
   // simulate sprite scrolling by moving the UVs
-  updateSpriteUVs(bg[0], 0, bg[2][1], bg[8][0], bg[8][1]);
+  updateSpriteUVs(bg[0], bg[2][0], bg[2][1], bg[8][0], bg[8][1]);
   updateSprite(bg[1], bg[3][0], bg[3][1], 0, 1, 4, 4, bg[6]);
 }
 

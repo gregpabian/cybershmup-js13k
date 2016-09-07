@@ -1,6 +1,6 @@
 /* global PLAYER ENEMY renderShip BULLET renderBullet gameplay home select
 make2DProjection TURRET renderTurret width height BULLET_IMG:true hex2rgb
-EXPLOSION_IMG SIZE_XXXS SIZE_XXL SOUNDS makeSound */
+EXPLOSION_IMG:true SIZE_XXXS SIZE_XXL SOUNDS makeSound */
 
 var cm = document.getElementById('m');
 var cui = document.getElementById('ui');
@@ -43,7 +43,8 @@ var projectionMatrix = make2DProjection(width, height);
 
 var scenes = [gameplay, home, select];
 
-var currentScene = 1;
+var currentScene = 0;
+loaded = true;
 
 // TODO load from local storage
 var unlockedLevel = 9;

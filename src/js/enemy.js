@@ -1,5 +1,6 @@
 /* global TWO_PI getPathPosition dt hex2rgba addBullet ENEMY WEAPON player
-getAngleBetweenVectors rgb2hex adjustBrightness hex2rgb ENEMY_WEAPON */
+getAngleBetweenVectors rgb2hex adjustBrightness hex2rgb ENEMY_WEAPON
+playSound SOUNDS */
 
 function makeEnemy(type, x, y, speed) {
   var weapon;
@@ -33,7 +34,7 @@ function updateEnemy(enemy, path) {
   enemy[2] += enemy[5] * dt / 4000;
 
   if (enemy[2] * 4 > path.length) {
-    enemy[3] = 0; // hp = 0 = dead
+    enemy[3] = -1000; // hp = 0 = dead
     return;
   }
 
@@ -58,6 +59,8 @@ function shootEnemy(enemy) {
     addBullet(weapon[0], enemy[1], -getAngleBetweenVectors(enemy[1], player[2]));
     enemy[4] = weapon[1];
   }
+
+  playSound(SOUNDS[5], true);
 }
 
 function renderShip(ship) {
