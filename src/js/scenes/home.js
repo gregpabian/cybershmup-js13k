@@ -2,7 +2,7 @@
 makeButton changeScene handleButtonClick mx my isMobile updateButton version
 focusButton soundOn: true highQuality: true makeLabel drawButton drawLabel
 a1: true a2: true clickButton clicked: true blurButton ku: true kd: true clamp
-a3: true vectorRotate vectorAdd currentScene: true Image lImage
+a3: true vectorRotate vectorAdd currentScene: true Image lImage localStorage
 playSound SOUNDS */
 
 // show splash screen if false
@@ -34,11 +34,13 @@ var home = [
 
     var settingsButtons = [
       makeButton(365, 500, 300, 60, 'graphics: ' + (highQuality ? 'hi' : 'lo'), 4, 'f0c', '202', 1, function (button) {
-        highQuality = !highQuality;
+        highQuality = highQuality ? 0 : 1;
+        localStorage.setItem('csq', highQuality);
         updateButton(button, 'graphics: ' + (highQuality ? 'hi' : 'lo'));
       }),
       makeButton(380, 580, 260, 60, 'sound: ' + (soundOn ? 'on' : 'off'), 4, 'f0c', '202', 1, function (button) {
-        soundOn = !soundOn;
+        soundOn = soundOn ? 0 : 1;
+        localStorage.setItem('css', soundOn);
         updateButton(button, 'sound: ' + (soundOn ? 'on' : 'off'));
       })
     ];

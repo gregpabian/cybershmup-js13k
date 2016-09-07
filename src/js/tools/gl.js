@@ -103,7 +103,7 @@ function makeFramebuffer() {
   return [fbo, texture];
 }
 
-var currentFBO = null;
+var currentFBO;
 
 function setFramebuffer(fbo) {
   fbo = fbo ? fbo[0] : null;
@@ -143,7 +143,7 @@ function makeBatch(image, batchSize, repeat, rx, ry) {
   ];
 }
 
-var currentProgram = null;
+var currentProgram;
 
 function useProgram(program) {
   if (currentProgram !== program) {
