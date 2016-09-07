@@ -1,13 +1,13 @@
 /* global TWO_PI BULLET dt width height vectorMultiply vectorAdd makeBatch
-vectorRotate SIZE_XXXS isVectorOnScreen BULLET_IMG drawProgram updateBatchItem
-drawBatch bullets waves player collideCircles ENEMY */
+vectorRotate SIZE_XXXS isVectorOnScreen BULLET_IMG updateBatchItem
+drawBatch bullets waves player collideCircles ENEMY SIZE_XS addExplosion */
 
 var bulletSpeed = 0.75;
 
 function makeBullets(size) {
   return [
     [],
-    makeBatch(BULLET_IMG, drawProgram, size),
+    makeBatch(BULLET_IMG, size),
     size
   ];
 }
@@ -65,12 +65,14 @@ function updateBullet(bullet) {
   }
 }
 
-function drawBullets(bullets) {
+function drawBullets() {
   drawBatch(bullets[1], bullets[0].length);
 }
 
 function collideBullets() {
   bullets[0].forEach(function (bullet) {
+    if (!bullet[5]) return;
+
     // player's bullet - collide with enemies
     if (bullet[6]) {
       waves.some(function (wave) {
@@ -89,16 +91,20 @@ function collideBullets() {
         player[4] -= bullet[1];
       }
     }
+
+    if (!bullet[5]) {
+      addExplosion(bullet[3][0], bullet[3][1], SIZE_XS);
+    }
   });
 }
 
-function renderBullet() {
+function renderBullet(size) {
   var c = document.createElement('canvas');
-  c.width = c.height = SIZE_XXXS;
+  c.width = c.height = size;
   var ctx = c.getContext('2d');
 
   ctx.beginPath();
-  var hs = SIZE_XXXS / 2;
+  var hs = size / 2;
   ctx.fillStyle = '#fff';
   ctx.arc(hs, hs, hs, 0, TWO_PI, false);
   ctx.fill();

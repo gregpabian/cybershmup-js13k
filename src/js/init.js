@@ -1,5 +1,6 @@
 /* global PLAYER ENEMY renderShip BULLET renderBullet gameplay home select
-make2DProjection TURRET renderTurret width height BULLET_IMG:true hex2rgb */
+make2DProjection TURRET renderTurret width height BULLET_IMG:true hex2rgb
+EXPLOSION_IMG SIZE_XXXS SIZE_XXL */
 
 var cm = document.getElementById('m');
 var cui = document.getElementById('ui');
@@ -30,7 +31,9 @@ for (item in BULLET) {
   BULLET[item][0] = hex2rgb(BULLET[item][0]);
 }
 
-BULLET_IMG = renderBullet();
+BULLET_IMG = renderBullet(SIZE_XXXS);
+
+EXPLOSION_IMG = renderBullet(SIZE_XXL);
 
 var projectionMatrix = make2DProjection(width, height);
 

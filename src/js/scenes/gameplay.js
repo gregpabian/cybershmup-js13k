@@ -3,9 +3,10 @@ clicked:true handleButtonClick mx my levels makeBackground makeGauge makeLabel
 enableGaugeGlow drawGauge drawLabel updateGauge updateLabel health energy
 weapon score padZero PLAYER updatePlayer makePlayer updateBackground drawPlayer
 makeWaves updateWaves makeBullets updateBullets drawBullets drawWaves
-disableGaugeGlow collidePlayerWithWaves collideBullets */
+disableGaugeGlow collidePlayerWithWaves collideBullets makeExplosions
+drawExplosions updateExplosions */
 
-var player, bullets, waves;
+var player, bullets, waves, explosions;
 
 var gameplay = [
   // 0 init
@@ -39,7 +40,9 @@ var gameplay = [
     // waves
     waves = makeWaves(level);
     // bullets
-    bullets = makeBullets(50);
+    bullets = makeBullets(100);
+    // explosions
+    explosions = makeExplosions(100);
   },
   // 1 update
   function () {
@@ -54,6 +57,7 @@ var gameplay = [
     updatePlayer();
     updateBullets();
     updateWaves();
+    updateExplosions();
 
     // TODO
     // - update explosions
@@ -96,9 +100,10 @@ var gameplay = [
     gameplay[6].forEach(drawGauge);
     gameplay[7].forEach(drawLabel);
 
-    drawPlayer(player);
-    drawWaves(waves);
-    drawBullets(bullets);
+    drawPlayer();
+    drawBullets();
+    drawWaves();
+    drawExplosions();
 
     // TODO:
     // - render waves

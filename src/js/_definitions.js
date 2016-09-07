@@ -22,9 +22,9 @@ var BULLET = [
   ['fc6', 20, 600],
   ['ff0', 25, 700],
   // enemy bullets
-  ['06f', 15, 100],
-  ['0cf', 20, 200],
-  ['0ff', 25, 300]
+  ['06f', 20, 100],
+  ['0cf', 50, 200],
+  ['0ff', 60, 300]
 ];
 
 var BULLET_IMG;
@@ -83,6 +83,8 @@ var ENEMY = {
     1 // weapon level, -1 = no weapon
   ]
 };
+
+var EXPLOSION_IMG;
 
 var TURRET = {
   // size, color, hp, shot angle, shot angle offset

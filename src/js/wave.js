@@ -52,7 +52,7 @@ function makeWave(delay, type, path, count, speed, interval) {
   return [
     delay, // delay before the wave starts
     enemies, // wave's enemies
-    makeBatch(image, drawProgram, count),
+    makeBatch(image, count),
     [], // wave's active enemies
     path, // wave's path
     0, // delay before next enemy
@@ -98,7 +98,7 @@ function updateWave(wave) {
   wave[5] -= dt / 1000;
 }
 
-function drawWaves(waves) {
+function drawWaves() {
   waves.forEach(drawWave);
 }
 

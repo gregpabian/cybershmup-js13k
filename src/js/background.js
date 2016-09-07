@@ -51,7 +51,7 @@ function makeBackground(color, speed) {
   var bg = [];
 
   // gradient texture
-  bg[1] = makeSprite(makeGradient(), drawProgram);
+  bg[1] = makeSprite(makeGradient());
   // pattern position
   bg[2] = [width / 2, 0];
   // gradient position
@@ -67,7 +67,7 @@ function makeBackground(color, speed) {
   bg[8] = [20, 40];
 
   // pattern texture
-  bg[0] = makeSprite(makePattern(24, 40, 32), drawProgram, 1, bg[8][0], bg[8][1]);
+  bg[0] = makeSprite(makePattern(24, 40, 32), 1, bg[8][0], bg[8][1]);
   updateSprite(bg[0], bg[2][0], bg[2][1], 0, 1, 1, 1, bg[6]);
 
   return bg;

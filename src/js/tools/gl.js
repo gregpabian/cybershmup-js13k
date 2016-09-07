@@ -1,4 +1,4 @@
-/* global gl width height matrixVectorMultiply makeResizeCenter
+/* global gl width height matrixVectorMultiply makeResizeCenter drawProgram
 makeTranslation makeScale matrixMultiply makeRotation projectionMatrix */
 
 // px, py, ux, uy, r, g, b, a x 4
@@ -129,7 +129,7 @@ function makeQuadBuffer() {
   return makeBuffer(new Float32Array(quadVertices));
 }
 
-function makeBatch(image, program, batchSize, repeat, rx, ry) {
+function makeBatch(image, batchSize, repeat, rx, ry) {
   var vertices = makeVertices(batchSize);
 
   return [
@@ -137,7 +137,7 @@ function makeBatch(image, program, batchSize, repeat, rx, ry) {
     vertices,
     makeBuffer(vertices),
     makeBuffer(makeIndices(batchSize), gl.ELEMENT_ARRAY_BUFFER),
-    program,
+    drawProgram,
     image.width * (rx || 1),
     image.height * (ry || 1)
   ];
@@ -256,8 +256,8 @@ function updateBatchVertices(batch, i, p0, p1, p2, p3, color, a) {
   }
 }
 
-function makeSprite(image, program, repeat, rx, ry) {
-  return makeBatch(image, program, 1, repeat, rx, ry);
+function makeSprite(image, repeat, rx, ry) {
+  return makeBatch(image, 1, repeat, rx, ry);
 }
 
 function updateSprite(sprite, tx, ty, r, a, sx, sy, color) {

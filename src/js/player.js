@@ -8,7 +8,7 @@ var shotTimer = 0;
 var startPos = [width / 2, height - 100];
 
 function makePlayer() {
-  var sprite = makeSprite(PLAYER[1], drawProgram);
+  var sprite = makeSprite(PLAYER[1]);
   updateSprite(sprite, 0, 0, 0, 1, 1, 1);
 
   return [
@@ -105,7 +105,7 @@ function playerShoot(player) {
   }
 }
 
-function drawPlayer(player) {
+function drawPlayer() {
   if (player[4] <= 0) return;
 
   drawSprite(player[0]);
