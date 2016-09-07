@@ -1,5 +1,5 @@
 /* global ENEMY dt makeEnemy makePath updateEnemy width height makeBatch
-updateBatchItem drawBatch waves addExplosion */
+updateBatchItem drawBatch waves addExplosion trySpawningCollectible */
 
 // create waves for the given difficulty level
 function makeWaves(level) {
@@ -90,7 +90,10 @@ function updateWave(wave) {
       updateBatchItem(wave[2], i, enemy[1][0], enemy[1][1]);
     } else {
       // don't explode when leaving the screen
-      if (enemy[3] > -1000) addExplosion(enemy[1][0], enemy[1][1], ENEMY[enemy[0]][0]);
+      if (enemy[3] > -1000) {
+        addExplosion(enemy[1][0], enemy[1][1], ENEMY[enemy[0]][0]);
+        trySpawningCollectible(enemy[1]);
+      }
       wave[3].splice(i, 1);
       len--;
       i--;

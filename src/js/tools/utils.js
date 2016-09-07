@@ -59,3 +59,11 @@ function padZero(value) {
 function adjustBrightness(color, brightness) {
   return color.map(function (c) { return c * brightness;});
 }
+
+function adjustHex(hex, brightness) {
+  return rgb2hex(adjustBrightness(hex2rgb(hex), brightness));
+}
+
+function randomChance(probability) {
+  return Math.random() <= probability / 100;
+}

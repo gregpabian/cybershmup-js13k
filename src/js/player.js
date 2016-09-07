@@ -1,7 +1,8 @@
 /* global mx my kx ky dt vectorAdd isMobile vectorNormalize vectorDistance waves
 vectorMultiply vectorSubtract width height PLAYER drawProgram makeSprite player
 drawSprite, updateSprite addBullet WEAPON weaponLevel collideCircles ENEMY
-addExplosion playSound SOUNDS */
+addExplosion playSound SOUNDS collectibles SIZE_XS addHealth addWeapon addEnergy
+*/
 
 var followSpeed = 100;
 var drag = 0.8;
@@ -124,5 +125,22 @@ function collidePlayerWithWaves() {
         player[4] = enemy[3] = 0;
       }
     });
+  });
+}
+
+function collidePlayerWithCollectibles() {
+  collectibles.forEach(function (collectible) {
+    if (collideCircles(player[2], player[1], collectible[2], SIZE_XS)) {
+      var fn;
+
+      switch (collectible[3]) {
+        case 'h': fn = addHealth; break;
+        case 'w': fn = addWeapon; break;
+        case 'e': fn = addEnergy; break;
+      }
+
+      fn(collectible[4]);
+      collectible[5] = 0;
+    }
   });
 }

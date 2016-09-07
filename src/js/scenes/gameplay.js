@@ -2,11 +2,12 @@
 clicked:true handleButtonClick mx my levels makeBackground makeGauge makeLabel
 enableGaugeGlow drawGauge drawLabel updateGauge updateLabel health energy
 weapon score padZero PLAYER updatePlayer makePlayer updateBackground drawPlayer
-makeWaves updateWaves makeBullets updateBullets drawBullets drawWaves
+makeWaves updateWaves makeBullets updateBullets drawBullets drawWaves clamp
 disableGaugeGlow collidePlayerWithWaves collideBullets makeExplosions
-drawExplosions updateExplosions */
+drawExplosions updateExplosions maxHealth maxEnergy maxWeapon updateCollectibles
+collidePlayerWithCollectibles drawCollectibles */
 
-var player, bullets, waves, explosions;
+var player, bullets, waves, explosions, collectibles;
 
 var gameplay = [
   // 0 init
@@ -43,6 +44,8 @@ var gameplay = [
     bullets = makeBullets(100);
     // explosions
     explosions = makeExplosions(100);
+    // collectibles
+    collectibles = [];
   },
   // 1 update
   function () {
@@ -53,17 +56,15 @@ var gameplay = [
     updateGauge(gameplay[6][2], energy);
     updateLabel(gameplay[7][0], padZero(score));
     collidePlayerWithWaves();
+    collidePlayerWithCollectibles();
     collideBullets();
     updatePlayer();
     updateBullets();
     updateWaves();
     updateExplosions();
+    updateCollectibles();
 
-    // TODO
-    // - update explosions
-    // - update collectibles
-
-    // TODO show glow areound glitch gauge when available
+    // TODO show glow around glitch gauge when available
     if (energy >= 10) {
       enableGaugeGlow(gameplay[6][2]);
     } else {
@@ -101,14 +102,10 @@ var gameplay = [
     gameplay[7].forEach(drawLabel);
 
     drawPlayer();
-    drawBullets();
     drawWaves();
+    drawBullets();
+    drawCollectibles();
     drawExplosions();
-
-    // TODO:
-    // - render waves
-    // - render explosions
-    // - render collectibles
   }
 ];
 
@@ -117,4 +114,16 @@ function getBackgroundColor(color) {
     c = parseInt(c, 10);
     return c ? c + 2 : c;
   }).join('');
+}
+
+function addHealth(amount) {
+  health = clamp(0, health + amount, maxHealth);
+}
+
+function addEnergy(amount) {
+  health = clamp(0, energy + amount, maxEnergy);
+}
+
+function addWeapon(amount) {
+  health = clamp(0, weapon + amount, maxWeapon);
 }

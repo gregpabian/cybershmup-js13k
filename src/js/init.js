@@ -1,6 +1,7 @@
 /* global PLAYER ENEMY renderShip BULLET renderBullet gameplay home select
 make2DProjection TURRET renderTurret width height BULLET_IMG:true hex2rgb
-EXPLOSION_IMG:true SIZE_XXXS SIZE_XXL SOUNDS makeSound localStorage */
+EXPLOSION_IMG:true SIZE_XXXS SIZE_XXL SOUNDS makeSound localStorage COLLECTIBLE
+renderCollectible */
 
 var cm = document.getElementById('m');
 var cui = document.getElementById('ui');
@@ -19,6 +20,10 @@ var item;
 
 for (item in ENEMY) {
   ENEMY[item][1] = renderShip(ENEMY[item]);
+}
+
+for (item in COLLECTIBLE) {
+  COLLECTIBLE[item][1] = renderCollectible(COLLECTIBLE[item]);
 }
 
 for (item in TURRET) {

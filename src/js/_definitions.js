@@ -29,6 +29,12 @@ var BULLET = [
 
 var BULLET_IMG;
 
+var COLLECTIBLE = {
+  'h': ['0f0', '✚', 20],
+  'w': ['f0c', '✊', 10],
+  'e': ['0cf', '⚡', 10]
+};
+
 var ENEMY = {
   'ss': [
     SIZE_S,

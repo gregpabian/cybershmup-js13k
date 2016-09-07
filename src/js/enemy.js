@@ -1,6 +1,5 @@
 /* global TWO_PI getPathPosition dt hex2rgba addBullet ENEMY WEAPON player
-getAngleBetweenVectors rgb2hex adjustBrightness hex2rgb ENEMY_WEAPON
-playSound SOUNDS */
+getAngleBetweenVectors adjustHex ENEMY_WEAPON playSound SOUNDS */
 
 function makeEnemy(type, x, y, speed) {
   var weapon;
@@ -87,7 +86,7 @@ function renderShip(ship) {
       ctx.beginPath();
       ctx.strokeStyle = '#' + shape[i];
 
-      var fillColor = rgb2hex(adjustBrightness(hex2rgb(shape[i]), 0.5));
+      var fillColor = adjustHex(shape[i], 0.5);
 
       ctx.fillStyle = '#' + fillColor;
       // skip the shape color
@@ -123,7 +122,7 @@ function renderTurret(turret) {
   var ctx = c.getContext('2d');
   ctx.lineWidth = 2;
   ctx.strokeStyle = '#' + turret[1];
-  ctx.fillStyle = '#' + rgb2hex(adjustBrightness(hex2rgb(turret[1]), 0.5));
+  ctx.fillStyle = '#' + adjustHex(turret[1], 0.5);
   ctx.save();
   ctx.translate(d / 2, d / 2);
   ctx.rotate(Math.PI / 4);
