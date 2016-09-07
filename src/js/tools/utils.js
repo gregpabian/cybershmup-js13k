@@ -18,6 +18,18 @@ function hex2rgb(hex) {
   ];
 }
 
+function rgb2hex(rgb) {
+  return rgb.map(function (c) {
+    c = (~~c).toString(16);
+
+    if (c.length === 1) {
+      c = '0' + c;
+    }
+
+    return c;
+  }).join('');
+}
+
 function disposeDead(bodies) {
   var i = bodies.length - 1;
 
@@ -42,4 +54,8 @@ function padZero(value) {
   var l = 9 - value.length + 1;
 
   return (new Array(l < 0 ? 0 : l)).join(0) + value;
+}
+
+function adjustBrightness(color, brightness) {
+  return color.map(function (c) { return c * brightness;});
 }

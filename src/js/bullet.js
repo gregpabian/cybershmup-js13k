@@ -1,6 +1,6 @@
 /* global TWO_PI BULLET dt width height vectorMultiply vectorAdd makeBatch
 vectorRotate SIZE_XXXS isVectorOnScreen BULLET_IMG drawProgram updateBatchItem
-drawBatch */
+drawBatch bullets waves player collideCircles ENEMY */
 
 var bulletSpeed = 0.75;
 
@@ -12,7 +12,7 @@ function makeBullets(size) {
   ];
 }
 
-function addBullet(bullets, type, p, a, isPlayers) {
+function addBullet(type, p, a, isPlayers) {
   // remove old bullets
   if (bullets[0].length === bullets[2]) {
     bullets[0].shift();
@@ -23,50 +23,73 @@ function addBullet(bullets, type, p, a, isPlayers) {
   bullet.push(
     // 0 - color
     // 1 - damage
-    p, // 2- bullet position
-    vectorRotate([1, 0], a), // 3 - velocity vector
-    1, // 4 - alive state
-    isPlayers // 5 - tells if that's a bullet from the player
+    // 2 - speed
+    p, // 3 - bullet position
+    vectorRotate([1, 0], a), // 4 - velocity vector
+    1, // 5 - alive state
+    !!isPlayers // 6 - tells if that's a bullet from the player
   );
 
   bullets[0].push(bullet);
+  updateBatchItem(bullets[1], bullets[0].length - 1, bullet[3][0], bullet[3][1], 0, undefined, 1, 1, bullet[0]);
 }
 
-function updateBullets(bullets) {
+function updateBullets() {
   var bullet;
 
-  var i = bullets[0].length - 1;
-
-  while (i >= 0) {
+  for (var i = 0, len = bullets[0].length; i < len; i++) {
     bullet = bullets[0][i];
     updateBullet(bullet);
 
+    if (bullet[5]) {
+      updateBatchItem(bullets[1], i, bullet[3][0], bullet[3][1], 0, undefined, 1, 1, bullet[0]);
     // dispose dead bullet
-    if (bullet[4]) {
-      updateBatchItem(bullets[1], i, bullet[2][0], bullet[2][1], 0, undefined, 1, 1, bullet[0]);
     } else {
       bullets[0].splice(i, 1);
+      len--;
+      i--;
     }
-
-    i--;
   }
 }
 
 function updateBullet(bullet) {
-  if (!bullet[4]) return;
+  if (!bullet[5]) return;
 
-  var d = vectorMultiply(bullet[3], bulletSpeed * dt);
+  var d = vectorMultiply(bullet[4], bullet[2] * dt / 1000);
 
-  bullet[2] = vectorAdd(bullet[2], d);
+  bullet[3] = vectorAdd(bullet[3], d);
 
   // kill the bullet when it leaves the screen
-  if (!isVectorOnScreen(bullet[2], width, height)) {
-    bullet[4] = 0;
+  if (!isVectorOnScreen(bullet[3], width, height)) {
+    bullet[5] = 0;
   }
 }
 
 function drawBullets(bullets) {
   drawBatch(bullets[1], bullets[0].length);
+}
+
+function collideBullets() {
+  bullets[0].forEach(function (bullet) {
+    // player's bullet - collide with enemies
+    if (bullet[6]) {
+      waves.some(function (wave) {
+        return wave[3].some(function (enemy) {
+          if (collideCircles(bullet[3], SIZE_XXXS, enemy[1], ENEMY[enemy[0]][0])) {
+            bullet[5] = 0;
+            enemy[3] -= bullet[1];
+            return true;
+          }
+        });
+      });
+      // enemy bullet - collide with player
+    } else if (player[4] > 0) {
+      if (collideCircles(bullet[3], SIZE_XXXS, player[2], player[1])) {
+        bullet[5] = 0;
+        player[4] -= bullet[1];
+      }
+    }
+  });
 }
 
 function renderBullet() {
@@ -75,8 +98,8 @@ function renderBullet() {
   var ctx = c.getContext('2d');
 
   ctx.beginPath();
-  ctx.fillStyle = '#fff';
   var hs = SIZE_XXXS / 2;
+  ctx.fillStyle = '#fff';
   ctx.arc(hs, hs, hs, 0, TWO_PI, false);
   ctx.fill();
 

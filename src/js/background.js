@@ -15,7 +15,7 @@ function makePattern(wn, ww, h) {
   // draw hexagon
   ctx.beginPath();
   ctx.lineWidth = 4;
-  ctx.strokeStyle = '#fff';
+  ctx.strokeStyle = '#ccc';
   ctx.moveTo(d, 0);
   ctx.lineTo(1, h /2);
   ctx.lineTo(d, h);
@@ -39,8 +39,8 @@ function makeGradient() {
   tmp.width = tmp.height = gs * 2;
   var ctx = tmp.getContext('2d');
   var gradient = ctx.createRadialGradient(gs, gs, gs, gs, gs, 0);
-  gradient.addColorStop(0, hex2rgba('fff', 0));
-  gradient.addColorStop(1, '#fff');
+  gradient.addColorStop(0, hex2rgba('ccc', 0));
+  gradient.addColorStop(1, '#ccc');
   ctx.fillStyle = gradient;
   ctx.fillRect(0, 0, gs * 2, gs * 2);
 

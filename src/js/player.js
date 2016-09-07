@@ -1,10 +1,9 @@
-/* global mx my kx ky dt vectorAdd isMobile vectorNormalize vectorDistance
-vectorMultiply vectorSubtract width height PLAYER drawProgram makeSprite
-drawSprite, updateSprite addBullet WEAPON */
+/* global mx my kx ky dt vectorAdd isMobile vectorNormalize vectorDistance waves
+vectorMultiply vectorSubtract width height PLAYER drawProgram makeSprite player
+drawSprite, updateSprite addBullet WEAPON weaponLevel collideCircles ENEMY */
 
 var followSpeed = 100;
 var drag = 0.8;
-var weaponLevel = 3;
 var shotTimer = 0;
 var startPos = [width / 2, height - 100];
 
@@ -17,12 +16,12 @@ function makePlayer() {
     PLAYER[0], // player size
     [].concat(startPos), // position vector
     [0, 0], // velocity vector
-    1 // alive flag
+    100 // hp
   ];
 }
 
-function updatePlayer(player, bullets) {
-  if (!player[4]) return;
+function updatePlayer() {
+  if (player[4] <= 0) return;
 
   var t = dt / 1000;
   var v = [0, 0];
@@ -90,11 +89,11 @@ function updatePlayer(player, bullets) {
 
   if (shotTimer <= 0) {
     shotTimer = WEAPON[weaponLevel][1];
-    playerShoot(player, bullets);
+    playerShoot(player);
   }
 }
 
-function playerShoot(player, bullets) {
+function playerShoot(player) {
   var weapon = WEAPON[weaponLevel];
   var guns = weapon.slice(2);
 
@@ -102,10 +101,26 @@ function playerShoot(player, bullets) {
     var a = guns[i][0];
     var o = guns[i][1] || [0, 0];
 
-    addBullet(bullets, weapon[0], vectorAdd(player[2], vectorMultiply(o, player[1])), a, 1);
+    addBullet(weapon[0], vectorAdd(player[2], vectorMultiply(o, player[1])), a, 1);
   }
 }
 
 function drawPlayer(player) {
+  if (player[4] <= 0) return;
+
   drawSprite(player[0]);
+}
+
+function collidePlayerWithWaves() {
+  if (player[4] <= 0) return;
+
+  waves.forEach(function (wave) {
+    // collide active enemies with player
+    wave[3].forEach(function (enemy) {
+      if (enemy[3] <= 0) return;
+      if (collideCircles(player[2], player[1], enemy[1], ENEMY[enemy[0]][0])) {
+        player[4] = enemy[3] = 0;
+      }
+    });
+  });
 }

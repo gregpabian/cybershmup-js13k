@@ -19,12 +19,14 @@ function makeGauge(x, y, w, c1, c2, max, value, r, right) {
 
 function updateGauge(gauge, value) {
   gauge[9] = value;
-  if (gauge[10]) gauge[11] += dt / 50;
+  if (gauge[10]) gauge[11] += dt / 100;
 }
 
 function enableGaugeGlow(gauge) {
-  gauge[10] = 1;
-  gauge[11] = 0;
+  if (!gauge[10]) {
+    gauge[10] = 1;
+    gauge[11] = 0;
+  }
 }
 
 function disableGaugeGlow(gauge) {

@@ -17,7 +17,7 @@ PLAYER = [PLAYER[0], renderShip(PLAYER)];
 var item;
 
 for (item in ENEMY) {
-  ENEMY[item] = [ENEMY[item][0], renderShip(ENEMY[item])];
+  ENEMY[item][1] = renderShip(ENEMY[item]);
 }
 
 for (item in TURRET) {
@@ -48,3 +48,4 @@ var weapon = 0;
 var maxWeapon = 100;
 var highscore = 0;
 var score = 0;
+var weaponLevel = 0;

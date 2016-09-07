@@ -1,8 +1,11 @@
 /* global makeButton changeScene isMobile drawButton a1: true a2: true a3: true
 clicked:true handleButtonClick mx my levels makeBackground makeGauge makeLabel
-drawBackground drawGauge drawLabel updateGauge updateLabel health energy
+enableGaugeGlow drawGauge drawLabel updateGauge updateLabel health energy
 weapon score padZero PLAYER updatePlayer makePlayer updateBackground drawPlayer
-makeWaves updateWaves makeBullets updateBullets drawBullets drawWaves */
+makeWaves updateWaves makeBullets updateBullets drawBullets drawWaves
+disableGaugeGlow collidePlayerWithWaves collideBullets */
+
+var player, bullets, waves;
 
 var gameplay = [
   // 0 init
@@ -32,31 +35,36 @@ var gameplay = [
       makeLabel(375, 565, 'glitch', '0cf', 3)
     ];
     // player
-    gameplay[8] = makePlayer();
+    player = makePlayer();
     // waves
-    gameplay[9] = makeWaves(level);
+    waves = makeWaves(level);
     // bullets
-    gameplay[10] = makeBullets(500);
+    bullets = makeBullets(50);
   },
   // 1 update
   function () {
-    updateBackground(gameplay[4], gameplay[8][2][0], gameplay[8][2][1]);
+    updateBackground(gameplay[4], player[2][0], player[2][1]);
 
     updateGauge(gameplay[6][0], health);
     updateGauge(gameplay[6][1], weapon);
     updateGauge(gameplay[6][2], energy);
     updateLabel(gameplay[7][0], padZero(score));
-    updatePlayer(gameplay[8], gameplay[10]);
-    updateWaves(gameplay[9]);
-    updateBullets(gameplay[10]);
+    collidePlayerWithWaves();
+    collideBullets();
+    updatePlayer();
+    updateBullets();
+    updateWaves();
 
     // TODO
     // - update explosions
     // - update collectibles
 
     // TODO show glow areound glitch gauge when available
-    // enableGaugeGlow(gameplay[6][2]);
-    // disableGaugeGlow(gameplay[6][2]);
+    if (energy >= 10) {
+      enableGaugeGlow(gameplay[6][2]);
+    } else {
+      disableGaugeGlow(gameplay[6][2]);
+    }
   },
   // 2 input
   function () {
@@ -88,9 +96,9 @@ var gameplay = [
     gameplay[6].forEach(drawGauge);
     gameplay[7].forEach(drawLabel);
 
-    drawPlayer(gameplay[8]);
-    drawWaves(gameplay[9]);
-    drawBullets(gameplay[10]);
+    drawPlayer(player);
+    drawWaves(waves);
+    drawBullets(bullets);
 
     // TODO:
     // - render waves

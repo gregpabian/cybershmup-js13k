@@ -17,9 +17,14 @@ var SIZE_XXL = 64;
 var SIZE_XXXL = 72;
 
 var BULLET = [
-  ['fc0', 15],
-  ['ff0', 20],
-  ['ff6', 25]
+  // player bullets
+  ['fff', 15, 500],
+  ['fc6', 20, 600],
+  ['ff0', 25, 700],
+  // enemy bullets
+  ['06f', 15, 100],
+  ['0cf', 20, 200],
+  ['0ff', 25, 300]
 ];
 
 var BULLET_IMG;
@@ -49,11 +54,11 @@ var ENEMY = {
       0, 0.5,
       -0.5, 0.25,
       -0.5, -0.25,
-      'fff', // gun shape color
-      0, -0.1,
-      0.1, 0,
-      0, 0.1,
-      -0.1, 0
+      'f0f', // gun shape color
+      0, -0.2,
+      0.2, 0,
+      0, 0.2,
+      -0.2, 0
     ],
     50, // hp
     0 // weapon level, -1 = no weapon
@@ -100,7 +105,7 @@ var PLAYER = [
     -0.45, 0.25,
     -0.5, 0.1,
     -0.3, 0,
-    'f06', // window shape color
+    'f0f', // window shape color
     0, -0.3,
     0.1, -0.1,
     -0.1, -0.1,
@@ -124,6 +129,12 @@ var WEAPON = [
   [2, 166, [Math.PI / 2]],
   [2, 200, [Math.PI / 2, [-0.3, 0]], [Math.PI / 2, [0.3, 0]]],
   [2, 200, [Math.PI * 2 / 3], [Math.PI / 2], [Math.PI / 3]]
+];
+
+var ENEMY_WEAPON = [
+  [3, 1700],
+  [4, 1500],
+  [5, 1300]
 ];
 
 var PATH = {

@@ -1,14 +1,14 @@
-/* global ENEMY dt makeShip drawBody makePath updateShip width height
-collideCircles */
-
-var waves = [];
+/* global ENEMY dt makeEnemy makePath updateEnemy width height collideCircles
+makeBatch drawProgram updateBatchItem drawBatch waves */
 
 // create waves for the given difficulty level
 function makeWaves(level) {
+  var waves = [];
   // TODO
-  // waves.push(makeWave(1, 'ss', 'z', 10));
-  // waves.push(makeWave(1, 'ss', 'zm', 10));
-  // waves.push(makeWave(9, 'ss', 'c', 10));
+  // waves.push(makeWave(1, 'ts', '2'));
+  // waves.push(makeWave(2, 'tm', '4'));
+  // waves.push(makeWave(1, 'tl', '2', 100, 1, 1));
+  waves.push(makeWave(2, 'sm', 'z', 5, 1, 1));
   // waves.push(makeWave(9, 'ss', 'cm', 10));
   // waves.push(makeWave(14, 'ss', 's', 10));
   // waves.push(makeWave(14, 'ss', 'sm', 10));
@@ -31,71 +31,90 @@ function makeWaves(level) {
   // waves.push(makeWave(1, 'ss', '5', 30));
   // waves.push(makeWave(1, 'ss', '6', 30));
   // waves.push(makeWave(1, 'ss', '7', 30));
+
+  return waves;
 }
 
-function makeWave(delay, type, path, count, interval) {
+function makeWave(delay, type, path, count, speed, interval) {
   count = count || 1;
   path = makePath(path);
 
-  var ships = [];
+  var enemies = [];
   var x = path[0] * width;
   var y = path[1] * height;
-  var shape = ENEMY[type];
 
   for (var i = 0; i < count; i++) {
-    ships.push(makeShip(shape[1], shape[0], x, y));
+    enemies.push(makeEnemy(type, x, y, speed));
   }
+
+  var image = ENEMY[type][1];
 
   return [
     delay, // delay before the wave starts
-    ships, // wave's ships
-    [], // wave's active ships
+    enemies, // wave's enemies
+    makeBatch(image, drawProgram, count),
+    [], // wave's active enemies
     path, // wave's path
-    0, // delay before next ship
-    interval // ship spawning interval
+    0, // delay before next enemy
+    interval || 0 // enemy spawning interval
   ];
 }
 
-function updateWaves(waves) {
-  // TODO
+function updateWaves() {
+  waves.forEach(updateWave);
 }
 
 function updateWave(wave) {
+  // wave spawn timer
   if (wave[0] > 0) {
     wave[0] -= dt / 1000;
     return;
   }
 
-  if (wave[4] <= 0) {
-    wave[4] = wave[5];
-    var ship = wave[1].pop();
-    if (ship) wave[2].push(ship);
+  var enemy;
+
+  if (wave[5] <= 0 && wave[1].length) {
+    wave[5] = wave[6];
+    enemy = wave[1].pop();
+    wave[3].push(enemy);
   }
 
-  wave[2].forEach(function (ship) {
-    updateShip(ship, wave[3]);
-  });
+  var d = 0;
 
-  wave[4] -= dt;
+  for (var i = 0, len = wave[3].length; i < len; i++) {
+    enemy = wave[3][i];
+
+    updateEnemy(enemy, wave[4]);
+
+    if (enemy[3] > 0) {
+      updateBatchItem(wave[2], i, enemy[1][0], enemy[1][1]);
+    } else {
+      wave[3].splice(i, 1);
+      len--;
+      i--;
+    }
+  }
+
+  wave[5] -= dt / 1000;
 }
 
 function drawWaves(waves) {
-
+  waves.forEach(drawWave);
 }
 
 function drawWave(wave) {
-
+  drawBatch(wave[2], wave[3].length);
 }
 
 
 
-function collideWithEnemies(body) {
+function collideWithEnemies(waves, body) {
   waves.forEach(function (wave) {
-    wave[2].forEach(function (ship) {
-      if (!ship[4]) return;
+    wave[2].forEach(function (enemy) {
+      if (!enemy[4]) return;
 
-      if (collideCircles(body[2], body[1], ship[2], ship[1])) {
-        body[4] = ship[4] = 0;
+      if (collideCircles(body[2], body[1], enemy[2], enemy[1])) {
+        body[4] = enemy[4] = 0;
       }
     });
   });

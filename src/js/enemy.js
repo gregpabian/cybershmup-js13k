@@ -1,15 +1,15 @@
-/* global TWO_PI getPathPosition dt hex2rgba addBullet ENEMY WEAPON
-getAngleBetweenVectors */
+/* global TWO_PI getPathPosition dt hex2rgba addBullet ENEMY WEAPON player
+getAngleBetweenVectors rgb2hex adjustBrightness hex2rgb ENEMY_WEAPON */
 
-function makeEnemy(type, x, y) {
-  var weapon = WEAPON[ENEMY[type][3]];
+function makeEnemy(type, x, y, speed) {
+  var weapon;
   var rof = null;
 
   // turret shoot every 2 seconds
   if (type[0] === 't') {
     rof = 2000;
     // use a weapon's rof
-  } else if (weapon) {
+  } else if ((weapon = getWeapon(type))) {
     rof = weapon[1];
   }
 
@@ -18,14 +18,19 @@ function makeEnemy(type, x, y) {
     [x, y], // position
     0, // position along the path
     ENEMY[type][2], // hp
-    rof // shot timer
+    rof, // shot timer
+    speed // enemy movement speed
   ];
 }
 
-function updateEnemy(enemy, path, player) {
+function getWeapon(enemyType) {
+  return ENEMY_WEAPON[ENEMY[enemyType][3]];
+}
+
+function updateEnemy(enemy, path) {
   if (enemy[3] <= 0) return;
 
-  enemy[2] += dt / 1000;
+  enemy[2] += enemy[5] * dt / 4000;
 
   if (enemy[2] * 4 > path.length) {
     enemy[3] = 0; // hp = 0 = dead
@@ -33,19 +38,25 @@ function updateEnemy(enemy, path, player) {
   }
 
   enemy[1] = getPathPosition(path, enemy[2]);
+  enemy[4] -= dt;
 
-  // TODO handle shooting
+  if (enemy[4] <= 0) {
+    shootEnemy(enemy);
+  }
 }
 
-function shootEnemy(enemy, player) {
+function shootEnemy(enemy) {
   if (enemy[4] === undefined) return;
 
   if (enemy[0][0] === 't') {
     for (var a = enemy[4] || 0; a < TWO_PI; a += enemy[3]) {
       addBullet(0, enemy[1], a);
     }
+     enemy[4] = 2000;
   } else {
-    addBullet(enemy[3], enemy[1], getAngleBetweenVectors(enemy[1], player[2]));
+    var weapon = getWeapon(enemy[0]);
+    addBullet(weapon[0], enemy[1], -getAngleBetweenVectors(enemy[1], player[2]));
+    enemy[4] = weapon[1];
   }
 }
 
@@ -72,7 +83,10 @@ function renderShip(ship) {
 
       ctx.beginPath();
       ctx.strokeStyle = '#' + shape[i];
-      ctx.fillStyle = hex2rgba(shape[i], 0.5);
+
+      var fillColor = rgb2hex(adjustBrightness(hex2rgb(shape[i]), 0.5));
+
+      ctx.fillStyle = '#' + fillColor;
       // skip the shape color
       i++;
       ctx.moveTo(shape[i] * size, shape[i + 1] * size);
@@ -98,7 +112,7 @@ function renderShip(ship) {
 
 function renderTurret(turret) {
   var size = turret[0];
-  var d = size * Math.sqrt(2) + 4;
+  var d = Math.ceil(size * Math.sqrt(2) + 4);
   var i = 0;
 
   var c = document.createElement('canvas');
@@ -106,7 +120,7 @@ function renderTurret(turret) {
   var ctx = c.getContext('2d');
   ctx.lineWidth = 2;
   ctx.strokeStyle = '#' + turret[1];
-  ctx.fillStyle = hex2rgba(turret[1], 0.4);
+  ctx.fillStyle = '#' + rgb2hex(adjustBrightness(hex2rgb(turret[1]), 0.5));
   ctx.save();
   ctx.translate(d / 2, d / 2);
   ctx.rotate(Math.PI / 4);
@@ -118,6 +132,10 @@ function renderTurret(turret) {
     ctx.rotate(Math.PI / 6);
   } while (++i < 3);
   ctx.restore();
+  ctx.beginPath();
+  ctx.arc(d / 2, d / 2, size / 2, 0, TWO_PI, false);
+  ctx.fill();
+  ctx.stroke();
   ctx.beginPath();
   ctx.arc(d / 2, d / 2, size / 6, 0, TWO_PI, false);
   ctx.fillStyle = hex2rgba('f0f', 0.4);

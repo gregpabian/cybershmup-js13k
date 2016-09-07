@@ -48,31 +48,3 @@ function getPathPosition(path, pos) {
   // return the last point of path
   return [path[path.length - 2] * width, path[path.length - 1] * height];
 }
-
-// var pos = 0;
-
-// function drawPath(path) {
-//   ctxUI.fillStyle = '#666';
-//   ctxUI.lineWidth = 2;
-
-//   for (var j = 0; j < path.length; j += 2) {
-//     ctxUI.beginPath();
-//     ctxUI.arc(path[j] * width, path[j + 1] * height, 5, 0, TWO_PI, false);
-//     ctxUI.fill();
-//   }
-
-//   pos = pos + dt / 1000;
-
-//   if (pos * 4 > path.length) {
-//     pos = 0;
-//     ctxUI.clearRect(0, 0, width, height);
-//     return;
-//   }
-
-//   var p = getPathPosition(path, pos);
-
-//   ctxUI.beginPath();
-//   ctxUI.fillStyle = '#0f0';
-//   ctxUI.arc(p[0], p[1], 2, 0, TWO_PI, false);
-//   ctxUI.fill();
-// }
