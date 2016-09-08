@@ -1,18 +1,18 @@
 /* global makeButton changeScene isMobile drawButton a1: true a2: true a3: true
 clicked:true handleButtonClick mx my levels makeBackground makeGauge makeLabel
-enableGaugeGlow drawGauge drawLabel updateGauge updateLabel health energy
-weapon score padZero PLAYER updatePlayer makePlayer updateBackground drawPlayer
-makeWaves updateWaves makeBullets updateBullets drawBullets drawWaves clamp
-disableGaugeGlow collidePlayerWithWaves collideBullets makeExplosions
-drawExplosions updateExplosions maxHealth maxEnergy maxWeapon updateCollectibles
-collidePlayerWithCollectibles drawCollectibles */
+enableGaugeGlow drawGauge drawLabel updateGauge updateLabel health:true
+energy:true weapon:true score padZero PLAYER updatePlayer makePlayer level
+updateBackground drawPlayer makeWaves updateWaves makeBullets updateBullets
+drawBullets drawWaves clamp disableGaugeGlow collidePlayerWithWaves makeGlitch
+collideBullets makeExplosions drawExplosions updateExplosions updateGlitch
+maxEnergy maxWeapon updateCollectibles collidePlayerWithCollectibles maxHealth
+drawCollectibles drawGlitch collideGlitchWithWaves collideGlitchWithBullets */
 
-var player, bullets, waves, explosions, collectibles;
+var player, bullets, waves, explosions, collectibles, glitch;
 
 var gameplay = [
   // 0 init
-  function (level) {
-    level = level || 0;
+  function () {
     // background
     gameplay[4] = makeBackground(getBackgroundColor(levels[level][4]), 1 + level * 0.2);
      // menu button
@@ -36,6 +36,8 @@ var gameplay = [
       makeLabel(463, 240, 'wp', 'f0c', 2),
       makeLabel(375, 565, 'glitch', '0cf', 3)
     ];
+    // reset health
+    health = 100;
     // player
     player = makePlayer();
     // waves
@@ -46,15 +48,25 @@ var gameplay = [
     explosions = makeExplosions(100);
     // collectibles
     collectibles = [];
+    // glitch
+    glitch = makeGlitch();
   },
   // 1 update
   function () {
+    // level failed
+    if (!health) {
+      changeScene(1, 2);
+      return;
+    }
+
     updateBackground(gameplay[4], player[2][0], player[2][1]);
 
     updateGauge(gameplay[6][0], health);
     updateGauge(gameplay[6][1], weapon);
     updateGauge(gameplay[6][2], energy);
     updateLabel(gameplay[7][0], padZero(score));
+    collideGlitchWithWaves();
+    collideGlitchWithBullets();
     collidePlayerWithWaves();
     collidePlayerWithCollectibles();
     collideBullets();
@@ -63,6 +75,7 @@ var gameplay = [
     updateWaves();
     updateExplosions();
     updateCollectibles();
+    updateGlitch();
 
     // TODO show glow around glitch gauge when available
     if (energy >= 10) {
@@ -106,6 +119,7 @@ var gameplay = [
     drawBullets();
     drawCollectibles();
     drawExplosions();
+    drawGlitch();
   }
 ];
 
@@ -121,9 +135,9 @@ function addHealth(amount) {
 }
 
 function addEnergy(amount) {
-  health = clamp(0, energy + amount, maxEnergy);
+  energy = clamp(0, energy + amount, maxEnergy);
 }
 
 function addWeapon(amount) {
-  health = clamp(0, weapon + amount, maxWeapon);
+  weapon = clamp(0, weapon + amount, maxWeapon);
 }

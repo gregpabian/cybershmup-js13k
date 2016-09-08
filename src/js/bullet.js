@@ -1,6 +1,6 @@
 /* global TWO_PI BULLET dt width height vectorMultiply vectorAdd makeBatch
-vectorRotate SIZE_XXXS isVectorOnScreen BULLET_IMG updateBatchItem
-drawBatch bullets waves player collideCircles ENEMY addExplosion */
+vectorRotate SIZE_XXXS isVectorOnScreen BULLET_IMG updateBatchItem shakeCamera
+drawBatch bullets waves player collideCircles ENEMY addExplosion health:true */
 
 var bulletSpeed = 0.75;
 
@@ -12,13 +12,17 @@ function makeBullets(size) {
   ];
 }
 
-function addBullet(type, p, a, isPlayers) {
+function addBullet(type, p, a, isPlayers, glitched) {
   // remove old bullets
   if (bullets[0].length === bullets[2]) {
     bullets[0].shift();
   }
 
   var bullet = [].concat(BULLET[type]);
+
+  if (glitched) {
+    bullet[0] = [100, 100, 100];
+  }
 
   bullet.push(
     // 0 - color
@@ -27,7 +31,8 @@ function addBullet(type, p, a, isPlayers) {
     p, // 3 - bullet position
     vectorRotate([1, 0], a), // 4 - velocity vector
     1, // 5 - alive state
-    !!isPlayers // 6 - tells if that's a bullet from the player
+    isPlayers,  // 6 - tells if that's a bullet from the player
+    glitched// 7 - glitched
   );
 
   bullets[0].push(bullet);
@@ -65,6 +70,11 @@ function updateBullet(bullet) {
   }
 }
 
+function glitchBullet(bullet) {
+  bullet[7] = 1;
+  bullet[0] = [100, 100, 100];
+}
+
 function drawBullets() {
   drawBatch(bullets[1], bullets[0].length);
 }
@@ -79,16 +89,22 @@ function collideBullets() {
         return wave[3].some(function (enemy) {
           if (collideCircles(bullet[3], SIZE_XXXS, enemy[1], ENEMY[enemy[0]][0])) {
             bullet[5] = 0;
-            enemy[3] -= bullet[1];
+            if (enemy[6]) {
+              enemy[3] = 0;
+            } else {
+              enemy[3] -= bullet[1];
+            }
             return true;
           }
         });
       });
       // enemy bullet - collide with player
-    } else if (player[4] > 0) {
-      if (collideCircles(bullet[3], SIZE_XXXS, player[2], player[1])) {
+    } else if (health > 0) {
+      // not glitched and collides
+      if (!bullet[7] && collideCircles(bullet[3], SIZE_XXXS, player[2], player[1])) {
         bullet[5] = 0;
-        player[4] -= bullet[1];
+        health -= bullet[1];
+        shakeCamera(5);
       }
     }
 

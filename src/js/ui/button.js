@@ -1,4 +1,4 @@
-/* global makeLabel ctxUI isVectorInRect drawLabel TWO_PI playSound SOUNDS */
+/* global makeLabel ctxUI isVectorInRect drawLabel TWO_PI SOUNDS adjustHex */
 
 function makeButton(x, y, w, h, text, s, c1, c2, a1, onClick, round, disabled) {
   return [
@@ -17,6 +17,7 @@ function makeButton(x, y, w, h, text, s, c1, c2, a1, onClick, round, disabled) {
     null, // label
     round, // round button
     disabled // disabled
+    // 15 - canvas
   ];
 }
 
@@ -36,12 +37,11 @@ function drawButton(button) {
   }
 
   ctxUI.save();
-  // fade out disabled button
-  if (button[14]) ctxUI.globalAlpha = 0.3;
   // render button border according to the focus state
-  ctxUI.fillStyle = '#' + button[button[11] ? 6 : 7];
+  ctxUI.fillStyle = '#' + adjustHex(button[button[11] ? 6 : 7], button[14] ? 0.3 : 1);
   ctxUI.translate(button[0] - button[2] / 2, button[1] - button[3] / 2);
   ctxUI.save();
+  // round button
   if (button[13]) {
     ctxUI.beginPath();
     ctxUI.arc(button[2] / 2, button[3] / 2, button[2] / 2, 0, TWO_PI, false);
@@ -51,7 +51,7 @@ function drawButton(button) {
     ctxUI.arc(button[2] / 2, button[3] / 2, button[2] / 2 - 5, 0, TWO_PI, false);
     ctxUI.fill();
     ctxUI.beginPath();
-    ctxUI.fillStyle = '#' + button[7];
+    ctxUI.fillStyle = '#' + adjustHex(button[7], button[14] ? 0.3 : 1);
     ctxUI.arc(button[2] / 2, button[3] / 2, button[2] / 2 - 10, 0, TWO_PI, false);
     ctxUI.fill();
   } else {
@@ -59,22 +59,24 @@ function drawButton(button) {
     ctxUI.fillRect(0, 0, button[2], button[3]);
     ctxUI.fillStyle = '#000';
     ctxUI.fillRect(5, 5, button[2] - 10, button[3] - 10);
-    ctxUI.fillStyle = '#' + button[7];
+    ctxUI.fillStyle = '#' + adjustHex(button[7], button[14] ? 0.3 : 1);
     ctxUI.fillRect(10, 10, button[2] - 20, button[3] - 20);
   }
   ctxUI.restore();
-  drawLabel(button[12]);
-  // fade out disabled button
-  if (button[14]) ctxUI.globalAlpha = 1;
+  if (!button[14]) drawLabel(button[12]);
   ctxUI.restore();
 }
 
 function focusButton(button) {
-  button[11] = 1;
+  if (!button[11]) {
+    button[11] = 1;
+  }
 }
 
 function blurButton(button) {
-  button[11] = 0;
+  if (button[11]) {
+    button[11] = 0;
+  }
 }
 
 function handleButtonClick(x, y, button) {

@@ -2,7 +2,7 @@
 makeButton changeScene handleButtonClick mx my isMobile focusButton drawButton
 a1: true a2: true clickButton clicked: true blurButton ku: true kd: true clamp
 kl: true kr: true unlockedLevel ctxUI a3: true width vectorRotate vectorAdd
-playSound SOUNDS */
+playSound SOUNDS level: true */
 
 // level markers shown on the select level screen
 var levels = [
@@ -29,7 +29,7 @@ var select = [
     // buttons array
     select[5] = makeSelectButtons().concat([
       makeButton(100, 580, 260, 60, 'main menu', 4, '0fa', '043', -1, function () {
-        // go to the select scene
+        // go to the home scene
         changeScene(1);
       })
     ]);
@@ -107,7 +107,8 @@ function makeSelectButtons() {
   return levels.map(function (button, i) {
     return makeButton(button[0], button[1], 60, 60, button[2], 4, button[3], button[4], 0, function () {
         // go to the select scene
-        changeScene(0, i);
+        level = i;
+        changeScene(0);
       }, 1, i > unlockedLevel);
   });
 }

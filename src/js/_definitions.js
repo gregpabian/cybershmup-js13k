@@ -91,6 +91,7 @@ var ENEMY = {
 };
 
 var EXPLOSION_IMG;
+var GLITCH_IMG;
 
 var TURRET = {
   // size, color, hp, shot angle, shot angle offset

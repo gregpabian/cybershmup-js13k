@@ -3,7 +3,7 @@ makeButton changeScene handleButtonClick mx my isMobile updateButton version
 focusButton soundOn: true highQuality: true makeLabel drawButton drawLabel
 a1: true a2: true clickButton clicked: true blurButton ku: true kd: true clamp
 a3: true vectorRotate vectorAdd currentScene: true Image lImage localStorage
-playSound SOUNDS */
+playSound SOUNDS level */
 
 // show splash screen if false
 var loaded = false;
@@ -45,6 +45,17 @@ var home = [
       })
     ];
 
+    var pauseButtons = [
+      makeButton(114, 350, 300, 60, 'change level', 4, '0cf', '024', -1, function () {
+        // go to the home scene
+        changeScene(2);
+      }),
+      makeButton(90, 430, 260, 60, 'main menu', 4, '0cf', '024', -1, function () {
+        // go to the home scene
+        changeScene(1);
+      })
+    ];
+
     switch (mode) {
       // credits
       case 0:
@@ -65,24 +76,46 @@ var home = [
         );
         break;
 
+      // pause
       case 1:
         home[5] = [
           makeButton(107, 270, 290, 60, 'resume game', 4, '0cf', '024', -1, function () {
             // back to game without re-initialising
             currentScene = 0;
-          }),
-          makeButton(114, 350, 300, 60, 'change level', 4, '0cf', '024', -1, function () {
-            // go to the home scene
-            changeScene(2);
-          }),
-          makeButton(90, 430, 260, 60, 'main menu', 4, '0cf', '024', -1, function () {
-            // go to the home scene
-            changeScene(1);
           })
-        ].concat(settingsButtons);
+        ].concat(pauseButtons, settingsButtons);
 
         home[7].push(
           makeLabel(111, 170, 'game paused', '0cf', 6)
+        );
+        break;
+
+      // failed
+      case 2:
+        home[5] = [
+          makeButton(122, 270, 315, 60, 'restart level', 4, '0cf', '024', -1, function () {
+            // restart level
+            changeScene(0);
+          })
+        ].concat(pauseButtons, settingsButtons);
+
+        home[7].push(
+          makeLabel(100, 170, 'level failed', '0cf', 6)
+        );
+        break;
+
+      // complete
+      case 3:
+        home[5] = [
+          makeButton(99, 270, 260, 60, 'next level', 4, '0cf', '024', -1, function () {
+            // go to the next level
+            level++;
+            changeScene(0);
+          })
+        ].concat(pauseButtons, settingsButtons);
+
+        home[7].push(
+          makeLabel(75, 170, 'level complete', '0cf', 6)
         );
         break;
 

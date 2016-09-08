@@ -200,9 +200,9 @@ function updateCamera() {
   projectionMatrix[7] = 1 + sy / height;
 }
 
-function shakeCamera() {
+function shakeCamera(r) {
   sa = Math.random() * TWO_PI;
-  sr = 10;
+  sr = r;
 }
 
 /* dev */

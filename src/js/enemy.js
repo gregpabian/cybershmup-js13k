@@ -14,12 +14,13 @@ function makeEnemy(type, x, y, speed) {
   }
 
   return [
-    type, // enemy type
-    [x, y], // position
-    0, // position along the path
-    ENEMY[type][2], // hp
-    rof, // shot timer
-    speed // enemy movement speed
+    type, // 0 - enemy type
+    [x, y], // 1 - position
+    0, // 2 - position along the path
+    ENEMY[type][2], // 3 - hp
+    rof, // 4 - shot timer
+    speed // 5 - enemy movement speed
+    // 6 - glitched
   ];
 }
 
@@ -50,16 +51,20 @@ function shootEnemy(enemy) {
 
   if (enemy[0][0] === 't') {
     for (var a = enemy[4] || 0; a < TWO_PI; a += enemy[3]) {
-      addBullet(0, enemy[1], a);
+      addBullet(0, enemy[1], a, 0, enemy[6]);
     }
      enemy[4] = 2000;
   } else {
     var weapon = getWeapon(enemy[0]);
-    addBullet(weapon[0], enemy[1], -getAngleBetweenVectors(enemy[1], player[2]));
+    addBullet(weapon[0], enemy[1], -getAngleBetweenVectors(enemy[1], player[2]), 0, enemy[6]);
     enemy[4] = weapon[1];
   }
 
   playSound(SOUNDS[5], true);
+}
+
+function glitchEnemy(enemy) {
+  enemy[6] = 1;
 }
 
 function renderShip(ship) {

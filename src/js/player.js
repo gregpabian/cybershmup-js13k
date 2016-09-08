@@ -1,8 +1,7 @@
 /* global mx my kx ky dt vectorAdd isMobile vectorNormalize vectorDistance waves
-vectorMultiply vectorSubtract width height PLAYER drawProgram makeSprite player
-drawSprite, updateSprite addBullet WEAPON weaponLevel collideCircles ENEMY
-addExplosion playSound SOUNDS collectibles SIZE_XS addHealth addWeapon addEnergy
-*/
+vectorMultiply vectorSubtract width height PLAYER makeSprite player drawSprite
+updateSprite addBullet WEAPON weaponLevel collideCircles ENEMY health:true
+playSound SOUNDS collectibles SIZE_XS addHealth addWeapon addEnergy */
 
 var followSpeed = 100;
 var drag = 0.8;
@@ -17,14 +16,11 @@ function makePlayer() {
     sprite, // player sprite
     PLAYER[0], // player size
     [].concat(startPos), // position vector
-    [0, 0], // velocity vector
-    100 // hp
+    [0, 0] // velocity vector
   ];
 }
 
 function updatePlayer() {
-  if (player[4] <= 0) return;
-
   var t = dt / 1000;
   var v = [0, 0];
 
@@ -109,20 +105,16 @@ function playerShoot(player) {
 }
 
 function drawPlayer() {
-  if (player[4] <= 0) return;
-
   drawSprite(player[0]);
 }
 
 function collidePlayerWithWaves() {
-  if (player[4] <= 0) return;
-
   waves.forEach(function (wave) {
     // collide active enemies with player
     wave[3].forEach(function (enemy) {
       if (enemy[3] <= 0) return;
       if (collideCircles(player[2], player[1], enemy[1], ENEMY[enemy[0]][0])) {
-        player[4] = enemy[3] = 0;
+        health = enemy[3] = 0;
       }
     });
   });
