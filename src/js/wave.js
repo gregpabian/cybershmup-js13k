@@ -5,10 +5,12 @@ updateBatchItem drawBatch waves addExplosion trySpawningCollectible */
 function makeWaves(level) {
   var waves = [];
   // TODO
-  // waves.push(makeWave(1, 'ts', '2'));
+  waves.push(makeWave(1, 'ts', '2', 1, 1, 1));
+  waves.push(makeWave(3, 'tm', '3', 1, 1, 1));
+  waves.push(makeWave(5, 'tl', '4', 1, 1, 1));
   // waves.push(makeWave(2, 'tm', '4'));
   // waves.push(makeWave(1, 'tl', '2', 100, 1, 1));
-  waves.push(makeWave(2, 'sm', 'z', 5, 1, 1));
+  // waves.push(makeWave(2, 'ss', 'z', 5, 1, 1));
   // waves.push(makeWave(9, 'ss', 'cm', 10));
   // waves.push(makeWave(14, 'ss', 's', 10));
   // waves.push(makeWave(14, 'ss', 'sm', 10));

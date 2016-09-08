@@ -23,8 +23,8 @@ var BULLET = [
   ['ff0', 25, 700],
   // enemy bullets
   ['06f', 20, 100],
-  ['0cf', 50, 200],
-  ['0ff', 60, 300]
+  ['0cf', 50, 150],
+  ['0ff', 60, 200]
 ];
 
 var BULLET_IMG;
@@ -95,9 +95,9 @@ var GLITCH_IMG;
 
 var TURRET = {
   // size, color, hp, shot angle, shot angle offset
-  'ts': [SIZE_S, '0f0', 50, Math.PI / 2, Math.PI / 4],
-  'tm': [SIZE_M, 'ff0', 70, Math.PI / 4],
-  'tl': [SIZE_L, 'f03', 100, Math.PI / 6]
+  'ts': [SIZE_S, '0f0', 50, 0, Math.PI / 2, Math.PI / 4],
+  'tm': [SIZE_M, 'ff0', 70, 1, Math.PI / 4],
+  'tl': [SIZE_L, 'f03', 100, 2, Math.PI / 6]
 };
 
 var PLAYER = [

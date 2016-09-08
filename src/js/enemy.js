@@ -49,15 +49,19 @@ function updateEnemy(enemy, path) {
 function shootEnemy(enemy) {
   if (enemy[4] === undefined) return;
 
+  var weapon;
+
   if (enemy[0][0] === 't') {
-    for (var a = enemy[4] || 0; a < TWO_PI; a += enemy[3]) {
-      addBullet(0, enemy[1], a, 0, enemy[6]);
+    weapon = ENEMY[enemy[0]];
+    for (var a = weapon[5] || 0; a < TWO_PI; a += weapon[4]) {
+      addBullet(weapon[3] + 3, enemy[1], a, 0, enemy[6]);
     }
      enemy[4] = 2000;
-  } else {
-    var weapon = getWeapon(enemy[0]);
+  } else if (( weapon = getWeapon(enemy[0]))) {
     addBullet(weapon[0], enemy[1], -getAngleBetweenVectors(enemy[1], player[2]), 0, enemy[6]);
     enemy[4] = weapon[1];
+  } else {
+    return;
   }
 
   playSound(SOUNDS[5], true);
