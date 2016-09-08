@@ -8,32 +8,6 @@ function makeWaves(level) {
   waves.push(makeWave(1, 'ts', '2', 1, 1, 1));
   waves.push(makeWave(3, 'tm', '3', 1, 1, 1));
   waves.push(makeWave(5, 'tl', '4', 1, 1, 1));
-  // waves.push(makeWave(2, 'tm', '4'));
-  // waves.push(makeWave(1, 'tl', '2', 100, 1, 1));
-  // waves.push(makeWave(2, 'ss', 'z', 5, 1, 1));
-  // waves.push(makeWave(9, 'ss', 'cm', 10));
-  // waves.push(makeWave(14, 'ss', 's', 10));
-  // waves.push(makeWave(14, 'ss', 'sm', 10));
-  // waves.push(makeWave(20, 'ss', 'a', 10));
-  // waves.push(makeWave(20, 'ss', 'am', 10));
-  // waves.push(makeWave(27, 'ss', 'ux', 10));
-  // waves.push(makeWave(27, 'ss', 'umx', 10));
-  // waves.push(makeWave(33, 'ss', '1', 10));
-  // waves.push(makeWave(34, 'ss', '2', 10));
-  // waves.push(makeWave(35, 'ss', '3', 10));
-  // waves.push(makeWave(36, 'ss', '4', 10));
-  // waves.push(makeWave(37, 'ss', '5', 10));
-  // waves.push(makeWave(38, 'ss', '6', 10));
-  // waves.push(makeWave(39, 'ss', '7', 10));
-
-  // waves.push(makeWave(1, 'ss', '1', 30));
-  // waves.push(makeWave(1, 'ss', '2', 30));
-  // waves.push(makeWave(1, 'ss', '3', 30));
-  // waves.push(makeWave(1, 'ss', '4', 30));
-  // waves.push(makeWave(1, 'ss', '5', 30));
-  // waves.push(makeWave(1, 'ss', '6', 30));
-  // waves.push(makeWave(1, 'ss', '7', 30));
-
   return waves;
 }
 

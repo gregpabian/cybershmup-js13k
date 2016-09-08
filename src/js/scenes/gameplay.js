@@ -1,12 +1,13 @@
 /* global makeButton changeScene isMobile drawButton a1: true a2: true a3: true
 clicked:true handleButtonClick mx my levels makeBackground makeGauge makeLabel
-enableGaugeGlow drawGauge drawLabel updateGauge updateLabel health:true
+enableGaugeGlow drawGauge drawLabel updateGauge updateLabel health:true width
 energy:true weapon:true score padZero PLAYER updatePlayer makePlayer level
 updateBackground drawPlayer makeWaves updateWaves makeBullets updateBullets
 drawBullets drawWaves clamp disableGaugeGlow collidePlayerWithWaves makeGlitch
 collideBullets makeExplosions drawExplosions updateExplosions updateGlitch
 maxEnergy maxWeapon updateCollectibles collidePlayerWithCollectibles maxHealth
-drawCollectibles drawGlitch collideGlitchWithWaves collideGlitchWithBullets */
+drawCollectibles drawGlitch collideGlitchWithWaves collideGlitchWithBullets
+isVectorInRect resetGlitch height */
 
 var player, bullets, waves, explosions, collectibles, glitch;
 
@@ -38,6 +39,8 @@ var gameplay = [
     ];
     // reset health
     health = 100;
+    // reset energy
+    energy = 0;
     // player
     player = makePlayer();
     // waves
@@ -54,7 +57,7 @@ var gameplay = [
   // 1 update
   function () {
     // level failed
-    if (!health) {
+    if (health <= 0) {
       changeScene(1, 2);
       return;
     }
@@ -78,7 +81,7 @@ var gameplay = [
     updateGlitch();
 
     // TODO show glow around glitch gauge when available
-    if (energy >= 10) {
+    if (energy >= maxEnergy) {
       enableGaugeGlow(gameplay[6][2]);
     } else {
       disableGaugeGlow(gameplay[6][2]);
@@ -90,6 +93,9 @@ var gameplay = [
       // if enter or space try using glitch
       if (a1 || a2) {
         // use glitch
+        if (energy >= maxEnergy) {
+          spawnGlitch();
+        }
         a1 = a2 = 0;
       }
 
@@ -103,6 +109,11 @@ var gameplay = [
     if (clicked) {
       if (handleButtonClick(mx, my, gameplay[5])) {
         clicked = false;
+        return true;
+      }
+
+      if (energy >= maxEnergy && isVectorInRect([mx, my], [width / 2, height - 25], width, 50)) {
+        spawnGlitch();
         return true;
       }
     }
@@ -140,4 +151,9 @@ function addEnergy(amount) {
 
 function addWeapon(amount) {
   weapon = clamp(0, weapon + amount, maxWeapon);
+}
+
+function spawnGlitch() {
+  resetGlitch();
+  energy = 0;
 }
