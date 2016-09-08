@@ -2,13 +2,17 @@
 currentScene: true isMobile handleKeys wrapper sc: true disableAA makeProgram
 baseVert staticVert textureFrag blurFrag mixFrag makeFramebuffer setFramebuffer
 highQuality getUniformLocation useTexture makeQuadBuffer drawBackground cm
-copyFrag trailFrag cancelAnimationFrame loaded */
+copyFrag trailFrag cancelAnimationFrame loaded projectionMatrix TWO_PI */
 
 var last = 0;
 var dt = 0;
 var sw = 0;
 var sh = 0;
 var lastResize = 0;
+var sx = 0;
+var sy = 0;
+var sa = 0;
+var sr = 0;
 
 var drawProgram;
 var thresholdProgram;
@@ -37,6 +41,8 @@ function loop(now) {
   scenes[currentScene][2]();
   // update scene
   scenes[currentScene][1]();
+  // update camera
+  updateCamera();
   // render scene
   render();
   /* dev */
@@ -175,6 +181,28 @@ function resize(ww, wh) {
   wrapper.style.webkitTransform = 'scale(' + (sc) + ')';
   wrapper.style.top = ~~((wh - (height * sc)) / 2) + 'px';
   wrapper.style.left = ~~((ww - (width * sc)) / 2) + 'px';
+}
+
+function updateCamera() {
+
+  if (sr > 0) {
+    sa += Math.PI / 2;
+
+    sx = Math.sin(sa) * sr;
+    sy = Math.cos(sa) * sr;
+
+    sr -= dt / 50;
+  } else {
+    sx = sy = 0;
+  }
+
+  projectionMatrix[6] = -1 + sx / width;
+  projectionMatrix[7] = 1 + sy / height;
+}
+
+function shakeCamera() {
+  sa = Math.random() * TWO_PI;
+  sr = 10;
 }
 
 /* dev */

@@ -1,5 +1,5 @@
 /* global width height hex2rgb hex2rgba dt SIZE_S SIZE_L SIZE_XS SIZE_XXL
-makeSprite drawProgram drawSprite updateSprite updateSpriteUVs */
+makeSprite drawProgram drawSprite updateSprite updateSpriteUVs sx sy */
 
 var background;
 
@@ -74,8 +74,8 @@ function makeBackground(color, speed) {
 }
 
 function updateBackground(bg, x, y, gradientOnly) {
-  if (!gradientOnly) bg[2][0] = 2 * x / width;
-  bg[2][1] -= bg[7] * dt / 500;
+  if (!gradientOnly) bg[2][0] = 2 * x / width + sx / bg[4];
+  bg[2][1] -= bg[7] * dt / 500 + sy / bg[5];
 
   bg[3][0] = x;
   bg[3][1] = y;

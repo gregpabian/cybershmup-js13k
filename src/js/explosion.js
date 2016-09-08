@@ -1,5 +1,5 @@
 /* global explosions makeBatch EXPLOSION_IMG drawBatch dt updateBatchItem SOUNDS
-SIZE_XXL playSound SIZE_S */
+SIZE_XXL playSound SIZE_S shakeCamera */
 
 var explosionGrowthSpeed = 10;
 var explosionColor = [255, 100, 0];
@@ -19,6 +19,9 @@ function addExplosion(x, y, size) {
   ]);
 
   playSound(SOUNDS[size < SIZE_S ? 3 : 4], true);
+  if (size > SIZE_S) {
+    shakeCamera();
+  }
 }
 
 function makeExplosions(size) {
