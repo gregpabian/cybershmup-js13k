@@ -78,7 +78,7 @@ function blurButton(button) {
 }
 
 function handleButtonClick(x, y, button) {
-  if (isVectorInRect([x, y], [button[0], button[1]], button[2], button[3])) {
+  if (isVectorInRect([x, y], [button[0], button[1]], button[2], button[3]) && !button[14]) {
     clickButton(button);
 
     return true;
