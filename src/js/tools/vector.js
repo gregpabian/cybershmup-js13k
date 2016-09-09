@@ -48,25 +48,25 @@ function collideCircles(v1, d1, v2, d2) {
   return vectorDistance(v1, v2) < (d1 + d2) / 2;
 }
 
-function collideCircleRect(v1, d1, v2, w, h) {
-  // v1 sits within the rectangle
-  if (isVectorInRect(v1, v2, w, h)) return true;
+// function collideCircleRect(v1, d1, v2, w, h) {
+//   // v1 sits within the rectangle
+//   if (isVectorInRect(v1, v2, w, h)) return true;
 
-  var tl = [v2[0] - w / 2, v2[1] - h / 2];
-  var tr = [v2[0] + w / 2, v2[1] - h / 2];
-  var bl = [v2[0] - w / 2, v2[1] + h / 2];
-  var br = [v2[0] + w / 2, v2[1] + h / 2];
-  var r = d1 / 2;
+//   var tl = [v2[0] - w / 2, v2[1] - h / 2];
+//   var tr = [v2[0] + w / 2, v2[1] - h / 2];
+//   var bl = [v2[0] - w / 2, v2[1] + h / 2];
+//   var br = [v2[0] + w / 2, v2[1] + h / 2];
+//   var r = d1 / 2;
 
-  // circle intersects with top edge
-  return (vectorDistance(v1, projectOnSegment(v1, tl, tr)) <= r) ||
-    // circle intersects with left edge
-    (vectorDistance(v1, projectOnSegment(v1, tl, bl)) <= r) ||
-    // circle intersects with right edge
-    (vectorDistance(v1, projectOnSegment(v1, tr, br)) <= r) ||
-    // circle intersects with bottom edge
-    (vectorDistance(v1, projectOnSegment(v1, bl, br)) <= r);
-}
+//   // circle intersects with top edge
+//   return (vectorDistance(v1, projectOnSegment(v1, tl, tr)) <= r) ||
+//     // circle intersects with left edge
+//     (vectorDistance(v1, projectOnSegment(v1, tl, bl)) <= r) ||
+//     // circle intersects with right edge
+//     (vectorDistance(v1, projectOnSegment(v1, tr, br)) <= r) ||
+//     // circle intersects with bottom edge
+//     (vectorDistance(v1, projectOnSegment(v1, bl, br)) <= r);
+// }
 
 function isVectorInRect(v1, v2, w, h) {
   return v1[0] >= v2[0] - w / 2 &&

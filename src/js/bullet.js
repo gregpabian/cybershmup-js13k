@@ -1,4 +1,4 @@
-/* global TWO_PI BULLET dt width height vectorMultiply vectorAdd makeBatch
+/* global TWO_PI BULLET dt width height vectorMultiply vectorAdd makeBatch V_RIGHT
 vectorRotate SIZE_XXXS isVectorOnScreen BULLET_IMG updateBatchItem shakeCamera
 drawBatch bullets waves player collideCircles ENEMY addExplosion health:true */
 
@@ -29,7 +29,7 @@ function addBullet(type, p, a, isPlayers, glitched) {
     // 1 - damage
     // 2 - speed
     p, // 3 - bullet position
-    vectorRotate([1, 0], a), // 4 - velocity vector
+    vectorRotate(V_RIGHT, a), // 4 - velocity vector
     1, // 5 - alive state
     isPlayers,  // 6 - tells if that's a bullet from the player
     glitched// 7 - glitched

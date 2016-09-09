@@ -1,7 +1,7 @@
 /* global PLAYER ENEMY renderShip BULLET renderBullet gameplay home select
 make2DProjection TURRET renderTurret width height BULLET_IMG:true hex2rgb
 EXPLOSION_IMG:true SIZE_XXXS SIZE_XXL SOUNDS makeSound localStorage COLLECTIBLE
-renderCollectible GLITCH_IMG:true renderGlitch */
+renderCollectible GLITCH_IMG:true renderGlitch MISSILE_IMG renderMissile */
 
 var cm = document.getElementById('m');
 var cui = document.getElementById('ui');
@@ -46,22 +46,25 @@ EXPLOSION_IMG = renderBullet(SIZE_XXL);
 
 GLITCH_IMG = renderGlitch();
 
+MISSILE_IMG = renderMissile();
+
 var projectionMatrix = make2DProjection(width, height);
 var scenes = [gameplay, home, select];
 
-var currentScene = 0; loaded = true;
+var currentScene = 1;//0; loaded = true;
 
-var health = 100;
-var maxHealth = 100;
+var lives = 3;
+var health = 5;
+var maxHealth = 5;
 var energy = 0;
-var maxEnergy = 100;
+var maxEnergy = 10;
 var weapon = 0;
-var maxWeapon = 100;
+var maxWeapon = 7;
 var highscore = 0;
 var score = 0;
 var level = 0;
 
-var weaponLevel = +localStorage.getItem('cswl') || 0;
+var weaponLevel = +localStorage.getItem('cswl') || 0;// weaponLevel = 5;
 var unlockedLevel = +localStorage.getItem('csul') || 0;
 var soundOn = localStorage.getItem('css');
 soundOn = soundOn === null ? 1 : +soundOn;

@@ -2,7 +2,7 @@
 makeButton changeScene handleButtonClick mx my isMobile focusButton drawButton
 a1: true a2: true clickButton clicked: true blurButton ku: true kd: true clamp
 kl: true kr: true unlockedLevel ctxUI a3: true width vectorRotate vectorAdd
-playSound SOUNDS level: true */
+playSound SOUNDS level: true V_DOWN */
 
 // level markers shown on the select level screen
 var levels = [
@@ -44,7 +44,7 @@ var select = [
     }
 
     var c = [width / 2, height / 2];
-    var r = vectorRotate([0, width], Date.now() / 1000);
+    var r = vectorRotate(V_DOWN, Date.now() / 1000);
 
     c = vectorAdd(c, r);
 

@@ -20,7 +20,7 @@ function addExplosion(x, y, size) {
 
   playSound(SOUNDS[size < SIZE_XS ? 3 : 4], true);
   if (size > SIZE_XS) {
-    shakeCamera(10);
+    shakeCamera(7);
   }
 }
 

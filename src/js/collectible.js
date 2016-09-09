@@ -1,8 +1,8 @@
 /* global SIZE_XS TWO_PI COLLECTIBLE adjustHex makeSprite dt height updateSprite
 drawSprite collectibles randomChance */
 
-var collectibleSpeed = 30;
-var spawnChance = 10;
+var collectibleSpeed = 50;
+var spawnChance = 50;
 var collectibleTypes = Object.keys(COLLECTIBLE);
 
 function trySpawningCollectible(position) {

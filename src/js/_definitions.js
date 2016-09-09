@@ -1,10 +1,11 @@
-var version = '0.1';
-
 var isMobile = 'ontouchstart' in document;
 var width = 480;
 var height = 640;
 
 var TWO_PI = 2 * Math.PI;
+
+var V_RIGHT = [1, 0];
+var V_DOWN = [0, width];
 
 var SIZE_XXXS = 12;
 var SIZE_XXS = 16;
@@ -18,21 +19,21 @@ var SIZE_XXXL = 72;
 
 var BULLET = [
   // player bullets
-  ['fff', 15, 500],
-  ['fc6', 20, 600],
-  ['ff0', 25, 700],
+  ['fff', 1, 500],
+  ['fc6', 1, 600],
+  ['ff0', 1, 700],
   // enemy bullets
-  ['06f', 20, 100],
-  ['0cf', 50, 150],
-  ['0ff', 60, 200]
+  ['06f', 2, 100],
+  ['0cf', 2, 150],
+  ['0ff', 2, 200]
 ];
 
 var BULLET_IMG;
 
 var COLLECTIBLE = {
-  'h': ['0f0', '✚', 20],
-  'w': ['f0c', '✊', 10],
-  'e': ['0cf', '⚡', 10]
+  'h': ['0f0', '✚', 1],
+  'w': ['f0c', '✊', 1],
+  'e': ['0cf', '⚡', 1]
 };
 
 var ENEMY = {
@@ -47,7 +48,7 @@ var ENEMY = {
       -0.5, 0.25,
       -0.5, -0.25
     ],
-    30, // hp
+    3, // hp
     -1 // weapon level, -1 = no weapon
   ],
   'sm': [
@@ -66,7 +67,7 @@ var ENEMY = {
       0, 0.2,
       -0.2, 0
     ],
-    50, // hp
+    5, // hp
     0 // weapon level, -1 = no weapon
   ],
   'sl': [
@@ -79,25 +80,26 @@ var ENEMY = {
       0, 0.5,
       -0.5, 0.25,
       -0.5, -0.25,
-      'fff', // gun shape color
+      'f0f', // gun shape color
       0, -0.1,
       0.1, 0,
       0, 0.1,
       -0.1, 0
     ],
-    70, // hp
+    7, // hp
     1 // weapon level, -1 = no weapon
   ]
 };
 
 var EXPLOSION_IMG;
 var GLITCH_IMG;
+var MISSILE_IMG;
 
 var TURRET = {
   // size, color, hp, shot angle, shot angle offset
-  'ts': [SIZE_S, '0f0', 50, 0, Math.PI / 2, Math.PI / 4],
-  'tm': [SIZE_M, 'ff0', 70, 1, Math.PI / 4],
-  'tl': [SIZE_L, 'f03', 100, 2, Math.PI / 6]
+  'ts': [SIZE_S, '0f0', 5, 0, Math.PI / 2, Math.PI / 4],
+  'tm': [SIZE_M, 'ff0', 7, 1, Math.PI / 4],
+  'tl': [SIZE_L, 'f03', 10, 2, Math.PI / 6]
 };
 
 var PLAYER = [
@@ -131,13 +133,16 @@ var PLAYER = [
 ];
 
 var WEAPON = [
-  // bullet, delay between shots (ms), bullet vector(s) and locations (0, 0 if none given)
+  // bullet, delay between shots (ms), bullet vector(s) and locations (0, 0 if none given), rocket timer
   // pulse laser
   [0, 500, [Math.PI / 2]],
   [1, 250, [Math.PI / 2]],
   [2, 166, [Math.PI / 2]],
   [2, 200, [Math.PI / 2, [-0.3, 0]], [Math.PI / 2, [0.3, 0]]],
-  [2, 200, [Math.PI * 2 / 3], [Math.PI / 2], [Math.PI / 3]]
+  [2, 200, [Math.PI * 2 / 3], [Math.PI / 2], [Math.PI / 3]],
+  [2, 200, [Math.PI * 2 / 3], [Math.PI / 2], [Math.PI / 3], 1500],
+  [2, 200, [Math.PI * 2 / 3], [Math.PI / 2], [Math.PI / 3], 1000],
+  [2, 200, [Math.PI * 2 / 3], [Math.PI / 2], [Math.PI / 3], 500]
 ];
 
 var ENEMY_WEAPON = [

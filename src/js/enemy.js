@@ -122,7 +122,7 @@ function renderShip(ship) {
 }
 
 function renderTurret(turret) {
-  var size = turret[0];
+  var size = turret[0] - 6;
   var d = Math.ceil(size * Math.sqrt(2) + 4);
   var i = 0;
 

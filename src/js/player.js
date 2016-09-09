@@ -1,11 +1,13 @@
 /* global mx my kx ky dt vectorAdd isMobile vectorNormalize vectorDistance waves
 vectorMultiply vectorSubtract width height PLAYER makeSprite player drawSprite
 updateSprite addBullet WEAPON weaponLevel collideCircles ENEMY health:true
-playSound SOUNDS collectibles SIZE_XS addHealth addWeapon addEnergy */
+playSound SOUNDS collectibles SIZE_XS addHealth addWeapon addEnergy addMissile
+wavesHaveActiveShips */
 
 var followSpeed = 100;
 var drag = 0.8;
 var shotTimer = 0;
+var missileTimer = 0;
 var startPos = [width / 2, height - 100];
 
 function makePlayer() {
@@ -85,15 +87,26 @@ function updatePlayer() {
 
   shotTimer -= dt;
 
+  var weapon = WEAPON[weaponLevel];
+
   if (shotTimer <= 0) {
-    shotTimer = WEAPON[weaponLevel][1];
-    playerShoot(player);
+    shotTimer = weapon[1];
+    playerShoot(player, weapon);
     playSound(SOUNDS[2], true);
+  }
+
+  if (weaponLevel < 5) return;
+
+  missileTimer -= dt;
+
+  if (missileTimer <= 0 && wavesHaveActiveShips()) {
+    missileTimer = weapon[5];
+    addMissile(player[2][0], player[2][1], Math.PI / 2);
+    playSound(SOUNDS[5], true);
   }
 }
 
-function playerShoot(player) {
-  var weapon = WEAPON[weaponLevel];
+function playerShoot(player, weapon) {
   var guns = weapon.slice(2);
 
   for (var i = 0; i < guns.length; i++) {

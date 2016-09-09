@@ -7,9 +7,10 @@ drawBullets drawWaves clamp disableGaugeGlow collidePlayerWithWaves makeGlitch
 collideBullets makeExplosions drawExplosions updateExplosions updateGlitch
 maxEnergy maxWeapon updateCollectibles collidePlayerWithCollectibles maxHealth
 drawCollectibles drawGlitch collideGlitchWithWaves collideGlitchWithBullets
-isVectorInRect resetGlitch height */
+isVectorInRect resetGlitch height weaponLevel:true updateMissiles
+collideMissilesWithWaves drawMissiles */
 
-var player, bullets, waves, explosions, collectibles, glitch;
+var player, bullets, waves, explosions, collectibles, glitch, missiles;
 
 var gameplay = [
   // 0 init
@@ -38,7 +39,7 @@ var gameplay = [
       makeLabel(375, 565, 'glitch', '0cf', 3)
     ];
     // reset health
-    health = 100;
+    health = 5;
     // reset energy
     energy = 0;
     // player
@@ -53,6 +54,8 @@ var gameplay = [
     collectibles = [];
     // glitch
     glitch = makeGlitch();
+    // missiles
+    missiles = [];
   },
   // 1 update
   function () {
@@ -72,19 +75,30 @@ var gameplay = [
     collideGlitchWithBullets();
     collidePlayerWithWaves();
     collidePlayerWithCollectibles();
+    collideMissilesWithWaves();
     collideBullets();
     updatePlayer();
     updateBullets();
+    updateMissiles();
     updateWaves();
     updateExplosions();
     updateCollectibles();
     updateGlitch();
 
-    // TODO show glow around glitch gauge when available
+    // enable glitch
     if (energy >= maxEnergy) {
       enableGaugeGlow(gameplay[6][2]);
     } else {
       disableGaugeGlow(gameplay[6][2]);
+    }
+
+    // upgrade weapon
+    if (weapon === maxWeapon) {
+      weapon -= maxWeapon;
+
+      if (weaponLevel < 7) {
+        weaponLevel++;
+      }
     }
   },
   // 2 input
@@ -128,6 +142,7 @@ var gameplay = [
     drawPlayer();
     drawWaves();
     drawBullets();
+    drawMissiles();
     drawCollectibles();
     drawExplosions();
     drawGlitch();
@@ -155,5 +170,5 @@ function addWeapon(amount) {
 
 function spawnGlitch() {
   resetGlitch();
-  energy = 0;
+  energy -= maxEnergy;
 }

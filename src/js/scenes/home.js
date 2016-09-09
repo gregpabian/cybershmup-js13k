@@ -3,7 +3,7 @@ makeButton changeScene handleButtonClick mx my isMobile updateButton version
 focusButton soundOn: true highQuality: true makeLabel drawButton drawLabel
 a1: true a2: true clickButton clicked: true blurButton ku: true kd: true clamp
 a3: true vectorRotate vectorAdd currentScene: true Image lImage localStorage
-playSound SOUNDS level */
+playSound SOUNDS level V_DOWN */
 
 // show splash screen if false
 var loaded = false;
@@ -28,8 +28,7 @@ var home = [
     // labels
     home[7] = [
       makeLabel(25, 40, 'cyber shmup', 'fff', 10),
-      makeLabel(57, 100, 'escape from the c.o.r.e', '0cf', 4),
-      makeLabel(25, 600, 'v' + version, 'fff', 4),
+      makeLabel(57, 100, 'escape from the c.o.r.e', '0cf', 4)
     ];
 
     var settingsButtons = [
@@ -159,7 +158,7 @@ var home = [
     }
 
     var c = [width / 2, height / 2];
-    var r = vectorRotate([0, width], Date.now() / 1000);
+    var r = vectorRotate(V_DOWN, Date.now() / 1000);
 
     c = vectorAdd(c, r);
 
