@@ -8,7 +8,8 @@ collideBullets makeExplosions drawExplosions updateExplosions updateGlitch
 maxEnergy maxWeapon updateCollectibles collidePlayerWithCollectibles maxHealth
 drawCollectibles drawGlitch collideGlitchWithWaves collideGlitchWithBullets
 isVectorInRect resetGlitch height weaponLevel:true updateMissiles ENEMY
-collideMissilesWithWaves drawMissiles checkWavesComplete unlockedLevel: true */
+collideMissilesWithWaves drawMissiles checkWavesComplete unlockedLevel: true
+localStorage */
 
 var player, bullets, waves, explosions, collectibles, glitch, missiles;
 
@@ -100,6 +101,7 @@ var gameplay = [
 
       if (weaponLevel < 7) {
         weaponLevel++;
+        localStorage.setItem('cswl', weaponLevel);
       }
     }
 
@@ -109,6 +111,7 @@ var gameplay = [
         changeScene(1, 0);
       } else {
         unlockedLevel++;
+        localStorage.setItem('csul', unlockedLevel);
         changeScene(1, 3);
       }
     }

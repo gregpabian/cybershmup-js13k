@@ -62,6 +62,7 @@ var weapon = 0;
 var maxWeapon = 7;
 var highscore = 0;
 var score = 0;
+var liveScore = 0;
 var level = 0;
 
 var weaponLevel = +localStorage.getItem('cswl') || 0;// weaponLevel = 5;
