@@ -63,6 +63,9 @@ var highscore = 0;
 var score = 0;
 var level = 0;
 
+// rng seed
+var seed = 1;
+
 var weaponLevel = +localStorage.getItem('cswl') || 0;// weaponLevel = 5;
 var unlockedLevel = +localStorage.getItem('csul') || 0;
 var soundOn = localStorage.getItem('css');

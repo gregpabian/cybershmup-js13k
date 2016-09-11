@@ -14,6 +14,10 @@ function makeWaves(level) {
   return waves;
 }
 
+function makeBossWave(level) {
+
+}
+
 function makeWave(delay, type, path, count, speed, interval, color) {
   count = count || 1;
   path = makePath(path);

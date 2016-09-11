@@ -73,3 +73,26 @@ function randomChance(probability) {
 function normalizeAngle(a) {
   return a - TWO_PI * Math.floor((a + Math.PI) / TWO_PI);
 }
+
+var rngs = {};
+
+function random(seed, reset) {
+  if (!rngs[seed] || reset) {
+    rngs[seed] = [seed];
+  }
+
+  return makeRandom(seed);
+}
+
+function makeRandom(seed) {
+  var result = Math.sin(rngs[seed][0]++) * 10000;
+  return result - Math.floor(result);
+}
+
+function randomInt(seed, max) {
+  return Math.floor(makeRandom(seed) * max );
+}
+
+function randomInRange(seed, min, max) {
+  return randomInt(seed, max - min) + min;
+}
