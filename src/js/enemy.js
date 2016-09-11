@@ -21,6 +21,7 @@ function makeEnemy(type, x, y, speed) {
     rof, // 4 - shot timer
     speed // 5 - enemy movement speed
     // 6 - glitched
+    // 7 - color
   ];
 }
 

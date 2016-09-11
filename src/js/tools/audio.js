@@ -1,6 +1,6 @@
-/* global webkitAudoContext jsfxr soundOn */
+/* global jsfxr soundOn */
 
-var AudioContext = AudioContext || webkitAudoContext;
+var AudioContext = window.AudioContext || window.webkitAudoContext;
 
 var makeSound, playSound;
 

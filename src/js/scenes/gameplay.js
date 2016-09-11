@@ -7,11 +7,12 @@ drawBullets drawWaves clamp disableGaugeGlow collidePlayerWithWaves makeGlitch
 collideBullets makeExplosions drawExplosions updateExplosions updateGlitch
 maxEnergy maxWeapon updateCollectibles collidePlayerWithCollectibles maxHealth
 drawCollectibles drawGlitch collideGlitchWithWaves collideGlitchWithBullets
-isVectorInRect resetGlitch height weaponLevel:true updateMissiles ENEMY
+isVectorInRect resetGlitch height weaponLevel:true updateMissiles ENEMY dt
 collideMissilesWithWaves drawMissiles checkWavesComplete unlockedLevel: true
 localStorage */
 
-var player, bullets, waves, explosions, collectibles, glitch, missiles;
+var player, bullets, waves, explosions, collectibles, glitch, missiles,
+  levelComplete, completeTimer;
 
 var gameplay = [
   // 0 init
@@ -41,10 +42,10 @@ var gameplay = [
     ];
     // reset health
     health = 5;
-    // reset energy
-    energy = 0;
-    // reset score
-    score = 0;
+    // reset energy and score
+    energy = score = 0;
+    // reset level completion
+    levelComplete = completeTimer = 0;
     // player
     player = makePlayer();
     // waves
@@ -106,11 +107,20 @@ var gameplay = [
     }
 
     // win condition was met
-    if (checkWavesComplete()) {
+    if (!levelComplete && checkWavesComplete()) {
+      levelComplete = true;
+      completeTimer = 0;
+    }
+
+    if (levelComplete) {
+      completeTimer += dt;
+    }
+
+    if (completeTimer > 2000) {
       if (level === 8) {
         changeScene(1, 0);
       } else {
-        unlockedLevel++;
+        unlockedLevel = Math.max(unlockedLevel, level + 1);
         localStorage.setItem('csul', unlockedLevel);
         changeScene(1, 3);
       }
