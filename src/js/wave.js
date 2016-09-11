@@ -1,18 +1,20 @@
-/* global ENEMY dt makeEnemy makePath updateEnemy width height makeBatch
-updateBatchItem drawBatch waves addExplosion trySpawningCollectible */
+/* global ENEMY dt makeEnemy makePath updateEnemy width height makeBatch hex2rgb
+updateBatchItem drawBatch waves addExplosion trySpawningCollectible levels */
 
 // create waves for the given difficulty level
 function makeWaves(level) {
   var waves = [];
+  var color = hex2rgb(levels[level][3]);
+
   // TODO
-  waves.push(makeWave(1, 'sl', 's', 1, 2, 1));
-  // waves.push(makeWave(1, 'ts', '2', 1, 1, 1));
-  // waves.push(makeWave(3, 'tm', '3', 1, 1, 1));
-  // waves.push(makeWave(5, 'tl', '4', 1, 1, 1));
+  waves.push(makeWave(1, 'sl', 's', 1, 2, 1, color));
+  waves.push(makeWave(1, 'ts', '2', 1, 1, 1, color));
+  waves.push(makeWave(3, 'tm', '3', 1, 1, 1, color));
+  waves.push(makeWave(5, 'tl', '4', 1, 1, 1, color));
   return waves;
 }
 
-function makeWave(delay, type, path, count, speed, interval) {
+function makeWave(delay, type, path, count, speed, interval, color) {
   count = count || 1;
   path = makePath(path);
 
@@ -21,7 +23,7 @@ function makeWave(delay, type, path, count, speed, interval) {
   var y = path[1] * height;
 
   for (var i = 0; i < count; i++) {
-    enemies.push(makeEnemy(type, x, y, speed));
+    enemies.push(makeEnemy(type, x, y, speed, color));
   }
 
   var image = ENEMY[type][1];
@@ -64,7 +66,7 @@ function updateWave(wave) {
     updateEnemy(enemy, wave[4]);
 
     if (enemy[3] > 0) {
-      updateBatchItem(wave[2], i, enemy[1][0], enemy[1][1]);
+      updateBatchItem(wave[2], i, enemy[1][0], enemy[1][1], 0, 1, 1, 1, enemy[7]);
     } else {
       // don't explode when leaving the screen
       if (enemy[3] > -1000) {

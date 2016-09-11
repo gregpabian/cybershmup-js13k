@@ -8,13 +8,12 @@ uniform vec2 dir;
 varying vec2 v_uv;
 
 void main() {
-  vec2 off1 = vec2(1.385) * dir;
-  vec2 off2 = vec2(3.23) * dir;
-  vec2 dim = vec2(480, 640);
-  vec4 color = texture2D(texture, v_uv) * 0.22704 +
-    texture2D(texture, v_uv + (off1 / dim)) * 0.31621 +
-    texture2D(texture, v_uv - (off1 / dim)) * 0.31621 +
-    texture2D(texture, v_uv + (off2 / dim)) * 0.07027 +
-    texture2D(texture, v_uv - (off2 / dim)) * 0.07027;
-  gl_FragColor = color;
+  vec2 d = vec2(480, 640);
+  vec2 o1 = vec2(1.385) * dir / d;
+  vec2 o2 = vec2(3.23) * dir / d;
+  gl_FragColor = texture2D(texture, v_uv) * 0.22704 +
+    texture2D(texture, v_uv + o1) * 0.31621 +
+    texture2D(texture, v_uv - o1) * 0.31621 +
+    texture2D(texture, v_uv + o2) * 0.07027 +
+    texture2D(texture, v_uv - o2) * 0.07027;
 }

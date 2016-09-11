@@ -7,6 +7,8 @@ var TWO_PI = 2 * Math.PI;
 var V_RIGHT = [1, 0];
 var V_DOWN = [0, width];
 
+var WHITE = [255, 255, 255];
+
 var SIZE_XXXS = 12;
 var SIZE_XXS = 16;
 var SIZE_XS = 24;

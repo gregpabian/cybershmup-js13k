@@ -1,13 +1,14 @@
-/* global TWO_PI getPathPosition dt hex2rgba addBullet ENEMY WEAPON player
+/* global TWO_PI getPathPosition dt hex2rgba addBullet ENEMY WEAPON player WHITE
 getAngleBetweenVectors adjustHex ENEMY_WEAPON playSound SOUNDS normalizeAngle */
 
-function makeEnemy(type, x, y, speed) {
+function makeEnemy(type, x, y, speed, color) {
   var weapon;
   var rof = null;
 
   // turret shoot every 2 seconds
   if (type[0] === 't') {
     rof = 2000;
+    color = WHITE;
     // use a weapon's rof
   } else if ((weapon = getWeapon(type))) {
     rof = weapon[1];
@@ -19,9 +20,9 @@ function makeEnemy(type, x, y, speed) {
     0, // 2 - position along the path
     ENEMY[type][2], // 3 - hp
     rof, // 4 - shot timer
-    speed // 5 - enemy movement speed
-    // 6 - glitched
-    // 7 - color
+    speed, // 5 - enemy movement speed
+    0, // 6 - glitched
+    color // 7 - color
   ];
 }
 
@@ -65,11 +66,14 @@ function shootEnemy(enemy) {
     return;
   }
 
-  playSound(SOUNDS[5], true);
+  playSound(SOUNDS[5], 1);
 }
 
 function glitchEnemy(enemy) {
-  enemy[6] = 1;
+  if (!enemy[6]) {
+    enemy[6] = 1;
+    enemy[7] = enemy[7].map(function (c) { return c * 0.5; });
+  }
 }
 
 function renderShip(ship) {
