@@ -1,15 +1,16 @@
-/* global makeSprite MISSILE_IMG SIZE_XXXS missiles drawSprite waves player dt
+/* global makeSprite MISSILE_IMG SIZE_XXS missiles drawSprite waves player dt
 vectorDistance adjustHex getAngleBetweenVectors ENEMY collideCircles V_RIGHT
 vectorRotate vectorMultiply vectorAdd updateSprite addExplosion isVectorOnScreen
-*/
+width height TWO_PI normalizeAngle */
 
-var missileColor = [0, 150, 255];
+var missileSpeed = 0.8;
+var missileAngleSpeed = 6;
 
 function addMissile(x, y) {
   missiles.push([
     makeSprite(MISSILE_IMG), // 0 - missile sprite
     [x, y], // 1 - pos x,y
-    0, // 2 - rotation
+    Math.random() > 0.5 ? Math.PI / 3 : Math.PI * 2 / 3, // 2 - rotation
     5, // 3 - speed
     null, // 4 - target
     1 // 5 - alive flag
@@ -33,20 +34,25 @@ function updateMissiles() {
 }
 
 function updateMissile(missile) {
-  if (missile[4] === null) {
+  var t = dt / 1000;
+  // find a target
+  if (!missile[4] || missile[4][3] <= 0) {
     missile[4] = findClosestTargetInWaves();
   }
 
+  // aim at the target
   if (missile[4] && missile[4][3] > 0) {
-    missile[2] = -getAngleBetweenVectors(missile[1], missile[4][1]);
+    var a = normalizeAngle(getAngleBetweenVectors(missile[1], missile[4][1]) - missile[2]);
+    var d = Math.min(Math.abs(a), Math.abs(missileAngleSpeed * t)) * (a < 0 ? -1 : 1);
+    missile[2] = normalizeAngle(missile[2] + d);
   }
 
   var v = vectorRotate(V_RIGHT, missile[2]);
-  missile[3] += dt / 1000;
+  missile[3] += missileSpeed * t;
   missile[1] = vectorAdd(missile[1], vectorMultiply(v, missile[3]));
 
   if (isVectorOnScreen(missile[1], width, height)) {
-    updateSprite(missile[0], missile[1][0], missile[1][1], missile[2], 1, 1, 1, missileColor);
+    updateSprite(missile[0], missile[1][0], missile[1][1], missile[2]);
   } else {
     missile[5] = 0;
   }
@@ -56,11 +62,11 @@ function collideMissilesWithWaves() {
   waves.some(function (wave) {
     wave[3].some(function (enemy) {
       missiles.some(function (missile) {
-        if (collideCircles(missile[1], SIZE_XXXS, enemy[1], ENEMY[enemy[0]][0])) {
+        if (collideCircles(missile[1], SIZE_XXS, enemy[1], ENEMY[enemy[0]][0])) {
           // hit
           enemy[3] -= 3;
           missile[5] = 0;
-          addExplosion(missile[1][0], missile[1][1], SIZE_XXXS);
+          addExplosion(missile[1][0], missile[1][1], SIZE_XXS);
           return true;
         }
       });
@@ -96,18 +102,14 @@ function drawMissile(missile) {
 
 function renderMissile() {
   var c = document.createElement('canvas');
-  c.width = c.height = SIZE_XXXS;
+  c.width = c.height = SIZE_XXS;
   var ctx = c.getContext('2d');
 
-  ctx.strokeStyle = '#fff';
-  ctx.fillStyle = '#' + adjustHex('fff', 0.4);
-  ctx.lineWidth = 2;
-  ctx.moveTo(1, SIZE_XXXS - 1);
-  ctx.lineTo(SIZE_XXXS / 2, 1);
-  ctx.lineTo(SIZE_XXXS - 1, SIZE_XXXS - 1);
-  ctx.closePath();
+  ctx.fillStyle = '#09f';
+  ctx.moveTo(0, 0);
+  ctx.lineTo(SIZE_XXS, SIZE_XXS / 2);
+  ctx.lineTo(0, SIZE_XXS);
   ctx.fill();
-  ctx.stroke();
 
   return c;
 }

@@ -1,3 +1,5 @@
+/* global TWO_PI */
+
 function clamp(number, min, max) {
   return number < min ? min : number > max ? max : number;
 }
@@ -66,4 +68,8 @@ function adjustHex(hex, brightness) {
 
 function randomChance(probability) {
   return Math.random() <= probability / 100;
+}
+
+function normalizeAngle(a) {
+  return a - TWO_PI * Math.floor((a + Math.PI) / TWO_PI);
 }
