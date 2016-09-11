@@ -1,11 +1,10 @@
 /* global PATH, TWO_PI, ctx, ctxUI, width, height, dt, lerp */
 
-function makePath(type) {
-  var path = [].concat(PATH[type[0]]);
+function makePath(type, squeeze, mirror) {
+  var path = [].concat(PATH[type]);
 
-  if (type.indexOf('x') > -1) path = squeezePath(path);
-  if (type.indexOf('m') > -1) path = mirrorPath(path);
-
+  if (squeeze) path = squeezePath(path);
+  if (mirror) path = mirrorPath(path);
 
   return path;
 }

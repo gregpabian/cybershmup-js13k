@@ -1,7 +1,7 @@
 /* global TWO_PI getPathPosition dt hex2rgba addBullet ENEMY WEAPON player WHITE
 getAngleBetweenVectors adjustHex ENEMY_WEAPON playSound SOUNDS normalizeAngle */
 
-function makeEnemy(type, x, y, speed, color) {
+function makeEnemy(type, x, y, difficulty, speed, color) {
   var weapon;
   var rof = null;
 
@@ -18,7 +18,7 @@ function makeEnemy(type, x, y, speed, color) {
     type, // 0 - enemy type
     [x, y], // 1 - position
     0, // 2 - position along the path
-    ENEMY[type][2], // 3 - hp
+    ENEMY[type][2] * difficulty, // 3 - hp
     rof, // 4 - shot timer
     speed, // 5 - enemy movement speed
     0, // 6 - glitched

@@ -1,7 +1,7 @@
 /* global TWO_PI BULLET dt width height vectorMultiply vectorAdd makeBatch V_RIGHT
 vectorRotate SIZE_XXXS isVectorOnScreen BULLET_IMG updateBatchItem shakeCamera
 drawBatch bullets waves player collideCircles ENEMY addExplosion health:true
-score:true level addScore */
+level */
 
 var bulletSpeed = 0.75;
 
@@ -96,7 +96,6 @@ function collideBullets() {
               enemy[3] -= bullet[1];
             }
 
-            addScore(enemy);
             return true;
           }
         });

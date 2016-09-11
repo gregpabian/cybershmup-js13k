@@ -1,4 +1,4 @@
-/* global jsfxr soundOn */
+/* global jsfxr soundOn random initialSeed */
 
 var AudioContext = window.AudioContext || window.webkitAudoContext;
 
@@ -34,7 +34,7 @@ if (AudioContext) {
 
     audioCtx.decodeAudioData(base64ToArrayBuffer(sound), function (buffer) {
       src.buffer = buffer;
-      src.detune.value = randomPitch ? Math.random() * 400 - 200 : 1;
+      src.detune.value = randomPitch ? random(initialSeed) * 400 - 200 : 1;
       src.connect(dest);
       src.start(0);
 

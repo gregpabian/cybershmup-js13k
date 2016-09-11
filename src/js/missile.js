@@ -1,7 +1,7 @@
 /* global makeSprite MISSILE_IMG SIZE_XXS missiles drawSprite waves player dt
 vectorDistance adjustHex getAngleBetweenVectors ENEMY collideCircles V_RIGHT
 vectorRotate vectorMultiply vectorAdd updateSprite addExplosion isVectorOnScreen
-width height TWO_PI normalizeAngle addScore */
+width height TWO_PI normalizeAngle randomBoolean initialSeed */
 
 var missileSpeed = 0.8;
 var missileAngleSpeed = 6;
@@ -10,7 +10,7 @@ function addMissile(x, y) {
   missiles.push([
     makeSprite(MISSILE_IMG), // 0 - missile sprite
     [x, y], // 1 - pos x,y
-    Math.random() > 0.5 ? Math.PI / 3 : Math.PI * 2 / 3, // 2 - rotation
+    randomBoolean(initialSeed) ? Math.PI / 3 : Math.PI * 2 / 3, // 2 - rotation
     5, // 3 - speed
     null, // 4 - target
     1 // 5 - alive flag
@@ -67,7 +67,6 @@ function collideMissilesWithWaves() {
           enemy[3] -= 3;
           missile[5] = 0;
           addExplosion(missile[1][0], missile[1][1], SIZE_XXS);
-          addScore(enemy);
           return true;
         }
       });

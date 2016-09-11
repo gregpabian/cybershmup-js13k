@@ -1,7 +1,7 @@
 /* global makeButton changeScene isMobile drawButton a1: true a2: true a3: true
 clicked:true handleButtonClick mx my levels makeBackground makeGauge makeLabel
-enableGaugeGlow drawGauge drawLabel updateGauge updateLabel health:true width
-energy:true weapon:true score:true padZero PLAYER updatePlayer makePlayer level
+enableGaugeGlow drawGauge drawLabel updateGauge health:true width
+energy:true weapon:true PLAYER updatePlayer makePlayer level
 updateBackground drawPlayer makeWaves updateWaves makeBullets updateBullets
 drawBullets drawWaves clamp disableGaugeGlow collidePlayerWithWaves makeGlitch
 collideBullets makeExplosions drawExplosions updateExplosions updateGlitch
@@ -9,7 +9,7 @@ maxEnergy maxWeapon updateCollectibles collidePlayerWithCollectibles maxHealth
 drawCollectibles drawGlitch collideGlitchWithWaves collideGlitchWithBullets
 isVectorInRect resetGlitch height weaponLevel:true updateMissiles ENEMY dt
 collideMissilesWithWaves drawMissiles checkWavesComplete unlockedLevel: true
-localStorage */
+localStorage maxWeaponLevel seed:true initialSeed random */
 
 var player, bullets, waves, explosions, collectibles, glitch, missiles,
   levelComplete, completeTimer;
@@ -17,6 +17,9 @@ var player, bullets, waves, explosions, collectibles, glitch, missiles,
 var gameplay = [
   // 0 init
   function () {
+    // reset random seed
+    seed = initialSeed + level + 1;
+    random(seed, 1);
     // background
     gameplay[4] = makeBackground(getBackgroundColor(levels[level][4]), 1 + level * 0.2);
      // menu button
@@ -27,23 +30,22 @@ var gameplay = [
     // gauges
     gameplay[6] = [
       // hp
-      makeGauge(-20, 430, 300, '0d0', '020', 5, health, -1.6),
+      makeGauge(-40, 400, 300, '0d0', '020', maxHealth, health, -1.6),
       // wp
-      makeGauge(490, 440, 300, 'f0c', '202', 7, weapon, -1.55, 1),
+      makeGauge(500, 450, 300, 'f0c', '202', maxWeapon, weapon, -1.55, 1),
       // energy
-      makeGauge(260, 630, 480, '0cf', '022', 10, energy, -0.05)
+      makeGauge(265, 645, 480, '0cf', '022', maxEnergy, energy, -0.05)
     ];
     // labels
     gameplay[7] = [
-      makeLabel(20, 20, padZero(0), 'fff', 4),
       makeLabel(3, 295, 'hp', '0d0', 2),
-      makeLabel(463, 240, 'wp', 'f0c', 2),
-      makeLabel(375, 565, 'glitch', '0cf', 3)
+      makeLabel(463, 250, 'wp', 'f0c', 2),
+      makeLabel(375, 570, 'glitch', '0cf', 3)
     ];
     // reset health
     health = 5;
-    // reset energy and score
-    energy = score = 0;
+    // reset energy
+    energy = 0;
     // reset level completion
     levelComplete = completeTimer = 0;
     // player
@@ -74,7 +76,6 @@ var gameplay = [
     updateGauge(gameplay[6][0], health);
     updateGauge(gameplay[6][1], weapon);
     updateGauge(gameplay[6][2], energy);
-    updateLabel(gameplay[7][0], padZero(score));
     collideGlitchWithWaves();
     collideGlitchWithBullets();
     collidePlayerWithWaves();
@@ -98,11 +99,9 @@ var gameplay = [
 
     // upgrade weapon
     if (weapon === maxWeapon) {
-      weapon -= maxWeapon;
-
-      if (weaponLevel < 7) {
+      if (weaponLevel < maxWeaponLevel) {
+        weapon -= maxWeapon;
         weaponLevel++;
-        localStorage.setItem('cswl', weaponLevel);
       }
     }
 
@@ -191,12 +190,6 @@ function addEnergy(amount) {
 
 function addWeapon(amount) {
   weapon = clamp(0, weapon + amount, maxWeapon);
-}
-
-function addScore(enemy) {
-  if (enemy[3] <= 0) {
-    score += ENEMY[enemy[0]][2] * 10 * (1 + level / 10);
-  }
 }
 
 function spawnGlitch() {

@@ -20,18 +20,6 @@ var a1 = 0;
 var a2 = 0;
 var a3 = 0;
 
-if (isMobile) {
-  document.addEventListener('touchstart', touchStart);
-  document.addEventListener('touchmove', touchMove);
-  document.addEventListener('touchend', touchEnd);
-  document.addEventListener('touchcancel', touchEnd);
-} else {
-  document.addEventListener('keydown', handleKeyDown);
-  document.addEventListener('keyup', handleKeyUp);
-  document.addEventListener('mousedown', touchStart);
-  document.addEventListener('mouseup', touchEnd);
-}
-
 function touchStart(event) {
   clicked = 1;
   firstClick = 1;

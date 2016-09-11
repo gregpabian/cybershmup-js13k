@@ -25,9 +25,9 @@ var BULLET = [
   ['fc6', 1, 600],
   ['ff0', 1, 700],
   // enemy bullets
-  ['06f', 1, 150],
-  ['0cf', 1, 200],
-  ['0ff', 1, 250]
+  ['03f', 1, 150],
+  ['09f', 1, 200],
+  ['3ff', 1, 250]
 ];
 
 var BULLET_IMG;
@@ -52,7 +52,7 @@ var ENEMY = {
       0, -0.5,
       0, -0.1
     ],
-    3, // hp
+    2, // hp
     -1 // weapon level, -1 = no weapon
   ],
   'sm': [
@@ -107,7 +107,7 @@ var ENEMY = {
       0.2, 0,
       -0.2, 0
     ],
-    7, // hp
+    10, // hp
     1 // weapon level, -1 = no weapon
   ]
 };
@@ -117,7 +117,7 @@ var GLITCH_IMG;
 var MISSILE_IMG;
 
 var TURRET = {
-  // size, color, hp, shot angle, shot angle offset
+  // size, color, hp, weapon level, shot angle, shot angle offset
   'ts': [SIZE_S, '0f0', 5, 0, Math.PI / 2, Math.PI / 4],
   'tm': [SIZE_M, 'ff0', 7, 1, Math.PI / 4],
   'tl': [SIZE_L, 'f03', 10, 2, Math.PI / 6]
@@ -160,10 +160,10 @@ var WEAPON = [
   [1, 250, [Math.PI / 2]],
   [2, 166, [Math.PI / 2]],
   [2, 200, [Math.PI / 2, [-0.3, 0]], [Math.PI / 2, [0.3, 0]]],
-  [2, 200, [Math.PI * 2 / 3], [Math.PI / 2], [Math.PI / 3]],
-  [2, 200, [Math.PI * 2 / 3], [Math.PI / 2], [Math.PI / 3], 1500],
-  [2, 200, [Math.PI * 2 / 3], [Math.PI / 2], [Math.PI / 3], 1000],
-  [2, 200, [Math.PI * 2 / 3], [Math.PI / 2], [Math.PI / 3], 500]
+  [2, 200, [Math.PI * 3 / 5], [Math.PI / 2], [Math.PI * 2 / 5]],
+  [2, 200, [Math.PI * 3 / 5], [Math.PI / 2], [Math.PI * 2 / 5], 1500],
+  [2, 200, [Math.PI * 3 / 5], [Math.PI / 2], [Math.PI * 2 / 5], 1250],
+  [2, 200, [Math.PI * 3 / 5], [Math.PI / 2], [Math.PI * 2 / 5], 1000]
 ];
 
 var ENEMY_WEAPON = [

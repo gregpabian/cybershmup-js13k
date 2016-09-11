@@ -1,7 +1,8 @@
 /* global PLAYER ENEMY renderShip BULLET renderBullet gameplay home select
 make2DProjection TURRET renderTurret width height BULLET_IMG:true hex2rgb
 EXPLOSION_IMG:true SIZE_XXXS SIZE_XXL SOUNDS makeSound localStorage COLLECTIBLE
-renderCollectible GLITCH_IMG:true renderGlitch MISSILE_IMG:true renderMissile */
+renderCollectible GLITCH_IMG:true renderGlitch MISSILE_IMG:true renderMissile
+isMobile touchStart touchMove touchEnd handleKeyDown handleKeyUp */
 
 var cm = document.getElementById('m');
 var cui = document.getElementById('ui');
@@ -51,24 +52,39 @@ MISSILE_IMG = renderMissile();
 var projectionMatrix = make2DProjection(width, height);
 var scenes = [gameplay, home, select];
 
-var currentScene = 1;//0; loaded = true;
+var currentScene = 0; loaded = true;
 
-var health = 5;
-var maxHealth = 5;
+var health = 3;
+var maxHealth = 3;
 var energy = 0;
-var maxEnergy = 10;
+var maxEnergy = 7;
+
 var weapon = 0;
-var maxWeapon = 7;
-var highscore = 0;
-var score = 0;
+var maxWeapon = 5;
+var maxWeaponLevel = WEAPON.length - 1;
+
 var level = 0;
 
 // rng seed
-var seed = 1;
+var initialSeed = 9;
+var seed = initialSeed;
 
-var weaponLevel = +localStorage.getItem('cswl') || 0;// weaponLevel = 5;
+var weaponLevel = 0;// weaponLevel = 5;
 var unlockedLevel = +localStorage.getItem('csul') || 0;
 var soundOn = localStorage.getItem('css');
 soundOn = soundOn === null ? 1 : +soundOn;
 var highQuality = localStorage.getItem('csq');
-highQuality = highQuality === null ? 1 : +highQuality;
+highQuality = highQuality === null ? isMobile ? 0 : 1 : +highQuality;
+
+
+if (isMobile) {
+  document.addEventListener('touchstart', touchStart);
+  document.addEventListener('touchmove', touchMove);
+  document.addEventListener('touchend', touchEnd);
+  document.addEventListener('touchcancel', touchEnd);
+} else {
+  document.addEventListener('keydown', handleKeyDown);
+  document.addEventListener('keyup', handleKeyUp);
+  document.addEventListener('mousedown', touchStart);
+  document.addEventListener('mouseup', touchEnd);
+}

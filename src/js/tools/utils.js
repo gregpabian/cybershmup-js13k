@@ -51,13 +51,6 @@ function disableAA(ctx) {
 	return ctx;
 }
 
-function padZero(value) {
-  value += '';
-  var l = 9 - value.length + 1;
-
-  return (new Array(l < 0 ? 0 : l)).join(0) + value;
-}
-
 function adjustBrightness(color, brightness) {
   return color.map(function (c) { return c * brightness;});
 }
@@ -66,8 +59,8 @@ function adjustHex(hex, brightness) {
   return rgb2hex(adjustBrightness(hex2rgb(hex), brightness));
 }
 
-function randomChance(probability) {
-  return Math.random() <= probability / 100;
+function randomChance(seed, probability) {
+  return random(seed) <= probability / 100;
 }
 
 function normalizeAngle(a) {
@@ -81,7 +74,7 @@ function random(seed, reset) {
     rngs[seed] = [seed];
   }
 
-  return makeRandom(seed);
+  return !reset && makeRandom(seed);
 }
 
 function makeRandom(seed) {
@@ -90,9 +83,17 @@ function makeRandom(seed) {
 }
 
 function randomInt(seed, max) {
-  return Math.floor(makeRandom(seed) * max );
+  return Math.floor(random(seed) * max);
 }
 
 function randomInRange(seed, min, max) {
   return randomInt(seed, max - min) + min;
+}
+
+function randomBoolean(seed) {
+  return random(seed) < 0.5;
+}
+
+function randomIntWeighted(seed, max) {
+  return Math.floor(Math.pow(random(seed), 2) * (max + 1));
 }

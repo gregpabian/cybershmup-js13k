@@ -2,7 +2,8 @@
 currentScene: true isMobile handleKeys wrapper sc: true disableAA makeProgram
 baseVert staticVert textureFrag blurFrag mixFrag makeFramebuffer setFramebuffer
 highQuality getUniformLocation useTexture makeQuadBuffer drawBackground cm
-copyFrag trailFrag cancelAnimationFrame loaded projectionMatrix TWO_PI */
+copyFrag trailFrag cancelAnimationFrame loaded projectionMatrix TWO_PI random
+initialSeed */
 
 var last = 0;
 var dt = 0;
@@ -201,7 +202,7 @@ function updateCamera() {
 }
 
 function shakeCamera(r) {
-  sa = Math.random() * TWO_PI;
+  sa = random(initialSeed) * TWO_PI;
   sr = r;
 }
 
