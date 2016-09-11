@@ -1,5 +1,5 @@
 /* global TWO_PI getPathPosition dt hex2rgba addBullet ENEMY WEAPON player
-getAngleBetweenVectors adjustHex ENEMY_WEAPON playSound SOUNDS */
+getAngleBetweenVectors adjustHex ENEMY_WEAPON playSound SOUNDS normalizeAngle */
 
 function makeEnemy(type, x, y, speed) {
   var weapon;
@@ -58,7 +58,7 @@ function shootEnemy(enemy) {
     }
      enemy[4] = 2000;
   } else if (( weapon = getWeapon(enemy[0]))) {
-    addBullet(weapon[0], enemy[1], -getAngleBetweenVectors(enemy[1], player[2]), 0, enemy[6]);
+    addBullet(weapon[0], enemy[1], normalizeAngle(getAngleBetweenVectors(enemy[1], player[2])), 0, enemy[6]);
     enemy[4] = weapon[1];
   } else {
     return;
