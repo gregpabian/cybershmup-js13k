@@ -2,7 +2,7 @@
 vectorMultiply vectorSubtract width height PLAYER makeSprite player drawSprite
 updateSprite addBullet WEAPON weaponLevel collideCircles ENEMY health:true
 playSound SOUNDS collectibles SIZE_XS addHealth addWeapon addEnergy addMissile
-wavesHaveActiveShips */
+wavesHaveActiveShips score */
 
 var followSpeed = 100;
 var drag = 0.8;
@@ -146,6 +146,8 @@ function collidePlayerWithCollectibles() {
 
       fn(collectible[4]);
       collectible[5] = 0;
+
+      score += 50;
     }
   });
 }

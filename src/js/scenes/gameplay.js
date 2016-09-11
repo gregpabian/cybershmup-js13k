@@ -1,7 +1,7 @@
 /* global makeButton changeScene isMobile drawButton a1: true a2: true a3: true
 clicked:true handleButtonClick mx my levels makeBackground makeGauge makeLabel
 enableGaugeGlow drawGauge drawLabel updateGauge updateLabel health:true width
-energy:true weapon:true score padZero PLAYER updatePlayer makePlayer level
+energy:true weapon:true score:true padZero PLAYER updatePlayer makePlayer level
 updateBackground drawPlayer makeWaves updateWaves makeBullets updateBullets
 drawBullets drawWaves clamp disableGaugeGlow collidePlayerWithWaves makeGlitch
 collideBullets makeExplosions drawExplosions updateExplosions updateGlitch
@@ -42,6 +42,8 @@ var gameplay = [
     health = 5;
     // reset energy
     energy = 0;
+    // reset score
+    score = 0;
     // player
     player = makePlayer();
     // waves
