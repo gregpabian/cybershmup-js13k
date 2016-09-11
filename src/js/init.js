@@ -53,7 +53,6 @@ var scenes = [gameplay, home, select];
 
 var currentScene = 1;//0; loaded = true;
 
-var lives = 3;
 var health = 5;
 var maxHealth = 5;
 var energy = 0;
@@ -62,7 +61,6 @@ var weapon = 0;
 var maxWeapon = 7;
 var highscore = 0;
 var score = 0;
-var liveScore = 0;
 var level = 0;
 
 var weaponLevel = +localStorage.getItem('cswl') || 0;// weaponLevel = 5;
