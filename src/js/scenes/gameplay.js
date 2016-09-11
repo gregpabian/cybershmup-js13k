@@ -7,8 +7,8 @@ drawBullets drawWaves clamp disableGaugeGlow collidePlayerWithWaves makeGlitch
 collideBullets makeExplosions drawExplosions updateExplosions updateGlitch
 maxEnergy maxWeapon updateCollectibles collidePlayerWithCollectibles maxHealth
 drawCollectibles drawGlitch collideGlitchWithWaves collideGlitchWithBullets
-isVectorInRect resetGlitch height weaponLevel:true updateMissiles
-collideMissilesWithWaves drawMissiles */
+isVectorInRect resetGlitch height weaponLevel:true updateMissiles ENEMY
+collideMissilesWithWaves drawMissiles checkWavesComplete unlockedLevel: true */
 
 var player, bullets, waves, explosions, collectibles, glitch, missiles;
 
@@ -102,6 +102,16 @@ var gameplay = [
         weaponLevel++;
       }
     }
+
+    // win condition was met
+    if (checkWavesComplete()) {
+      if (level === 8) {
+        changeScene(1, 0);
+      } else {
+        unlockedLevel++;
+        changeScene(1, 3);
+      }
+    }
   },
   // 2 input
   function () {
@@ -168,6 +178,12 @@ function addEnergy(amount) {
 
 function addWeapon(amount) {
   weapon = clamp(0, weapon + amount, maxWeapon);
+}
+
+function addScore(enemy) {
+  if (enemy[3] <= 0) {
+    score += ENEMY[enemy[0]][2] * 10 * (1 + level / 10);
+  }
 }
 
 function spawnGlitch() {

@@ -3,7 +3,7 @@ makeButton changeScene handleButtonClick mx my isMobile updateButton version
 focusButton soundOn: true highQuality: true makeLabel drawButton drawLabel
 a1: true a2: true clickButton clicked: true blurButton ku: true kd: true clamp
 a3: true vectorRotate vectorAdd currentScene: true Image lImage localStorage
-playSound SOUNDS level V_DOWN */
+playSound SOUNDS level:true V_DOWN */
 
 // show splash screen if false
 var loaded = false;

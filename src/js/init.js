@@ -1,7 +1,7 @@
 /* global PLAYER ENEMY renderShip BULLET renderBullet gameplay home select
 make2DProjection TURRET renderTurret width height BULLET_IMG:true hex2rgb
 EXPLOSION_IMG:true SIZE_XXXS SIZE_XXL SOUNDS makeSound localStorage COLLECTIBLE
-renderCollectible GLITCH_IMG:true renderGlitch MISSILE_IMG renderMissile */
+renderCollectible GLITCH_IMG:true renderGlitch MISSILE_IMG:true renderMissile */
 
 var cm = document.getElementById('m');
 var cui = document.getElementById('ui');
@@ -51,7 +51,7 @@ MISSILE_IMG = renderMissile();
 var projectionMatrix = make2DProjection(width, height);
 var scenes = [gameplay, home, select];
 
-var currentScene = 0; loaded = true;
+var currentScene = 1;//0; loaded = true;
 
 var lives = 3;
 var health = 5;

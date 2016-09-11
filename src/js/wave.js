@@ -5,15 +5,11 @@ updateBatchItem drawBatch waves addExplosion trySpawningCollectible */
 function makeWaves(level) {
   var waves = [];
   // TODO
-  waves.push(makeWave(1, 'ss', 's', 100, 2, 1));
+  waves.push(makeWave(1, 'ss', 's', 10, 2, 1));
   // waves.push(makeWave(1, 'ts', '2', 1, 1, 1));
   // waves.push(makeWave(3, 'tm', '3', 1, 1, 1));
   // waves.push(makeWave(5, 'tl', '4', 1, 1, 1));
   return waves;
-}
-
-function addEnemy() {
-  waves.push(makeWave(1, 'ss', 'z', 1, 2, 1));
 }
 
 function makeWave(delay, type, path, count, speed, interval) {
@@ -96,4 +92,12 @@ function drawWaves() {
 
 function drawWave(wave) {
   drawBatch(wave[2], wave[3].length);
+}
+
+function checkWavesComplete() {
+  return !waves.some(function (wave) {
+    return wave[1].length || wave[3].some(function (enemy) {
+      return enemy[3] > 0;
+    });
+  });
 }
