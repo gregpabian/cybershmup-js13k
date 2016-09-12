@@ -1,17 +1,2 @@
 //#gljs varname: 'textureFrag', type: 'fragment'
-
-precision mediump float;
-
-uniform sampler2D t;
-
-varying vec2 vuv;
-varying vec4 vc;
-
-void main() {
-  vec4 c = texture2D(t, vuv);
-  if (c.r == c.g && c.g == c.b) {
-    gl_FragColor = c * vc;
-  } else {
-    gl_FragColor = c;
-  }
-}
+precision mediump float;uniform sampler2D t;varying vec2 vuv;varying vec4 vc;void main(){vec4 a=texture2D(t,vuv);if(a.r==a.g&&a.g==a.b){gl_FragColor=a*vc;}else{gl_FragColor=a;}}
