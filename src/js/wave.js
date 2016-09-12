@@ -3,7 +3,7 @@ updateBatchItem drawBatch waves addExplosion trySpawningCollectible levels
 seed randomIntWeighted random PATH randomInRange randomChance initialSeed */
 
 var pathHashMap = ['c', 's', 'a', 'z', 'u'];
-var enemyCounts = {'ss': 10, 'sm': 3, 'ts': 1, 'tm': 1, 'sl': 1, 'tl': 1};
+var enemyCounts = {'ss': 10, 'sm': 5, 'ts': 1, 'tm': 1, 'sl': 2, 'tl': 1};
 var enemyTypes = Object.keys(enemyCounts);
 
 
@@ -34,16 +34,14 @@ function makeWaves(level) {
 
   for (i = 0; i < count; i++) {
     var pathType = pathHashMap[randomInRange(seed, typesOrdered[i][0] === 't' ? 0 : 1, 5)];
-    var paths;
     var squeeze = false;
+    var paths;
 
     if (pathType === 'c') {
       pathType = randomInRange(seed, 1, 8);
       paths = [makePath(pathType)];
     } else {
       squeeze = i > 5 && randomChance(seed, 20 + level);
-
-      // TODO add mirrored wave unless column
       paths = [makePath(pathType, squeeze), makePath(pathType, squeeze, 1)];
     }
 
@@ -66,7 +64,7 @@ function makeWaves(level) {
 
 function makeWave(type, path, difficulty, color, pathType) {
   var speed = difficulty * 1.5;
-  var count = enemyCounts[type];
+  var count = Math.floor(enemyCounts[type] * difficulty);
   var delay = ENEMY[type][0] * 16 / 1000 * 1.5 / speed;
 
   var x = path[0] * width;
@@ -92,7 +90,14 @@ function makeWave(type, path, difficulty, color, pathType) {
 function makeBossWave(level) {
   // level a
   if (level === 2) {
-
+    return [
+      0,
+      [],
+      0,
+      [],
+      0,
+      0
+    ];
   }
 
   // level b

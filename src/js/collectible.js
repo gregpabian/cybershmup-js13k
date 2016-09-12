@@ -1,5 +1,5 @@
 /* global SIZE_XS TWO_PI COLLECTIBLE adjustHex makeSprite dt height updateSprite
-drawSprite collectibles randomChance seed level random */
+drawSprite collectibles randomChance seed random */
 
 var collectibleSpeed = 70;
 var spawnChance = 50;
@@ -19,7 +19,6 @@ function addCollectible(type, x, y) {
     x, // start x
     [x, y], // pos x,y
     type, // type
-    c[2], // value
     1, // alive flag
     0 // animation timer
   ]);
@@ -31,7 +30,7 @@ function updateCollectibles() {
   while (i >= 0) {
     updateCollectible(collectibles[i]);
 
-    if (!collectibles[i][5]) {
+    if (!collectibles[i][4]) {
       collectibles.splice(i, 1);
     }
 
@@ -43,13 +42,13 @@ function updateCollectible(collectible) {
   if (!collectible[4]) return;
   var t = dt / 1000;
 
-  collectible[6] += t;
+  collectible[5] += t;
 
-  collectible[2][0] = collectible[1] + Math.sin(collectible[6]) * 30;
+  collectible[2][0] = collectible[1] + Math.sin(collectible[5]) * 30;
   collectible[2][1] += collectibleSpeed * t;
 
   if (collectible[2][1] > height) {
-    collectible[5] = 0;
+    collectible[4] = 0;
   } else {
     updateSprite(collectible[0], collectible[2][0], collectible[2][1]);
   }

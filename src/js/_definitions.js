@@ -33,9 +33,9 @@ var BULLET = [
 var BULLET_IMG;
 
 var COLLECTIBLE = {
-  'h': ['0f0', '✚', 1],
-  'w': ['f0c', '✊', 1],
-  'e': ['0cf', '⚡', 1]
+  'h': ['0f0', '✚'],
+  'w': ['f0c', '✊'],
+  'e': ['0cf', '⚡']
 };
 
 var ENEMY = {
@@ -156,11 +156,12 @@ var PLAYER = [
 var WEAPON = [
   // bullet, delay between shots (ms), bullet vector(s) and locations (0, 0 if none given), rocket timer
   // pulse laser
-  [0, 500, [Math.PI / 2]],
-  [1, 250, [Math.PI / 2]],
-  [2, 166, [Math.PI / 2]],
+  [0, 400, [Math.PI / 2]],
+  [1, 300, [Math.PI / 2]],
+  [2, 200, [Math.PI / 2]],
   [2, 200, [Math.PI / 2, [-0.3, 0]], [Math.PI / 2, [0.3, 0]]],
   [2, 200, [Math.PI * 3 / 5], [Math.PI / 2], [Math.PI * 2 / 5]],
+  // pulse laser with rockets
   [2, 200, [Math.PI * 3 / 5], [Math.PI / 2], [Math.PI * 2 / 5], 1500],
   [2, 200, [Math.PI * 3 / 5], [Math.PI / 2], [Math.PI * 2 / 5], 1250],
   [2, 200, [Math.PI * 3 / 5], [Math.PI / 2], [Math.PI * 2 / 5], 1000]

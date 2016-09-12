@@ -43,7 +43,7 @@ var gameplay = [
       makeLabel(375, 570, 'glitch', '0cf', 3)
     ];
     // reset health
-    health = 5;
+    health = maxHealth;
     // reset energy
     energy = 0;
     // reset level completion
@@ -180,16 +180,16 @@ function getBackgroundColor(color) {
   }).join('');
 }
 
-function addHealth(amount) {
-  health = clamp(0, health + amount, maxHealth);
+function addHealth() {
+  health = clamp(health + 1, 0, maxHealth);
 }
 
-function addEnergy(amount) {
-  energy = clamp(0, energy + amount, maxEnergy);
+function addEnergy() {
+  energy = clamp(energy + 1, 0, maxEnergy);
 }
 
-function addWeapon(amount) {
-  weapon = clamp(0, weapon + amount, maxWeapon);
+function addWeapon() {
+  weapon = clamp(weapon + 1, 0, maxWeapon);
 }
 
 function spawnGlitch() {

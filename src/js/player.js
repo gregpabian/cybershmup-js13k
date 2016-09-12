@@ -127,7 +127,8 @@ function collidePlayerWithWaves() {
     wave[3].forEach(function (enemy) {
       if (enemy[3] <= 0) return;
       if (collideCircles(player[2], player[1], enemy[1], ENEMY[enemy[0]][0])) {
-        health = enemy[3] = 0;
+        enemy[3] = 0;
+        if (!enemy[6]) health = 0;
       }
     });
   });
@@ -144,8 +145,8 @@ function collidePlayerWithCollectibles() {
         case 'e': fn = addEnergy; break;
       }
 
-      fn(collectible[4]);
-      collectible[5] = 0;
+      fn();
+      collectible[4] = 0;
     }
   });
 }
