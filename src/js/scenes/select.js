@@ -110,15 +110,12 @@ function makeSelectButtons() {
 }
 
 function drawLevels() {
-  ctxUI.beginPath();
   ctxUI.lineWidth = 5;
-  ctxUI.moveTo(levels[0][0], levels[0][1]);
-
-  for (var i = 1; i <= unlockedLevel; i++) {
-    ctxUI.lineTo(levels[i][0], levels[i][1]);
-    ctxUI.strokeStyle = '#' + levels[i][4];
-    ctxUI.stroke();
+  for (var i = 0; i < unlockedLevel; i++) {
     ctxUI.beginPath();
     ctxUI.moveTo(levels[i][0], levels[i][1]);
+    ctxUI.lineTo(levels[i + 1][0], levels[i + 1][1]);
+    ctxUI.strokeStyle = '#' + levels[i + 1][4];
+    ctxUI.stroke();
   }
 }
