@@ -2,17 +2,18 @@
 clicked:true handleButtonClick mx my levels makeBackground makeGauge makeLabel
 enableGaugeGlow drawGauge drawLabel updateGauge health:true width
 energy:true weapon:true PLAYER updatePlayer makePlayer level
-updateBackground drawPlayer makeWaves updateWaves makeBullets updateBullets
-drawBullets drawWaves clamp disableGaugeGlow collidePlayerWithWaves makeGlitch
-collideBullets makeExplosions drawExplosions updateExplosions updateGlitch
+updateBackground drawWave makeWaves updateWaves makeBullets updateBullets
+drawBullets clamp disableGaugeGlow collidePlayerWithWaves makeGlitch
+collideBullets makeExplosions drawBatch updateExplosions updateGlitch
 maxEnergy maxWeapon updateCollectibles collidePlayerWithCollectibles maxHealth
-drawCollectibles drawGlitch collideGlitchWithWaves collideGlitchWithBullets
+drawCollectibles drawSprite collideGlitchWithWaves collideGlitchWithBullets
 isVectorInRect resetGlitch height weaponLevel:true updateMissiles ENEMY dt
-collideMissilesWithWaves drawMissiles checkWavesComplete unlockedLevel: true
-localStorage maxWeaponLevel seed:true initialSeed random */
+collideMissilesWithWaves drawMissile checkWavesComplete unlockedLevel: true
+localStorage maxWeaponLevel seed:true initialSeed random makeBossWave
+updateBossWave drawBossWave */
 
 var player, bullets, waves, explosions, collectibles, glitch, missiles,
-  levelComplete, completeTimer;
+  levelComplete, completeTimer, boss, bossWave, bossWaveHealth;
 
 var gameplay = [
   // 0 init
@@ -36,30 +37,45 @@ var gameplay = [
       // energy
       makeGauge(265, 645, 480, '0cf', '022', maxEnergy, energy, -0.05)
     ];
+
     // labels
     gameplay[7] = [
       makeLabel(3, 295, 'hp', '0d0', 2),
       makeLabel(463, 250, 'wp', 'f0c', 2),
       makeLabel(375, 570, 'glitch', '0cf', 3)
     ];
+
+    // add boss gauge and label
+    if (level == 2 || level == 5 || level == 8) {
+      boss = 1;
+      gameplay[6].push(makeGauge(195, 0, 320, 'd00', '200', 10, 10, -0.05));
+      gameplay[7].push(makeLabel(280, 30, 'boss ' + levels[level][2], 'd00', 3));
+      makeBossWave(level);
+      bossWaveHealth = bossWave.reduce(function (result, boss) {
+        return result + boss[0][3];
+      }, 0);
+      waves = [];
+    } else {
+      // reset boss flag
+      boss = bossWave = 0;
+      // waves
+      makeWaves(level);
+    }
+
     // reset health
     health = maxHealth;
-    // reset energy
-    energy = 0;
-    // reset level completion
-    levelComplete = completeTimer = 0;
+    // reset energy and level completion
+    energy = levelComplete = completeTimer = 0;
     // player
-    player = makePlayer();
-    // waves
-    waves = makeWaves(level);
+    makePlayer();
     // bullets
-    bullets = makeBullets(100);
+    makeBullets(200);
     // explosions
-    explosions = makeExplosions(100);
+    makeExplosions(100);
     // collectibles
     collectibles = [];
     // glitch
-    glitch = makeGlitch();
+    makeGlitch();
     // missiles
     missiles = [];
   },
@@ -76,6 +92,12 @@ var gameplay = [
     updateGauge(gameplay[6][0], health);
     updateGauge(gameplay[6][1], weapon);
     updateGauge(gameplay[6][2], energy);
+
+    if (boss) {
+      updateGauge(gameplay[6][3], getBossHealth());
+      updateBossWave();
+    }
+
     collideGlitchWithWaves();
     collideGlitchWithBullets();
     collidePlayerWithWaves();
@@ -106,8 +128,8 @@ var gameplay = [
     }
 
     // win condition was met
-    if (!levelComplete && checkWavesComplete()) {
-      levelComplete = true;
+    if (!levelComplete && ((boss && checkBossComplete()) || (!boss && checkWavesComplete()))) {
+      levelComplete = 1;
       completeTimer = 0;
     }
 
@@ -116,8 +138,10 @@ var gameplay = [
     }
 
     if (completeTimer > 2000) {
+      // end game
       if (level === 8) {
         changeScene(1, 0);
+        //complete level
       } else {
         unlockedLevel = Math.max(unlockedLevel, level + 1);
         localStorage.setItem('csul', unlockedLevel);
@@ -146,7 +170,7 @@ var gameplay = [
 
     if (clicked) {
       if (handleButtonClick(mx, my, gameplay[5])) {
-        clicked = false;
+        clicked = 0;
         return true;
       }
 
@@ -163,13 +187,17 @@ var gameplay = [
     gameplay[6].forEach(drawGauge);
     gameplay[7].forEach(drawLabel);
 
-    drawPlayer();
-    drawWaves();
+    drawSprite(player[0]);
+    waves.forEach(drawWave);
     drawBullets();
-    drawMissiles();
+    missiles.forEach(drawMissile);
     drawCollectibles();
-    drawExplosions();
-    drawGlitch();
+    drawBatch(explosions[1], explosions[0].length);
+    if (glitch[4]) drawSprite(glitch[0]);
+
+    if (boss) {
+      drawBossWave();
+    }
   }
 ];
 
@@ -195,4 +223,14 @@ function addWeapon() {
 function spawnGlitch() {
   resetGlitch();
   energy -= maxEnergy;
+}
+
+function getBossHealth() {
+  return Math.round(bossWave.reduce(function (result, boss) {
+    return result + boss[0][3];
+  }, 0) / bossWaveHealth * 10);
+}
+
+function checkBossComplete() {
+  return !bossWave.length;
 }

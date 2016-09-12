@@ -1,5 +1,6 @@
 /* global TWO_PI getPathPosition dt hex2rgba addBullet ENEMY WEAPON player WHITE
-getAngleBetweenVectors adjustHex ENEMY_WEAPON playSound SOUNDS normalizeAngle */
+getAngleBetweenVectors adjustHex ENEMY_WEAPON playSound SOUNDS normalizeAngle
+updateSprite */
 
 function makeEnemy(type, x, y, difficulty, speed, color) {
   var weapon;
@@ -8,7 +9,6 @@ function makeEnemy(type, x, y, difficulty, speed, color) {
   // turret shoot every 2 seconds
   if (type[0] === 't') {
     rof = 2000;
-    color = WHITE;
     // use a weapon's rof
   } else if ((weapon = getWeapon(type))) {
     rof = weapon[1];
@@ -48,6 +48,21 @@ function updateEnemy(enemy, path) {
   }
 }
 
+function updateBoss(boss) {
+  var sprite = boss[1];
+  boss = boss[0];
+
+  if (boss[3] <= 0) return;
+
+  boss[4] -= dt;
+
+  if (boss[4] <= 0) {
+    shootEnemy(boss);
+  }
+
+  updateSprite(sprite, boss[1][0], boss[1][1], 0, 1, 1, 1, boss[7]);
+}
+
 function shootEnemy(enemy) {
   if (enemy[4] === undefined) return;
 
@@ -66,7 +81,7 @@ function shootEnemy(enemy) {
     return;
   }
 
-  playSound(SOUNDS[5], 1);
+  playSound(SOUNDS[4], 1);
 }
 
 function glitchEnemy(enemy) {
@@ -135,8 +150,8 @@ function renderTurret(turret) {
   c.width = c.height = d;
   var ctx = c.getContext('2d');
   ctx.lineWidth = 2;
-  ctx.strokeStyle = '#' + turret[1];
-  ctx.fillStyle = '#' + adjustHex(turret[1], 0.5);
+  ctx.strokeStyle = '#fff';
+  ctx.fillStyle = '#' + adjustHex('fff', 0.5);
   ctx.save();
   ctx.translate(d / 2, d / 2);
   ctx.rotate(Math.PI / 4);

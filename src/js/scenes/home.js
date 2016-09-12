@@ -9,12 +9,9 @@ playSound SOUNDS level:true V_DOWN */
 var loaded = false;
 var loadingPlayed = false;
 
-var logoImage = new Image();
-logoImage.src = lImage;
-
 var loadingTimer = 0;
-var pixelLabel = makeLabel(113, 404, 'pixel chinchilla', 'fff', 4);
-var presentsLabel = makeLabel(193, 434, 'presents', 'fff', 3);
+var pixelLabel = makeLabel(113, 290, 'pixel chinchilla', 'fff', 4);
+var presentsLabel = makeLabel(193, 330, 'presents', 'fff', 3);
 
 var home = [
   // 0 init
@@ -209,12 +206,10 @@ var home = [
   function () {
     // render splash screen
     if (!loaded) {
-      ctxUI.drawImage(logoImage, 0, 0, 32, 32, 185, 256, 128, 128);
       drawLabel(pixelLabel);
 
       if (loadingTimer > 1) {
         drawLabel(presentsLabel);
-        if (!loadingPlayed) playSound(SOUNDS[1]);
         loadingPlayed = true;
       }
 

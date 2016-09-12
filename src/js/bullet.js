@@ -1,12 +1,12 @@
 /* global TWO_PI BULLET dt width height vectorMultiply vectorAdd makeBatch V_RIGHT
 vectorRotate SIZE_XXXS isVectorOnScreen BULLET_IMG updateBatchItem shakeCamera
-drawBatch bullets waves player collideCircles ENEMY addExplosion health:true
-level */
+drawBatch bullets:true waves player collideCircles ENEMY addExplosion health:true
+boss bossWave */
 
 var bulletSpeed = 0.75;
 
 function makeBullets(size) {
-  return [
+  bullets = [
     [],
     makeBatch(BULLET_IMG, size),
     size
@@ -100,6 +100,17 @@ function collideBullets() {
           }
         });
       });
+
+      if (boss) {
+        bossWave.some(function (boss) {
+          if (collideCircles(bullet[3], SIZE_XXXS, boss[0][1], ENEMY[boss[0][0]][0])) {
+            bullet[5] = 0;
+            boss[0][3] -= bullet[1];
+
+            return true;
+          }
+        });
+      }
       // enemy bullet - collide with player
     } else if (health > 0) {
       // not glitched and collides

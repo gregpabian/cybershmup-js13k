@@ -1,4 +1,4 @@
-/* global hex2rgba makeSprite GLITCH_IMG glitch width height dt waves ENEMY
+/* global hex2rgba makeSprite GLITCH_IMG glitch:true width height dt waves ENEMY
 bullets SIZE_XXXS drawSprite updateSprite clamp glitchBullet glitchEnemy */
 
 var glitchSpeed = 200;
@@ -21,7 +21,7 @@ function renderGlitch() {
 }
 
 function makeGlitch() {
-  return [
+  glitch = [
     makeSprite(GLITCH_IMG),
     width / 2, // x
     height + glitchSize / 2, // y
@@ -42,11 +42,6 @@ function updateGlitch() {
   glitch[3] = clamp(glitch[2] / height + 0.1, 0, 1);
 
   updateSprite(glitch[0], glitch[1], glitch[2], 0, glitch[3]);
-}
-
-function drawGlitch() {
-  if (!glitch[4]) return;
-  drawSprite(glitch[0]);
 }
 
 function resetGlitch() {

@@ -92,10 +92,6 @@ function findClosestTargetInWaves() {
   return target;
 }
 
-function drawMissiles() {
-  missiles.forEach(drawMissile);
-}
-
 function drawMissile(missile) {
   drawSprite(missile[0]);
 }

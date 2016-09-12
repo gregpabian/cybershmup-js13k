@@ -1,8 +1,8 @@
 /* global mx my kx ky dt vectorAdd isMobile vectorNormalize vectorDistance waves
-vectorMultiply vectorSubtract width height PLAYER makeSprite player drawSprite
-updateSprite addBullet WEAPON weaponLevel collideCircles ENEMY health:true
-playSound SOUNDS collectibles SIZE_XS addHealth addWeapon addEnergy addMissile
-wavesHaveActiveShips */
+vectorMultiply vectorSubtract width height PLAYER makeSprite player:true
+drawSprite updateSprite addBullet WEAPON weaponLevel collideCircles ENEMY
+health:true playSound SOUNDS collectibles SIZE_XS addHealth addWeapon addEnergy
+addMissile wavesHaveActiveShips */
 
 var followSpeed = 100;
 var drag = 0.8;
@@ -14,7 +14,7 @@ function makePlayer() {
   var sprite = makeSprite(PLAYER[1]);
   updateSprite(sprite, 0, 0, 0, 1, 1, 1);
 
-  return [
+  player = [
     sprite, // player sprite
     PLAYER[0], // player size
     [].concat(startPos), // position vector
@@ -92,7 +92,7 @@ function updatePlayer() {
   if (shotTimer <= 0) {
     shotTimer = weapon[1];
     playerShoot(player, weapon);
-    playSound(SOUNDS[2], true);
+    playSound(SOUNDS[1], true);
   }
 
   if (weaponLevel < 5) return;
@@ -102,7 +102,7 @@ function updatePlayer() {
   if (missileTimer <= 0 && wavesHaveActiveShips()) {
     missileTimer = weapon[5];
     addMissile(player[2][0], player[2][1]);
-    playSound(SOUNDS[5], true);
+    playSound(SOUNDS[4], true);
   }
 }
 
@@ -115,10 +115,6 @@ function playerShoot(player, weapon) {
 
     addBullet(weapon[0], vectorAdd(player[2], vectorMultiply(o, player[1])), a, 1);
   }
-}
-
-function drawPlayer() {
-  drawSprite(player[0]);
 }
 
 function collidePlayerWithWaves() {

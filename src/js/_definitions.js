@@ -8,6 +8,7 @@ var V_RIGHT = [1, 0];
 var V_DOWN = [0, width];
 
 var WHITE = [255, 255, 255];
+var ORANGE = [255, 100, 0];
 
 var SIZE_XXXS = 12;
 var SIZE_XXS = 16;
@@ -160,11 +161,12 @@ var WEAPON = [
   [1, 300, [Math.PI / 2]],
   [2, 200, [Math.PI / 2]],
   [2, 200, [Math.PI / 2, [-0.3, 0]], [Math.PI / 2, [0.3, 0]]],
-  [2, 200, [Math.PI * 3 / 5], [Math.PI / 2], [Math.PI * 2 / 5]],
+  [2, 190, [Math.PI * 3 / 5], [Math.PI / 2], [Math.PI * 2 / 5]],
   // pulse laser with rockets
-  [2, 200, [Math.PI * 3 / 5], [Math.PI / 2], [Math.PI * 2 / 5], 1500],
-  [2, 200, [Math.PI * 3 / 5], [Math.PI / 2], [Math.PI * 2 / 5], 1250],
-  [2, 200, [Math.PI * 3 / 5], [Math.PI / 2], [Math.PI * 2 / 5], 1000]
+  [2, 180, [Math.PI * 3 / 5], [Math.PI / 2], [Math.PI * 2 / 5], 1500],
+  [2, 170, [Math.PI * 3 / 5], [Math.PI / 2], [Math.PI * 2 / 5], 1250],
+  [2, 160, [Math.PI * 3 / 5], [Math.PI / 2], [Math.PI * 2 / 5], 1000],
+  [2, 150, [Math.PI * 3 / 5], [Math.PI / 2], [Math.PI * 2 / 5], 750]
 ];
 
 var ENEMY_WEAPON = [

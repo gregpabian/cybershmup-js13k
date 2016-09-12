@@ -1,6 +1,7 @@
 /* global ENEMY dt makeEnemy makePath updateEnemy width height makeBatch hex2rgb
 updateBatchItem drawBatch waves addExplosion trySpawningCollectible levels
-seed randomIntWeighted random PATH randomInRange randomChance initialSeed */
+seed randomIntWeighted PATH randomInRange randomChance bossWave:true makeSprite
+updateBoss drawSprite waves:true */
 
 var pathHashMap = ['c', 's', 'a', 'z', 'u'];
 var enemyCounts = {'ss': 10, 'sm': 5, 'ts': 1, 'tm': 1, 'sl': 2, 'tl': 1};
@@ -9,8 +10,9 @@ var enemyTypes = Object.keys(enemyCounts);
 
 // create waves for the given difficulty level
 function makeWaves(level) {
+  waves = [];
+
   var difficulty = 1 + level / 10;
-  var waves = [];
   var maxType = Math.floor(3 + level / 3);
   var types = [];
   var typesOrdered = [];
@@ -34,32 +36,23 @@ function makeWaves(level) {
 
   for (i = 0; i < count; i++) {
     var pathType = pathHashMap[randomInRange(seed, typesOrdered[i][0] === 't' ? 0 : 1, 5)];
-    var squeeze = false;
     var paths;
 
     if (pathType === 'c') {
       pathType = randomInRange(seed, 1, 8);
       paths = [makePath(pathType)];
     } else {
-      squeeze = i > 5 && randomChance(seed, 20 + level);
-      paths = [makePath(pathType, squeeze), makePath(pathType, squeeze, 1)];
+      paths = [makePath(pathType), makePath(pathType, 1)];
     }
 
     for (var j = 0; j < paths.length; j++) {
-      wave = makeWave(typesOrdered[i], paths[j], difficulty, color, pathType);
+      var wave = makeWave(typesOrdered[i], paths[j], difficulty, color, pathType);
       waveDelay = wave[0];
       wave[0] = delay;
       waves.push(wave);
-      if (!squeeze) delay += waveDelay;
+      delay += waveDelay;
     }
   }
-
-  // add boss fight for levels a, b and c
-  var wave = makeBossWave(level);
-
-  if (wave) waves.push(wave);
-
-  return waves;
 }
 
 function makeWave(type, path, difficulty, color, pathType) {
@@ -88,26 +81,44 @@ function makeWave(type, path, difficulty, color, pathType) {
 }
 
 function makeBossWave(level) {
+  var color = hex2rgb('f00');
+  var hp = level * 10;
   // level a
   if (level === 2) {
-    return [
-      0,
-      [],
-      0,
-      [],
-      0,
-      0
+    bossWave = [
+      [makeEnemy('tm', width / 3, 100, hp, 0, color), makeSprite(ENEMY['tm'][1])],
+      [makeEnemy('tm', width * 2 / 3, 100, hp, 0, color), makeSprite(ENEMY['tm'][1])]
     ];
   }
 
   // level b
   if (level === 5) {
-
+    bossWave = [
+      [makeEnemy('tl', width / 2, 150, hp, 0, color), makeSprite(ENEMY['tl'][1])]
+    ];
   }
 
   // level c
   if (level === 8) {
+    bossWave = [
+      [makeEnemy('tm', width / 3, 100, hp, 0, color), makeSprite(ENEMY['tm'][1])],
+      [makeEnemy('tm', width * 2 / 3, 100, hp, 0, color), makeSprite(ENEMY['tm'][1])],
+      [makeEnemy('tl', width / 2, 150, hp, 0, color), makeSprite(ENEMY['tl'][1])]
+    ];
+  }
+}
 
+function updateBossWave() {
+  for (var i = 0, len = bossWave.length; i < len; i++) {
+    var boss = bossWave[i];
+
+    updateBoss(boss);
+
+    if (boss[0][3] <= 0) {
+      bossWave.splice(i, 1);
+      len--;
+      i--;
+    }
   }
 }
 
@@ -173,12 +184,14 @@ function waveComplete(wave) {
   });
 }
 
-function drawWaves() {
-  waves.forEach(drawWave);
-}
-
 function drawWave(wave) {
   drawBatch(wave[2], wave[3].length);
+}
+
+function drawBossWave() {
+  bossWave.forEach(function (boss) {
+    drawSprite(boss[1]);
+  });
 }
 
 function checkWavesComplete() {

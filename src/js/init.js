@@ -52,7 +52,7 @@ MISSILE_IMG = renderMissile();
 var projectionMatrix = make2DProjection(width, height);
 var scenes = [gameplay, home, select];
 
-var currentScene = 0; loaded = true;
+var currentScene = 1;//0; loaded = true;
 
 var health = 3;
 var maxHealth = 3;

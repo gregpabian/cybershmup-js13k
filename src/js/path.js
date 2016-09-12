@@ -1,16 +1,12 @@
 /* global PATH, TWO_PI, ctx, ctxUI, width, height, dt, lerp */
 
-function makePath(type, squeeze, mirror) {
-  var path = [].concat(PATH[type]);
-
-  if (squeeze) path = squeezePath(path);
-  if (mirror) path = mirrorPath(path);
-
-  return path;
+function makePath(type, mirror) {
+  var path = PATH[type].slice();
+  return mirror ? mirrorPath(path) : path;
 }
 
 function mirrorPath(path) {
-  path = [].concat(path);
+  path = path.slice();
 
   for (var i = 0; i < path.length; i += 2) {
     path[i] = 1 - path[i];
@@ -19,20 +15,11 @@ function mirrorPath(path) {
   return path;
 }
 
-function squeezePath(path) {
-  path = [].concat(path);
-
-  for (var i = 0; i < path.length; i += 2) {
-    path[i] = path[i] / 2;
-  }
-
-  return path;
-}
-
 function getPathPosition(path, pos) {
   var i = Math.floor(pos) * 4;
+  var len = path.length;
 
-  if (i < path.length - 4) {
+  if (i < len - 4) {
     var t = pos - Math.floor(pos);
     var a = [path[i], path[i + 1]];
     var b = [path[i + 2], path[i + 3]];
@@ -45,5 +32,5 @@ function getPathPosition(path, pos) {
   }
 
   // return the last point of path
-  return [path[path.length - 2] * width, path[path.length - 1] * height];
+  return [path[len - 2] * width, path[len - 1] * height];
 }

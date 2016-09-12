@@ -150,7 +150,7 @@ module.exports = function(grunt) {
 
     injectImages: {
       build: {
-        src: ['<%= build %>f.64', '<%= build %>l.64'],
+        src: ['<%= build %>f.64'],
         dest: '<%= src %>js/_images.js'
       }
     },

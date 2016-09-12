@@ -1,8 +1,15 @@
-/* global explosions makeBatch EXPLOSION_IMG drawBatch dt updateBatchItem SOUNDS
-SIZE_XXL playSound SIZE_XS shakeCamera */
+/* global makeBatch EXPLOSION_IMG dt updateBatchItem explosions:true SOUNDS
+SIZE_XXL playSound SIZE_XS shakeCamera ORANGE */
 
 var explosionGrowthSpeed = 10;
-var explosionColor = [255, 100, 0];
+
+function makeExplosions(size) {
+  explosions = [
+    [],
+    makeBatch(EXPLOSION_IMG, size),
+    size
+  ];
+}
 
 function addExplosion(x, y, size) {
   if (explosions[0].length >= explosions[2]) {
@@ -18,18 +25,10 @@ function addExplosion(x, y, size) {
     1 // alive
   ]);
 
-  playSound(SOUNDS[size < SIZE_XS ? 3 : 4], true);
+  playSound(SOUNDS[size < SIZE_XS ? 2 : 3], true);
   if (size > SIZE_XS) {
     shakeCamera(7);
   }
-}
-
-function makeExplosions(size) {
-  return [
-    [],
-    makeBatch(EXPLOSION_IMG, size),
-    size
-  ];
 }
 
 function updateExplosions() {
@@ -58,15 +57,11 @@ function updateExplosions() {
 
       var s = explosion[1] / SIZE_XXL;
 
-      updateBatchItem(explosions[1], i, explosion[0][0], explosion[0][1], 0, explosion[3], s, s, explosionColor);
+      updateBatchItem(explosions[1], i, explosion[0][0], explosion[0][1], 0, explosion[3], s, s, ORANGE);
     } else {
       explosions[0].splice(i, 1);
       len--;
       i--;
     }
   }
-}
-
-function drawExplosions() {
-  drawBatch(explosions[1], explosions[0].length);
 }
