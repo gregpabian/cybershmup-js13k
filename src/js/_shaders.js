@@ -5,4 +5,4 @@ var mixFrag = "precision mediump float;uniform sampler2D m;uniform sampler2D b;u
 var staticVert = "attribute vec2 p;varying vec2 vuv;void main(){gl_Position=vec4(p,1,1);vuv=0.5*(p+1.0);}\n";
 var textureFrag = "precision mediump float;uniform sampler2D t;varying vec2 vuv;varying vec4 vc;void main(){vec4 a=texture2D(t,vuv);if(a.r==a.g&&a.g==a.b){gl_FragColor=a*vc;}else{gl_FragColor=a;}}\n";
 var thresholdFrag = "precision mediump float;uniform sampler2D t;varying vec2 vuv;void main(){vec3 a=texture2D(t,vuv).rgb;float b=dot(a,vec3(1,1,1));if(b>0.65){gl_FragColor=vec4(a,1);}else{gl_FragColor=vec4(0,0,0,1);}}\n";
-var trailFrag = "precision mediump float;uniform sampler2D t;uniform sampler2D o;varying vec2 vuv;void main(){gl_FragColor=texture2D(t,vuv)+texture2D(o,vuv)*0.6;}\n";
+var trailFrag = "precision mediump float;uniform sampler2D t;uniform sampler2D o;varying vec2 vuv;void main(){gl_FragColor=texture2D(t,vuv)+texture2D(o,vuv)*0.7;}\n";

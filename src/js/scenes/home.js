@@ -132,8 +132,8 @@ var home = [
         if (!isMobile) {
           home[7].push(
             makeLabel(20, 540, 'controls:', 'fff', 3),
-            makeLabel(20, 560, 'wasd + enter', 'fff', 3),
-            makeLabel(20, 580, 'arrows + space', 'fff', 3)
+            makeLabel(20, 560, 'wasd, enter', 'fff', 3),
+            makeLabel(20, 580, 'arrows, space', 'fff', 3)
           );
         }
     }
