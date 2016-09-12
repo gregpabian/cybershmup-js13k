@@ -8,10 +8,10 @@ varying vec2 vuv;
 varying vec4 vc;
 
 void main() {
-  vec4 color = texture2D(t, vuv);
-  if (color.r == color.g && color.g == color.b) {
-    gl_FragColor = color * vc;
+  vec4 c = texture2D(t, vuv);
+  if (c.r == c.g && c.g == c.b) {
+    gl_FragColor = c * vc;
   } else {
-    gl_FragColor = color;
+    gl_FragColor = c;
   }
 }
