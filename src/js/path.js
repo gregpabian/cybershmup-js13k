@@ -16,11 +16,11 @@ function mirrorPath(path) {
 }
 
 function getPathPosition(path, pos) {
-  var i = Math.floor(pos) * 4;
+  var i = ~~(pos) * 4;
   var len = path.length;
 
   if (i < len - 4) {
-    var t = pos - Math.floor(pos);
+    var t = pos - ~~(pos);
     var a = [path[i], path[i + 1]];
     var b = [path[i + 2], path[i + 3]];
     var c = [path[i + 4], path[i + 5]];

@@ -17,7 +17,7 @@ function makeWaves() {
   kills = 0;
 
   var difficulty = 1 + level / 10;
-  var maxType = Math.floor(3 + level / 3);
+  var maxType = ~~(3 + level / 3);
   var types = [];
   var typesOrdered = [];
   var count = boss ? 18 : 9;
@@ -54,7 +54,7 @@ function makeWaves() {
 
 function makeWave(type, path, difficulty, color, pathType) {
   var speed = difficulty * 1.5;
-  var count = Math.floor(enemyCounts[type] * difficulty);
+  var count = ~~(enemyCounts[type] * difficulty);
   var delay = ENEMY[type][0] * 16 / 1000 * 1.5 / speed;
 
   var x = path[0] * width;

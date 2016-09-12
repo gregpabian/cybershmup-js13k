@@ -2,7 +2,7 @@
 make2DProjection TURRET renderTurret width height BULLET_IMG:true hex2rgb
 EXPLOSION_IMG:true SIZE_XXXS SIZE_XXL SOUNDS makeSound localStorage COLLECTIBLE
 renderCollectible GLITCH_IMG:true renderGlitch MISSILE_IMG:true renderMissile
-isMobile touchStart touchMove touchEnd handleKeyDown handleKeyUp */
+isMobile touchStart touchMove touchEnd handleKeyDown handleKeyUp WEAPON */
 
 var cm = document.getElementById('m');
 var cui = document.getElementById('ui');
@@ -42,17 +42,15 @@ for (item in SOUNDS) {
 }
 
 BULLET_IMG = renderBullet(SIZE_XXXS);
-
 EXPLOSION_IMG = renderBullet(SIZE_XXL);
-
 GLITCH_IMG = renderGlitch();
-
 MISSILE_IMG = renderMissile();
 
 var projectionMatrix = make2DProjection(width, height);
-var scenes = [gameplay, home, select];
 
+var scenes = [gameplay, home, select];
 var currentScene = 1;//0; loaded = true;
+var level = 0;
 
 var health = 3;
 var maxHealth = 3;
@@ -63,19 +61,16 @@ var weapon = 0;
 var maxWeapon = 5;
 var maxWeaponLevel = WEAPON.length - 1;
 
-var level = 0;
-
 // rng seed
 var initialSeed = 9;
 var seed = initialSeed;
 
 var weaponLevel = 0;// weaponLevel = 5;
-var unlockedLevel = +localStorage.getItem('csul') || 0;
+var unlockedLevel = 0;
 var soundOn = localStorage.getItem('css');
 soundOn = soundOn === null ? 1 : +soundOn;
 var highQuality = localStorage.getItem('csq');
 highQuality = highQuality === null ? isMobile ? 0 : 1 : +highQuality;
-
 
 if (isMobile) {
   document.addEventListener('touchstart', touchStart);

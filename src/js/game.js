@@ -2,8 +2,7 @@
 currentScene: true isMobile handleKeys wrapper sc: true disableAA makeProgram
 baseVert staticVert textureFrag blurFrag mixFrag makeFramebuffer setFramebuffer
 highQuality getUniformLocation useTexture makeQuadBuffer drawBackground cm
-copyFrag trailFrag cancelAnimationFrame loaded projectionMatrix TWO_PI random
-initialSeed */
+copyFrag trailFrag loaded projectionMatrix TWO_PI random initialSeed */
 
 var last = 0;
 var dt = 0;
@@ -156,10 +155,10 @@ function initGL() {
   quadBuffer = makeQuadBuffer();
 }
 
-function changeScene(id) {
+function changeScene(id, arg) {
   currentScene = id;
   // initialize scene
-  scenes[currentScene][0].apply(null, Array.prototype.slice.call(arguments, 1));
+  scenes[currentScene][0](arg);
 }
 
 function resize(ww, wh) {

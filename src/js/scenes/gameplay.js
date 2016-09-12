@@ -143,7 +143,6 @@ var gameplay = [
         //complete level
       } else {
         unlockedLevel = Math.max(unlockedLevel, level + 1);
-        localStorage.setItem('csul', unlockedLevel);
         changeScene(1, 3);
       }
     }
@@ -225,7 +224,7 @@ function spawnGlitch() {
 }
 
 function getBossHealth() {
-  return Math.round(bossWave.reduce(function (result, boss) {
+  return ~~(bossWave.reduce(function (result, boss) {
     return result + boss[0][3];
   }, 0) / bossWaveHealth * 10);
 }

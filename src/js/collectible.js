@@ -21,7 +21,7 @@ function seedCollectibles() {
     collectibleBatch.push.apply(collectibleBatch, patt.split(''));
   }
 
-  dropEvery = Math.floor(enemyCount / collectibleBatch.length);
+  dropEvery = ~~(enemyCount / collectibleBatch.length);
 }
 
 function trySpawningCollectible(position) {

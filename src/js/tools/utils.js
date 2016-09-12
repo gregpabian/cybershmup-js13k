@@ -83,7 +83,7 @@ function makeRandom(seed) {
 }
 
 function randomInt(seed, max) {
-  return Math.floor(random(seed) * max);
+  return ~~(random(seed) * max);
 }
 
 function randomInRange(seed, min, max) {
