@@ -139,7 +139,7 @@ var gameplay = [
     if (completeTimer > 2000) {
       // end game
       if (level === 8) {
-        changeScene(1, 0);
+        changeScene(1, 5);
         //complete level
       } else {
         unlockedLevel = Math.max(unlockedLevel, level + 1);

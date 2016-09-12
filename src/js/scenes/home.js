@@ -9,8 +9,8 @@ playSound SOUNDS level:true V_DOWN V_CENTER */
 var loaded = false;
 
 var loadingTimer = 0;
-var pixelLabel = makeLabel(113, 290, 'pixel chinchilla', 'fff', 4);
-var presentsLabel = makeLabel(193, 330, 'presents', 'fff', 3);
+var pixelLabel = makeLabel(110, 290, 'pixel chinchilla', 'fff', 4);
+var presentsLabel = makeLabel(190, 330, 'presents', 'fff', 3);
 
 var home = [
   // 0 init
@@ -53,8 +53,12 @@ var home = [
     ];
 
     switch (mode) {
-      // credits
+      // the end
+      case 5:
+        home[7].push(makeLabel(190, 170, 'fin', 'fff', 8));
+        /* falls through */
       case 0:
+        // credits
         home[5] = [
           makeButton(390, 580, 260, 60, 'main menu', 4, '0cf', '024', 1, function () {
             // go to the home scene
@@ -64,10 +68,8 @@ var home = [
 
         home[7].push(
           makeLabel(160, 250, 'created by', '09c', 4),
-          makeLabel(111, 280, 'greg pabian', '0cf', 6),
-          makeLabel(90, 330, 'pixelchinchilla.com', '0cf', 4),
-          makeLabel(90, 360, 'twitter: gregpabian', '0cf', 4),
-          makeLabel(98, 390, 'github: gregpabian', '0cf', 4)
+          makeLabel(110, 290, 'greg pabian', '0cf', 6),
+          makeLabel(90, 330, 'pixelchinchilla.com', '0cf', 4)
         );
         break;
 
@@ -81,7 +83,7 @@ var home = [
         ].concat(pauseButtons, settingsButtons);
 
         home[7].push(
-          makeLabel(111, 170, 'game paused', '0cf', 6)
+          makeLabel(110, 170, 'game paused', '0cf', 6)
         );
         break;
 
@@ -136,7 +138,7 @@ var home = [
 
     // update splash screen
     if (!loaded) {
-      loadingTimer += dt / 1000;
+      loadingTimer += dt / 2000;
 
       if (loadingTimer < 1) {
         ctxUI.globalAlpha = loadingTimer;
