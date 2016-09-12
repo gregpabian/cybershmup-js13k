@@ -54,10 +54,6 @@ function updateCollectible(collectible) {
   }
 }
 
-function drawCollectibles() {
-  collectibles.forEach(drawCollectible);
-}
-
 function drawCollectible(collectible) {
   drawSprite(collectible[0]);
 }

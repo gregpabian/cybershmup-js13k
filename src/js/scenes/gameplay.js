@@ -2,11 +2,11 @@
 clicked:true handleButtonClick mx my levels makeBackground makeGauge makeLabel
 enableGaugeGlow drawGauge drawLabel updateGauge health:true width
 energy:true weapon:true PLAYER updatePlayer makePlayer level
-updateBackground drawWave makeWaves updateWaves makeBullets updateBullets
-drawBullets clamp disableGaugeGlow collidePlayerWithWaves makeGlitch
+updateBackground drawWave makeWaves updateWaves makeBullets updateBullets clamp
+disableGaugeGlow collidePlayerWithWaves makeGlitch
 collideBullets makeExplosions drawBatch updateExplosions updateGlitch
 maxEnergy maxWeapon updateCollectibles collidePlayerWithCollectibles maxHealth
-drawCollectibles drawSprite collideGlitchWithWaves collideGlitchWithBullets
+drawCollectible drawSprite collideGlitchWithWaves collideGlitchWithBullets
 isVectorInRect resetGlitch height weaponLevel:true updateMissiles ENEMY dt
 collideMissilesWithWaves drawMissile checkWavesComplete unlockedLevel: true
 localStorage maxWeaponLevel seed:true initialSeed random makeBossWave
@@ -128,7 +128,7 @@ var gameplay = [
     }
 
     // win condition was met
-    if (!levelComplete && ((boss && checkBossComplete()) || (!boss && checkWavesComplete()))) {
+    if (!levelComplete && ((boss && !bossWave.length) || (!boss && checkWavesComplete()))) {
       levelComplete = 1;
       completeTimer = 0;
     }
@@ -189,9 +189,9 @@ var gameplay = [
 
     drawSprite(player[0]);
     waves.forEach(drawWave);
-    drawBullets();
+    drawBatch(bullets[1], bullets[0].length);
     missiles.forEach(drawMissile);
-    drawCollectibles();
+    collectibles.forEach(drawCollectible);
     drawBatch(explosions[1], explosions[0].length);
     if (glitch[4]) drawSprite(glitch[0]);
 
@@ -229,8 +229,4 @@ function getBossHealth() {
   return Math.round(bossWave.reduce(function (result, boss) {
     return result + boss[0][3];
   }, 0) / bossWaveHealth * 10);
-}
-
-function checkBossComplete() {
-  return !bossWave.length;
 }

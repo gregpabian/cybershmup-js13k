@@ -1,7 +1,7 @@
 /* global ENEMY dt makeEnemy makePath updateEnemy width height makeBatch hex2rgb
 updateBatchItem drawBatch waves addExplosion trySpawningCollectible levels
-seed randomIntWeighted PATH randomInRange randomChance bossWave:true makeSprite
-updateBoss drawSprite waves:true */
+seed randomIntWeighted PATH randomInRange bossWave:true makeSprite
+updateBoss drawSprite waves:true columns */
 
 var pathHashMap = ['c', 's', 'a', 'z', 'u'];
 var enemyCounts = {'ss': 10, 'sm': 5, 'ts': 1, 'tm': 1, 'sl': 2, 'tl': 1};
@@ -39,7 +39,7 @@ function makeWaves(level) {
     var paths;
 
     if (pathType === 'c') {
-      pathType = randomInRange(seed, 1, 8);
+      pathType = randomInRange(seed, 1, columns + 1);
       paths = [makePath(pathType)];
     } else {
       paths = [makePath(pathType), makePath(pathType, 1)];

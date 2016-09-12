@@ -1,13 +1,12 @@
-/* global makeBackground updateBackground drawBackground width height dt ctxUI
-makeButton changeScene handleButtonClick mx my isMobile updateButton version
+/* global makeBackground updateBackground dt ctxUI
+makeButton changeScene handleButtonClick mx my isMobile updateButton
 focusButton soundOn: true highQuality: true makeLabel drawButton drawLabel
 a1: true a2: true clickButton clicked: true blurButton ku: true kd: true clamp
-a3: true vectorRotate vectorAdd currentScene: true Image lImage localStorage
-playSound SOUNDS level:true V_DOWN */
+a3: true vectorRotate vectorAdd currentScene:true localStorage
+playSound SOUNDS level:true V_DOWN V_CENTER */
 
 // show splash screen if false
 var loaded = false;
-var loadingPlayed = false;
 
 var loadingTimer = 0;
 var pixelLabel = makeLabel(113, 290, 'pixel chinchilla', 'fff', 4);
@@ -154,10 +153,8 @@ var home = [
       focusButton(home[5][home[6]]);
     }
 
-    var c = [width / 2, height / 2];
     var r = vectorRotate(V_DOWN, Date.now() / 1000);
-
-    c = vectorAdd(c, r);
+    var c = vectorAdd(V_CENTER, r);
 
     updateBackground(home[4], c[0], c[1], 1);
   },
@@ -190,7 +187,7 @@ var home = [
         playSound(SOUNDS[0]);
       }
 
-      home[6] = clamp(home[6], 0 ,home[5].length - 1);
+      home[6] = clamp(home[6], 0, home[5].length - 1);
     }
 
     if (clicked) {
@@ -210,7 +207,6 @@ var home = [
 
       if (loadingTimer > 1) {
         drawLabel(presentsLabel);
-        loadingPlayed = true;
       }
 
       return;

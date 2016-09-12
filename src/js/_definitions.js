@@ -6,7 +6,9 @@ var TWO_PI = 2 * Math.PI;
 
 var V_RIGHT = [1, 0];
 var V_DOWN = [0, width];
+var V_CENTER = [width / 2, height / 2];
 
+var GRAY = [100, 100, 100];
 var WHITE = [255, 255, 255];
 var ORANGE = [255, 100, 0];
 
@@ -165,8 +167,7 @@ var WEAPON = [
   // pulse laser with rockets
   [2, 180, [Math.PI * 3 / 5], [Math.PI / 2], [Math.PI * 2 / 5], 1500],
   [2, 170, [Math.PI * 3 / 5], [Math.PI / 2], [Math.PI * 2 / 5], 1250],
-  [2, 160, [Math.PI * 3 / 5], [Math.PI / 2], [Math.PI * 2 / 5], 1000],
-  [2, 150, [Math.PI * 3 / 5], [Math.PI / 2], [Math.PI * 2 / 5], 750]
+  [2, 160, [Math.PI * 3 / 5], [Math.PI / 2], [Math.PI * 2 / 5], 1000]
 ];
 
 var ENEMY_WEAPON = [
@@ -236,11 +237,13 @@ var PATH = {
   ]
 };
 
-// generate vertical paths 1 - 7
-for (var i = 1; i <= 7; i++) {
+var columns = 4;
+
+// generate vertical paths 1 - 4
+for (var i = 1; i <= columns; i++) {
   var p = PATH[i] = [];
 
   for (var j = -1; j < 12; j += 2) {
-    p.push(i * 0.125, j / 10);
+    p.push(i * (1 / columns + 1), j / 10);
  }
 }

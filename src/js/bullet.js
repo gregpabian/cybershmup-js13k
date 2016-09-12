@@ -1,7 +1,7 @@
 /* global TWO_PI BULLET dt width height vectorMultiply vectorAdd makeBatch V_RIGHT
 vectorRotate SIZE_XXXS isVectorOnScreen BULLET_IMG updateBatchItem shakeCamera
 drawBatch bullets:true waves player collideCircles ENEMY addExplosion health:true
-boss bossWave */
+boss bossWave GRAY */
 
 var bulletSpeed = 0.75;
 
@@ -22,7 +22,7 @@ function addBullet(type, p, a, isPlayers, glitched) {
   var bullet = [].concat(BULLET[type]);
 
   if (glitched) {
-    bullet[0] = [100, 100, 100];
+    bullet[0] = GRAY;
   }
 
   bullet.push(
@@ -73,11 +73,7 @@ function updateBullet(bullet) {
 
 function glitchBullet(bullet) {
   bullet[7] = 1;
-  bullet[0] = [100, 100, 100];
-}
-
-function drawBullets() {
-  drawBatch(bullets[1], bullets[0].length);
+  bullet[0] = GRAY;
 }
 
 function collideBullets() {
