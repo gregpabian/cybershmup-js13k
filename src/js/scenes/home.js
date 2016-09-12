@@ -15,10 +15,11 @@ var presentsLabel = makeLabel(193, 330, 'presents', 'fff', 3);
 var home = [
   // 0 init
   function (mode) {
-    if (!loaded) return;
-
     // background
     home[4] = makeBackground('046', 0);
+
+    if (!loaded) return;
+
     // current button
     home[6] = 0;
     // labels
@@ -129,6 +130,11 @@ var home = [
   },
   // 1 update
   function () {
+    var r = vectorRotate(V_DOWN, Date.now() / 1000);
+    var c = vectorAdd(V_CENTER, r);
+
+    updateBackground(home[4], c[0], c[1], 1);
+
     // update splash screen
     if (!loaded) {
       loadingTimer += dt / 2000;
@@ -151,11 +157,6 @@ var home = [
       home[5].forEach(blurButton);
       focusButton(home[5][home[6]]);
     }
-
-    var r = vectorRotate(V_DOWN, Date.now() / 1000);
-    var c = vectorAdd(V_CENTER, r);
-
-    updateBackground(home[4], c[0], c[1], 1);
   },
   // 2 input
   function () {

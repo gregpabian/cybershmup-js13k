@@ -1,7 +1,7 @@
 /* global makeButton changeScene isMobile drawButton a1: true a2: true a3: true
 clicked:true handleButtonClick mx my levels makeBackground makeGauge makeLabel
 enableGaugeGlow drawGauge drawLabel updateGauge health:true width
-energy:true weapon:true PLAYER updatePlayer makePlayer level
+energy:true weapon:true PLAYER updatePlayer makePlayer level seedCollectibles
 updateBackground drawWave makeWaves updateWaves makeBullets updateBullets clamp
 disableGaugeGlow collidePlayerWithWaves makeGlitch
 collideBullets makeExplosions drawBatch updateExplosions updateGlitch

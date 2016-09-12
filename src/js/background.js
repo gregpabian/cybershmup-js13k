@@ -1,7 +1,5 @@
 /* global width height hex2rgb hex2rgba dt SIZE_S SIZE_L SIZE_XS SIZE_XXL
-makeSprite drawProgram drawSprite updateSprite updateSpriteUVs sx sy */
-
-var background;
+makeSprite SIZE_M drawSprite updateSprite updateSpriteUVs sx sy */
 
 function makePattern(wn, ww, h) {
   var d = (ww - wn) / 2;
@@ -67,8 +65,10 @@ function makeBackground(color, speed) {
   bg[8] = [20, 40];
 
   // pattern t
-  bg[0] = makeSprite(makePattern(24, 40, 32), 1, bg[8][0], bg[8][1]);
+  bg[0] = makeSprite(makePattern(SIZE_XS, SIZE_M, SIZE_S), 1, bg[8][0], bg[8][1]);
   updateSprite(bg[0], bg[2][0], bg[2][1], 0, 1, 1, 1, bg[6]);
+
+  updateBackground(bg, 0, 0, 1);
 
   return bg;
 }

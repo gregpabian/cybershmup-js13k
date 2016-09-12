@@ -28,9 +28,9 @@ var BULLET = [
   ['fc6', 1, 600],
   ['ff0', 1, 700],
   // enemy bullets
-  ['03f', 1, 150],
+  ['66f', 1, 150],
   ['09f', 1, 200],
-  ['3ff', 1, 250]
+  ['09f', 1, 250]
 ];
 
 var BULLET_IMG;
@@ -171,9 +171,9 @@ var WEAPON = [
 ];
 
 var ENEMY_WEAPON = [
-  [3, 1700],
+  [3, 2000],
   [4, 1500],
-  [5, 1300]
+  [5, 1000]
 ];
 
 var PATH = {
@@ -236,14 +236,3 @@ var PATH = {
     0.8, -0.1
   ]
 };
-
-var columns = 4;
-
-// generate vertical paths 1 - 4
-for (var i = 1; i <= columns; i++) {
-  var p = PATH[i] = [];
-
-  for (var j = -1; j < 12; j += 2) {
-    p.push(i * (1 / columns + 1), j / 10);
- }
-}

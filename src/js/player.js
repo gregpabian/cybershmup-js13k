@@ -4,7 +4,7 @@ drawSprite updateSprite addBullet WEAPON weaponLevel collideCircles ENEMY
 health:true playSound SOUNDS collectibles SIZE_XS addHealth addWeapon addEnergy
 addMissile wavesHaveActiveShips */
 
-var followSpeed = 100;
+var followSpeed = 90;
 var drag = 0.8;
 var shotTimer = 0;
 var missileTimer = 0;
