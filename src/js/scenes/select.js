@@ -1,8 +1,8 @@
 /* global makeBackground updateBackground drawBackground height
 makeButton changeScene handleButtonClick mx my isMobile focusButton drawButton
 a1: true a2: true clickButton clicked: true blurButton ku: true kd: true clamp
-kl: true kr: true unlockedLevel ctxUI a3: true width vectorRotate vectorAdd
-playSound SOUNDS level: true V_DOWN */
+kl: true kr: true unlockedLevel ctxUI a3: true vectorRotate vectorAdd
+playSound SOUNDS level:true V_DOWN V_CENTER */
 
 // level markers shown on the select level screen
 var levels = [
@@ -42,10 +42,7 @@ var select = [
       focusButton(select[5][select[6]]);
     }
 
-    var c = [width / 2, height / 2];
-    var r = vectorRotate(V_DOWN, Date.now() / 1000);
-
-    c = vectorAdd(c, r);
+    var c = vectorAdd(V_CENTER, vectorRotate(V_DOWN, Date.now() / 1000));
 
     updateBackground(select[4], c[0], c[1], 1);
   },

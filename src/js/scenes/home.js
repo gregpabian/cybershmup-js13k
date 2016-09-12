@@ -130,14 +130,13 @@ var home = [
   },
   // 1 update
   function () {
-    var r = vectorRotate(V_DOWN, Date.now() / 1000);
-    var c = vectorAdd(V_CENTER, r);
+    var c = vectorAdd(V_CENTER, vectorRotate(V_DOWN, Date.now() / 1000));
 
     updateBackground(home[4], c[0], c[1], 1);
 
     // update splash screen
     if (!loaded) {
-      loadingTimer += dt / 2000;
+      loadingTimer += dt / 1000;
 
       if (loadingTimer < 1) {
         ctxUI.globalAlpha = loadingTimer;
@@ -167,12 +166,6 @@ var home = [
       if (a1 || a2) {
         clickButton(home[5][home[6]]);
         a1 = a2 = 0;
-      }
-
-      // escape - show pause menu
-      if (a3) {
-        changeScene(1);
-        a3 = 0;
       }
 
       if (ku) {
