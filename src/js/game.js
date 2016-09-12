@@ -84,8 +84,6 @@ function render() {
 
   if (!highQuality || !loaded) return;
   // do the post-processing
-  // setFramebuffer(copyFBO);
-
   // apply threshold
   setFramebuffer(tmpFBO2);
 
@@ -101,14 +99,14 @@ function render() {
 
   useProgram(blurProgram);
   gl.uniform1i(getUniformLocation(blurProgram, 't'), useTexture(tmpFBO2[1], 0));
-  gl.uniform2f(getUniformLocation(blurProgram, 'dir'), 1, 1);
+  gl.uniform2f(getUniformLocation(blurProgram, 'd'), 1, 1);
   gl.drawArrays(gl.TRIANGLES, 0, 6);
 
   // blur 2
   setFramebuffer(tmpFBO2);
 
   gl.uniform1i(getUniformLocation(blurProgram, 't'), useTexture(tmpFBO1[1], 0));
-  gl.uniform2f(getUniformLocation(blurProgram, 'dir'), -1, 1);
+  gl.uniform2f(getUniformLocation(blurProgram, 'd'), -1, 1);
   gl.drawArrays(gl.TRIANGLES, 0, 6);
 
   // trail
@@ -116,7 +114,7 @@ function render() {
 
   useProgram(trailProgram);
   gl.uniform1i(getUniformLocation(trailProgram, 't'), useTexture(tmpFBO2[1], 0));
-  gl.uniform1i(getUniformLocation(trailProgram, 'old'), useTexture(copyFBO[1], 1));
+  gl.uniform1i(getUniformLocation(trailProgram, 'o'), useTexture(copyFBO[1], 1));
   gl.drawArrays(gl.TRIANGLES, 0, 6);
 
   // copy
@@ -130,9 +128,9 @@ function render() {
 
   // compose all the effects
   useProgram(mainProgram);
-  gl.uniform1i(getUniformLocation(mainProgram, 'base'), useTexture(baseFBO[1], 0));
-  gl.uniform1i(getUniformLocation(mainProgram, 'blur'), useTexture(tmpFBO2[1], 1));
-  gl.uniform1i(getUniformLocation(mainProgram, 'trail'), useTexture(trailFBO[1], 2));
+  gl.uniform1i(getUniformLocation(mainProgram, 'm'), useTexture(baseFBO[1], 0));
+  gl.uniform1i(getUniformLocation(mainProgram, 'b'), useTexture(tmpFBO2[1], 1));
+  gl.uniform1i(getUniformLocation(mainProgram, 't'), useTexture(trailFBO[1], 2));
   gl.drawArrays(gl.TRIANGLES, 0, 6);
 }
 
@@ -156,18 +154,6 @@ function initGL() {
   trailFBO = makeFramebuffer();
 
   quadBuffer = makeQuadBuffer();
-
-  cm.addEventListener('webglcontextlost', handleContextLost, false);
-  cm.addEventListener('webglcontextrestored', handleContextRestored, false);
-}
-
-function handleContextLost(event) {
-  event.preventDefault();
-  cancelAnimationFrame(rafId);
-}
-
-function handleContextRestored() {
-  rafId = requestAnimationFrame(loop);
 }
 
 function changeScene(id) {
@@ -185,7 +171,6 @@ function resize(ww, wh) {
 }
 
 function updateCamera() {
-
   if (sr > 0) {
     sa += Math.PI / 2;
 
@@ -215,10 +200,10 @@ document.body.appendChild(stats.dom);
 // disable antialiasing
 disableAA(ctxUI);
 
-resize(window.innerWidth, window.innerHeight);
+checkResize();
 
 initGL();
 
 changeScene(currentScene);
 
-var rafId = requestAnimationFrame(loop);
+requestAnimationFrame(loop);

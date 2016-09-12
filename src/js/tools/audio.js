@@ -1,4 +1,4 @@
-/* global jsfxr soundOn random initialSeed */
+/* global jsfxr soundOn randomInRange initialSeed */
 
 var AudioContext = window.AudioContext || window.webkitAudoContext;
 
@@ -8,13 +8,9 @@ var SOUNDS = [
   // menu
   [0,, 0.0135, 0.32, 0.16, 0.33,,,,,,, 0.5,,,,,, 1,,,,, 0.4],
   // shot
-  [0,,0.22,,0.17,0.96,0.4,-0.286,,,,,,0.526,-0.652,,0.194,-0.019,1,,,0.013,,0.3],
+  [0,,0.22,,0.17,0.96,0.4,-0.286,,,,,,0.53,-0.65,,0.2,-0.02,1,,,0.013,,0.3],
   // explosion
-  [3,,0.24,0.71,0.36,0.5405,,-0.3906,,,,0.0316,0.6223,,,,,,1,,,,,0.5],
-  // explosion 2
-  [3,,0.3861,0.7784,0.3445,0.1194,,-0.3543,,,,,,,,0.46,,,1,,,,,0.5],
-  // shot 2
-  [0,,0.27,,0.3,0.53,0.2,-0.3,,,,,,0.8,-0.565,,0.164,-0.157,1,,,0.012,,0.3]
+  [3,,0.24,0.71,0.36,0.54,,-0.39,,,,0.032,0.62,,,,,,1,,,,,0.5]
 ];
 
 if (AudioContext) {
@@ -25,20 +21,22 @@ if (AudioContext) {
     return jsfxr(config).split('base64,')[1];
   };
 
-  playSound = function (sound, randomPitch) {
+  playSound = function (sound, randomPitch, lower) {
     if (!soundOn) return;
 
     var src = audioCtx.createBufferSource();
 
     audioCtx.decodeAudioData(base64ToArrayBuffer(sound), function (buffer) {
       src.buffer = buffer;
-      src.detune.value = randomPitch ? random(initialSeed) * 400 - 200 : 1;
+      var min = lower ? -2000 : -200;
+      var max = lower ? -1500 : 200;
+      src.detune.value = randomPitch ? randomInRange(initialSeed, min, max) : 1;
       src.connect(dest);
       src.start(0);
 
       setTimeout(function () {
         src.disconnect(dest);
-      }, src.buffer.duration * 1000 + 100);
+      }, src.buffer.duration * 1000 + 200);
     });
   };
 } else {

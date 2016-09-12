@@ -102,7 +102,7 @@ function updatePlayer() {
   if (missileTimer <= 0 && wavesHaveActiveShips()) {
     missileTimer = weapon[5];
     addMissile(player[2][0], player[2][1]);
-    playSound(SOUNDS[4], true);
+    playSound(SOUNDS[1], 1, 1);
   }
 }
 

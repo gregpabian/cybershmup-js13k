@@ -1,23 +1,40 @@
 /* global SIZE_XS TWO_PI COLLECTIBLE adjustHex makeSprite dt height updateSprite
-drawSprite collectibles randomChance seed random */
+drawSprite collectibles kills boss enemyCount weaponLevel maxWeaponLevel */
 
 var collectibleSpeed = 70;
 var spawnChance = 50;
 var collectibleTypes = Object.keys(COLLECTIBLE);
+var collectiblePattern = 'eeweeweehe';
+var collectibleBatch;
+var dropEvery;
 
-function trySpawningCollectible(position) {
-  if (!randomChance(seed, spawnChance)) return;
-  var type = collectibleTypes[~~(random(seed) * collectibleTypes.length)];
-  addCollectible(type, position[0], position[1]);
+function seedCollectibles() {
+  collectibleBatch = [];
+
+  var patt = collectiblePattern;
+
+  if (weaponLevel === maxWeaponLevel) {
+    patt = patt.replace(/w/g, 'h');
+  }
+
+  for (var i = 0, len = boss ? 6 : 3; i < len; i++) {
+    collectibleBatch.push.apply(collectibleBatch, patt.split(''));
+  }
+
+  dropEvery = Math.floor(enemyCount / collectibleBatch.length);
 }
 
-function addCollectible(type, x, y) {
-  var c = COLLECTIBLE[type];
+function trySpawningCollectible(position) {
+  if (kills % dropEvery === 0 && collectibleBatch.length) {
+    addCollectible(collectibleBatch.shift(), position);
+  }
+}
 
+function addCollectible(type, position) {
   collectibles.push([
-    makeSprite(c[1]), // sprite
-    x, // start x
-    [x, y], // pos x,y
+    makeSprite(COLLECTIBLE[type][1]), // sprite
+    position[0], // start x
+    position.slice(), // pos x,y
     type, // type
     1, // alive flag
     0 // animation timer
@@ -40,12 +57,11 @@ function updateCollectibles() {
 
 function updateCollectible(collectible) {
   if (!collectible[4]) return;
-  var t = dt / 1000;
 
-  collectible[5] += t;
+  collectible[5] += dt / 1000;
 
   collectible[2][0] = collectible[1] + Math.sin(collectible[5]) * 30;
-  collectible[2][1] += collectibleSpeed * t;
+  collectible[2][1] += collectibleSpeed * dt / 1000;
 
   if (collectible[2][1] > height) {
     collectible[4] = 0;

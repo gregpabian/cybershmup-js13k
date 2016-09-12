@@ -81,7 +81,7 @@ function shootEnemy(enemy) {
     return;
   }
 
-  playSound(SOUNDS[4], 1);
+  playSound(SOUNDS[1], 1, 1);
 }
 
 function glitchEnemy(enemy) {

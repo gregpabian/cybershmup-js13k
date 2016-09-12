@@ -50,29 +50,28 @@ var gameplay = [
       boss = 1;
       gameplay[6].push(makeGauge(195, 0, 320, 'd00', '200', 10, 10, -0.05));
       gameplay[7].push(makeLabel(280, 30, 'boss ' + levels[level][2], 'd00', 3));
-      makeBossWave(level);
+      makeBossWave();
       bossWaveHealth = bossWave.reduce(function (result, boss) {
         return result + boss[0][3];
       }, 0);
-      waves = [];
     } else {
       // reset boss flag
       boss = bossWave = 0;
-      // waves
-      makeWaves(level);
     }
-
     // reset health
     health = maxHealth;
     // reset energy and level completion
     energy = levelComplete = completeTimer = 0;
     // player
     makePlayer();
+    // waves
+    makeWaves();
     // bullets
-    makeBullets(200);
+    makeBullets(100);
     // explosions
     makeExplosions(100);
     // collectibles
+    seedCollectibles();
     collectibles = [];
     // glitch
     makeGlitch();

@@ -62,7 +62,6 @@ var home = [
         ];
 
         home[7].push(
-          makeLabel(70, 130, 'js13kgames 2016 entry', '09c', 4),
           makeLabel(160, 250, 'created by', '09c', 4),
           makeLabel(111, 280, 'greg pabian', '0cf', 6),
           makeLabel(90, 330, 'pixelchinchilla.com', '0cf', 4),

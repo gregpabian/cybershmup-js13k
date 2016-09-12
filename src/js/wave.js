@@ -1,28 +1,32 @@
 /* global ENEMY dt makeEnemy makePath updateEnemy width height makeBatch hex2rgb
 updateBatchItem drawBatch waves addExplosion trySpawningCollectible levels
-seed randomIntWeighted PATH randomInRange bossWave:true makeSprite
-updateBoss drawSprite waves:true columns */
+seed randomIntWeighted PATH randomInRange bossWave:true makeSprite boss
+updateBoss drawSprite waves:true columns level */
 
 var pathHashMap = ['c', 's', 'a', 'z', 'u'];
 var enemyCounts = {'ss': 10, 'sm': 5, 'ts': 1, 'tm': 1, 'sl': 2, 'tl': 1};
 var enemyTypes = Object.keys(enemyCounts);
+var enemyCount;
+var kills;
 
 
 // create waves for the given difficulty level
-function makeWaves(level) {
+function makeWaves() {
   waves = [];
+  enemyCount = 0;
+  kills = 0;
 
   var difficulty = 1 + level / 10;
   var maxType = Math.floor(3 + level / 3);
   var types = [];
   var typesOrdered = [];
-  var count = 9;
+  var count = boss ? 18 : 9;
   var size = count / 3;
   var color = hex2rgb(levels[level][3]);
   var i;
 
   for (i = 0; i < count; i++) {
-    types.push(randomIntWeighted(seed, maxType));
+    types.push(boss ? 0 : randomIntWeighted(seed, maxType));
   }
 
   types = types.sort().map(function(type) { return enemyTypes[type]; });
@@ -65,6 +69,8 @@ function makeWave(type, path, difficulty, color, pathType) {
 
   var enemies = [];
 
+  enemyCount += count;
+
   for (var i = 0; i < count; i++) {
     enemies.push(makeEnemy(type, x, y, difficulty, speed, color));
   }
@@ -80,9 +86,9 @@ function makeWave(type, path, difficulty, color, pathType) {
   ];
 }
 
-function makeBossWave(level) {
+function makeBossWave() {
   var color = hex2rgb('f00');
-  var hp = level * 10;
+  var hp = 15;
   // level a
   if (level === 2) {
     bossWave = [
@@ -162,6 +168,7 @@ function updateWave(wave, i) {
     } else {
       // don't explode when leaving the screen
       if (enemy[3] > -1000) {
+        kills++;
         addExplosion(enemy[1][0], enemy[1][1], ENEMY[enemy[0]][0]);
         trySpawningCollectible(enemy[1]);
       }
