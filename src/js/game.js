@@ -90,24 +90,24 @@ function render() {
   setFramebuffer(tmpFBO2);
 
   useProgram(thresholdProgram);
-  gl.uniform1i(getUniformLocation(thresholdProgram, 'texture'), useTexture(baseFBO[1], 0));
+  gl.uniform1i(getUniformLocation(thresholdProgram, 't'), useTexture(baseFBO[1], 0));
 
   gl.bindBuffer(gl.ARRAY_BUFFER, quadBuffer);
-  gl.vertexAttribPointer(thresholdProgram['a_pos'], 2, gl.FLOAT, false, 0, 0);
+  gl.vertexAttribPointer(thresholdProgram['p'], 2, gl.FLOAT, false, 0, 0);
   gl.drawArrays(gl.TRIANGLES, 0, 6);
 
   // blur 1
   setFramebuffer(tmpFBO1);
 
   useProgram(blurProgram);
-  gl.uniform1i(getUniformLocation(blurProgram, 'texture'), useTexture(tmpFBO2[1], 0));
+  gl.uniform1i(getUniformLocation(blurProgram, 't'), useTexture(tmpFBO2[1], 0));
   gl.uniform2f(getUniformLocation(blurProgram, 'dir'), 1, 1);
   gl.drawArrays(gl.TRIANGLES, 0, 6);
 
   // blur 2
   setFramebuffer(tmpFBO2);
 
-  gl.uniform1i(getUniformLocation(blurProgram, 'texture'), useTexture(tmpFBO1[1], 0));
+  gl.uniform1i(getUniformLocation(blurProgram, 't'), useTexture(tmpFBO1[1], 0));
   gl.uniform2f(getUniformLocation(blurProgram, 'dir'), -1, 1);
   gl.drawArrays(gl.TRIANGLES, 0, 6);
 
@@ -115,7 +115,7 @@ function render() {
   setFramebuffer(trailFBO);
 
   useProgram(trailProgram);
-  gl.uniform1i(getUniformLocation(trailProgram, 'texture'), useTexture(tmpFBO2[1], 0));
+  gl.uniform1i(getUniformLocation(trailProgram, 't'), useTexture(tmpFBO2[1], 0));
   gl.uniform1i(getUniformLocation(trailProgram, 'old'), useTexture(copyFBO[1], 1));
   gl.drawArrays(gl.TRIANGLES, 0, 6);
 
@@ -123,7 +123,7 @@ function render() {
   setFramebuffer(copyFBO);
 
   useProgram(copyProgram);
-  gl.uniform1i(getUniformLocation(copyProgram, 'texture'), useTexture(trailFBO[1], 0));
+  gl.uniform1i(getUniformLocation(copyProgram, 't'), useTexture(trailFBO[1], 0));
   gl.drawArrays(gl.TRIANGLES, 0, 6);
 
   setFramebuffer(null);
@@ -142,12 +142,12 @@ function initGL() {
   gl.blendFunc(gl.SRC_ALPHA, gl.ONE_MINUS_SRC_ALPHA);
   gl.enable(gl.BLEND);
 
-  drawProgram = makeProgram(baseVert, textureFrag, ['a_pos', 'a_uv', 'a_color']);
-  blurProgram = makeProgram(staticVert, blurFrag, ['a_pos']);
-  mainProgram = makeProgram(staticVert, mixFrag, ['a_pos']);
-  thresholdProgram = makeProgram(staticVert, thresholdFrag, ['a_pos']);
-  copyProgram = makeProgram(staticVert, copyFrag, ['a_pos']);
-  trailProgram = makeProgram(staticVert, trailFrag, ['a_pos']);
+  drawProgram = makeProgram(baseVert, textureFrag, ['p', 'uv', 'c']);
+  blurProgram = makeProgram(staticVert, blurFrag, ['p']);
+  mainProgram = makeProgram(staticVert, mixFrag, ['p']);
+  thresholdProgram = makeProgram(staticVert, thresholdFrag, ['p']);
+  copyProgram = makeProgram(staticVert, copyFrag, ['p']);
+  trailProgram = makeProgram(staticVert, trailFrag, ['p']);
 
   baseFBO = makeFramebuffer();
   copyFBO = makeFramebuffer();

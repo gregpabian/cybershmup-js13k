@@ -1,4 +1,5 @@
 var fs = require('fs');
+var exec = require('child_process').execSync;
 
 module.exports = function(grunt) {
   require('google-closure-compiler').grunt(grunt);
@@ -104,6 +105,12 @@ module.exports = function(grunt) {
       }
     },
 
+    exec: {
+      shaders: {
+
+      }
+    },
+
     glsl: {
       build: {
         options: {
@@ -162,6 +169,13 @@ module.exports = function(grunt) {
       },
       lint: {
         src: ['gruntfile.js', '<%= src %>js/**/*.js']
+      }
+    },
+
+    minifyShaders: {
+      build: {
+        src: buildShaderSources(),
+        dest: '<%= src %>'
       }
     },
 
@@ -245,6 +259,29 @@ module.exports = function(grunt) {
 
           done();
         });
+      }
+    }
+
+    nextFile();
+  });
+
+  grunt.registerMultiTask('minifyShaders', 'Minifies GLSL shaders', function () {
+    var src = [].concat(this.data.src);
+    var dest = this.data.dest;
+    var done = this.async();
+
+    function nextFile() {
+      var file = src.pop();
+
+      if (file) {
+        var content = fs.readFileSync(file);
+        var result = exec('glslmin ' + file);
+
+        console.log(file, result.toString());
+
+        nextFile();
+      } else {
+        done();
       }
     }
 

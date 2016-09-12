@@ -1,10 +1,10 @@
 //#gljs varname: 'staticVert', type: 'vertex'
 
-attribute vec2 a_pos;
+attribute vec2 p;
 
-varying vec2 v_uv;
+varying vec2 vuv;
 
 void main() {
-  gl_Position = vec4(a_pos, 1, 1);
-  v_uv = 0.5 * (a_pos + 1.0);
+  gl_Position = vec4(p, 1, 1);
+  vuv = 0.5 * (p + 1.0);
 }

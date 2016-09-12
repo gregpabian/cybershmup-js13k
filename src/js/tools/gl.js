@@ -64,9 +64,9 @@ function makeProgram(vs, fs, attributes) {
 }
 
 function makeTexture(image, repeat) {
-  var texture = gl.createTexture();
+  var t = gl.createTexture();
 
-  gl.bindTexture(gl.TEXTURE_2D, texture);
+  gl.bindTexture(gl.TEXTURE_2D, t);
 
   gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, repeat ? gl.REPEAT : gl.CLAMP_TO_EDGE);
   gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, repeat ? gl.REPEAT : gl.CLAMP_TO_EDGE);
@@ -75,12 +75,12 @@ function makeTexture(image, repeat) {
 
   setTexture(image);
 
-  return texture;
+  return t;
 }
 
-function useTexture(texture, unit) {
+function useTexture(t, unit) {
   gl.activeTexture(gl.TEXTURE0 + unit);
-  gl.bindTexture(gl.TEXTURE_2D, texture);
+  gl.bindTexture(gl.TEXTURE_2D, t);
 
   return unit;
 }
@@ -95,12 +95,12 @@ function setTexture(image) {
 
 function makeFramebuffer() {
   var fbo = gl.createFramebuffer();
-  var texture = makeTexture();
+  var t = makeTexture();
 
   gl.bindFramebuffer(gl.FRAMEBUFFER, fbo);
-  gl.framebufferTexture2D(gl.FRAMEBUFFER, gl.COLOR_ATTACHMENT0, gl.TEXTURE_2D, texture, 0);
+  gl.framebufferTexture2D(gl.FRAMEBUFFER, gl.COLOR_ATTACHMENT0, gl.TEXTURE_2D, t, 0);
 
-  return [fbo, texture];
+  return [fbo, t];
 }
 
 var currentFBO;
@@ -159,14 +159,14 @@ function drawBatch(batch, count) {
 
   useProgram(program);
 
-  gl.uniform1i(getUniformLocation(program, 'texture'), useTexture(batch[0], 0));
+  gl.uniform1i(getUniformLocation(program, 't'), useTexture(batch[0], 0));
 
   gl.bindBuffer(gl.ARRAY_BUFFER, batch[2]);
   gl.bufferData(gl.ARRAY_BUFFER, batch[1], gl.STATIC_DRAW);
 
-  gl.vertexAttribPointer(program['a_pos'], 2, gl.FLOAT, false, stepSize * 4, 0);
-  gl.vertexAttribPointer(program['a_uv'], 2, gl.FLOAT, false, stepSize * 4, 4 * 2);
-  gl.vertexAttribPointer(program['a_color'], 4, gl.FLOAT, false, stepSize * 4, 4 * 4);
+  gl.vertexAttribPointer(program['p'], 2, gl.FLOAT, false, stepSize * 4, 0);
+  gl.vertexAttribPointer(program['uv'], 2, gl.FLOAT, false, stepSize * 4, 4 * 2);
+  gl.vertexAttribPointer(program['c'], 4, gl.FLOAT, false, stepSize * 4, 4 * 4);
 
   gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, batch[3]);
 
