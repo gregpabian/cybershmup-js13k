@@ -82,7 +82,7 @@ var select = [
 
     if (clicked) {
       select[5].some(function (button) {
-        if (handleButtonClick(mx, my, button)) {
+        if (handleButtonClick(button)) {
           clicked = false;
           return true;
         }

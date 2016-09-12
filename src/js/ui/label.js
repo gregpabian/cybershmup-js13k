@@ -20,15 +20,10 @@ function makeLabel(x, y, text, color, size) {
   ];
 }
 
-function updateLabel(label, text, color) {
+function updateLabel(label, text) {
   if (text != label[4]) {
     label[6] = label[4];
     label[4] = text;
-  }
-
-  if (color && color != label[3]) {
-    label[5] = label[3];
-    label[3] = color;
   }
 }
 

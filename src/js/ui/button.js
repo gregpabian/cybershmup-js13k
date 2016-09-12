@@ -1,4 +1,5 @@
-/* global makeLabel ctxUI isVectorInRect drawLabel TWO_PI SOUNDS adjustHex */
+/* global makeLabel ctxUI isVectorInRect drawLabel TWO_PI SOUNDS adjustHex mx my
+*/
 
 function makeButton(x, y, w, h, text, s, c1, c2, a1, onClick, round, disabled) {
   return [
@@ -68,19 +69,15 @@ function drawButton(button) {
 }
 
 function focusButton(button) {
-  if (!button[11]) {
-    button[11] = 1;
-  }
+  button[11] = 1;
 }
 
 function blurButton(button) {
-  if (button[11]) {
-    button[11] = 0;
-  }
+  button[11] = 0;
 }
 
-function handleButtonClick(x, y, button) {
-  if (isVectorInRect([x, y], [button[0], button[1]], button[2], button[3]) && !button[14]) {
+function handleButtonClick(button) {
+  if (isVectorInRect([mx, my], [button[0], button[1]], button[2], button[3]) && !button[14]) {
     clickButton(button);
 
     return true;

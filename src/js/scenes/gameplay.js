@@ -3,13 +3,13 @@ clicked:true handleButtonClick mx my levels makeBackground makeGauge makeLabel
 enableGaugeGlow drawGauge drawLabel updateGauge health:true width
 energy:true weapon:true PLAYER updatePlayer makePlayer level seedCollectibles
 updateBackground drawWave makeWaves updateWaves makeBullets updateBullets clamp
-disableGaugeGlow collidePlayerWithWaves makeGlitch
+disableGaugeGlow collidePlayerWithWaves makeGlitch updateLabel
 collideBullets makeExplosions drawBatch updateExplosions updateGlitch
 maxEnergy maxWeapon updateCollectibles collidePlayerWithCollectibles maxHealth
 drawCollectible drawSprite collideGlitchWithWaves collideGlitchWithBullets
 isVectorInRect resetGlitch height weaponLevel:true updateMissiles ENEMY dt
 collideMissilesWithWaves drawMissile checkWavesComplete unlockedLevel: true
-localStorage maxWeaponLevel seed:true initialSeed random makeBossWave
+maxWeaponLevel seed:true initialSeed random makeBossWave
 updateBossWave drawBossWave */
 
 var player, bullets, waves, explosions, collectibles, glitch, missiles,
@@ -113,8 +113,10 @@ var gameplay = [
 
     // enable glitch
     if (energy >= maxEnergy) {
+      updateLabel(gameplay[7][2], 'press');
       enableGaugeGlow(gameplay[6][2]);
     } else {
+      updateLabel(gameplay[7][2], 'glitch');
       disableGaugeGlow(gameplay[6][2]);
     }
 
@@ -167,7 +169,7 @@ var gameplay = [
     }
 
     if (clicked) {
-      if (handleButtonClick(mx, my, gameplay[5])) {
+      if (handleButtonClick(gameplay[5])) {
         clicked = 0;
         return true;
       }
