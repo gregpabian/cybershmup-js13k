@@ -1,4 +1,4 @@
-/* global makeButton changeScene isMobile drawButton a1: true a2: true a3: true
+/* global makeButton changeScene isMobile drawButton a1:true a3:true
 clicked:true handleButtonClick mx my levels makeBackground makeGauge makeLabel
 enableGaugeGlow drawGauge drawLabel updateGauge health:true width
 energy:true weapon:true PLAYER updatePlayer makePlayer level seedCollectibles
@@ -141,7 +141,7 @@ var gameplay = [
     if (completeTimer > 2000) {
       // end game
       if (level === 8) {
-        changeScene(1, 5);
+        changeScene(1, 4);
         //complete level
       } else {
         unlockedLevel = Math.max(unlockedLevel, level + 1);
@@ -153,12 +153,12 @@ var gameplay = [
   function () {
     if (!isMobile) {
       // if enter or space try using glitch
-      if (a1 || a2) {
+      if (a1) {
         // use glitch
         if (energy >= maxEnergy) {
           spawnGlitch();
         }
-        a1 = a2 = 0;
+        a1 = 0;
       }
 
       // escape - show pause menu
@@ -203,7 +203,7 @@ var gameplay = [
 
 function getBackgroundColor(color) {
   return color.split('').map(function (c) {
-    c = parseInt(c, 10);
+    c = +c;
     return c ? c + 2 : c;
   }).join('');
 }
@@ -226,7 +226,7 @@ function spawnGlitch() {
 }
 
 function getBossHealth() {
-  return ~~(bossWave.reduce(function (result, boss) {
+  return Math.round(bossWave.reduce(function (result, boss) {
     return result + boss[0][3];
   }, 0) / bossWaveHealth * 10);
 }

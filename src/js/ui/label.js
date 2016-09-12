@@ -6,30 +6,27 @@ fontImage.src = fImage;
 var chars = 'abcdefghijklmnopqrstuvwxyz1234567890!?".,\':';
 
 function makeLabel(x, y, text, color, size) {
-  color = color || 'fff';
-
   return [
-    x,
-    y,
-    size || 1,
-    color,
-    text,
-    color, // old color
-    text, // old text
-    null // canvas
+    x, // 0
+    y, // 1
+    size, // 2
+    color, // 3
+    text, // 4 - current text
+    text // 5 - old text
+    // 6 - canvas
   ];
 }
 
 function updateLabel(label, text) {
   if (text != label[4]) {
-    label[6] = label[4];
+    label[5] = label[4];
     label[4] = text;
   }
 }
 
 function drawLabel(label) {
-  if (!label[7] || label[4] !== label[6] || label[3] !== label[5]) {
-    var c = label[7] = document.createElement('canvas');
+  if (!label[6] || label[4] !== label[5]) {
+    var c = label[6] = document.createElement('canvas');
     c.height = 5;
     c.width = 4 * label[4].length - 1;
     var ctx = c.getContext('2d');
@@ -52,9 +49,7 @@ function drawLabel(label) {
 		}
 
 		ctx.putImageData(imgData, 0, 0);
-
-		// debugger;
   }
 
-  ctxUI.drawImage(label[7], label[0], label[1], (4 * label[4].length - 1) * label[2], 5 * label[2]);
+  ctxUI.drawImage(label[6], label[0], label[1], (4 * label[4].length - 1) * label[2], 5 * label[2]);
 }

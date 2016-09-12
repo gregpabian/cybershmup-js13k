@@ -17,7 +17,6 @@ var kd = 0;
 
 var isFullScreen = 0;
 var a1 = 0;
-var a2 = 0;
 var a3 = 0;
 
 function touchStart(event) {
@@ -60,25 +59,23 @@ function touchEnd(event) {
 
 function handleKeyDown(event) {
   switch (event.which) {
-    case 13: a2 = 1; break; // enter
+    case 13: case 32: a1 = 1; break; // enter
     case 27: a3 = 1; break; // escape
-    case 32: a1 = 1; break; // space
     case 37: case 65: kl = 1; break; // left, a
     case 38: case 87: ku = 1; break; // up, w
     case 39: case 68: kr = 1; break; // right, d
-    case 40: case 83: kd = 1; break; // down, s
+    case 40: case 83: kd = 1; // down, s
   }
 }
 
 function handleKeyUp(event) {
   switch (event.which) {
-    case 13: a2 = 0; break; // enter
+    case 13: case 32: a1 = 0; break; // enter
     case 27: a3 = 0; break; // escape
-    case 32: a1 = 0; break; // space
     case 37: case 65: kl = 0; break; // left, a
     case 38: case 87: ku = 0; break; // up, w
     case 39: case 68: kr = 0; break; // right, d
-    case 40: case 83: kd = 0; break; // down, s
+    case 40: case 83: kd = 0; // down, s
   }
 }
 

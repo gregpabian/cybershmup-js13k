@@ -1,6 +1,6 @@
 /* global makeBackground updateBackground drawBackground height
 makeButton changeScene handleButtonClick mx my isMobile focusButton drawButton
-a1: true a2: true clickButton clicked: true blurButton ku: true kd: true clamp
+a1: true clickButton clicked: true blurButton ku: true kd: true clamp
 kl: true kr: true unlockedLevel ctxUI a3: true vectorRotate vectorAdd
 playSound SOUNDS level:true V_DOWN V_CENTER */
 
@@ -50,9 +50,9 @@ var select = [
   function () {
     if (!isMobile) {
       // if enter or space - click focused button
-      if (a1 || a2) {
+      if (a1) {
         clickButton(select[5][select[6]]);
-        a1 = a2 = 0;
+        a1 = 0;
       }
 
       // escape - show pause menu

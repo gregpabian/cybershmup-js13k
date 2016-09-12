@@ -1,4 +1,4 @@
-/* global ctxUI dt hex2rgba */
+/* global ctxUI dt adjustHex */
 
 function makeGauge(x, y, w, c1, c2, max, value, r, right) {
   return [
@@ -11,9 +11,7 @@ function makeGauge(x, y, w, c1, c2, max, value, r, right) {
     r,
     right,
     max,
-    value,
-    0, // glow enabled
-    0 // glow timer
+    value
   ];
 }
 
@@ -41,22 +39,12 @@ function drawGauge(gauge) {
 
   ctxUI.translate(gauge[0], gauge[1]);
   ctxUI.rotate(gauge[6]);
-  ctxUI.transform(1, 0, gauge[7] ? 0.785 : -0.785, 1, -w / 2, -h / 2);
+  ctxUI.transform(1, 0, gauge[7] ? 0.78 : -0.78, 1, -w / 2, -h / 2);
 
-  // show glowing effect
-  if (gauge[10]) {
-    ctxUI.save();
-    ctxUI.shadowColor = hex2rgba(gauge[4], 0.5 * (Math.sin(gauge[11]) + 1));
-    ctxUI.shadowOffsetY = -10;
-    ctxUI.shadowBlur = 50;
-  }
+  var fill = '#' + (gauge[10] ? adjustHex(gauge[4], 0.5 * (Math.sin(gauge[11]) + 1)) : gauge[4]);
 
-  ctxUI.fillStyle = '#' + gauge[4];
+  ctxUI.fillStyle = fill;
   ctxUI.fillRect(0, 0, w, h);
-
-  if (gauge[10]) {
-    ctxUI.restore();
-  }
 
   ctxUI.fillStyle = '#000';
   ctxUI.fillRect(5, 5, w - 10, h - 10);
@@ -64,10 +52,9 @@ function drawGauge(gauge) {
   var cw = gauge[2] / gauge[8];
 
   for (var i = 0; i < gauge[8]; i++) {
-    ctxUI.fillStyle = '#' + (gauge[9] > i ? gauge[4] : gauge[5]);
+    ctxUI.fillStyle = gauge[9] > i ? fill : '#' + gauge[5];
     ctxUI.fillRect(10 + i * (cw + 5), 10, cw, cw);
   }
-
 
   ctxUI.restore();
 }

@@ -3,21 +3,21 @@
 
 function makeButton(x, y, w, h, text, s, c1, c2, a1, onClick, round, disabled) {
   return [
-    x,
-    y,
-    w,
-    h,
-    text,
+    x, // 0
+    y, // 1
+    w, // 2
+    h, // 3
+    text, // 4 - current text
     s,
     c1,
     c2,
     a1 || 0,
     onClick,
-    text,
-    0, // focused
-    null, // label
-    round, // round button
-    disabled // disabled
+    text, // 10 - old text
+    0, // 11 - focused
+    null, // 12 - label
+    round, // 13 - round button
+    disabled // 14 - disabled
     // 15 - canvas
   ];
 }
@@ -37,23 +37,26 @@ function drawButton(button) {
     button[12] = makeLabel(x, y, button[4], button[6], button[5]);
   }
 
+  var hw = button[2] / 2;
+  var hh = button[3] / 2;
+
   ctxUI.save();
   // render button border according to the focus state
   ctxUI.fillStyle = '#' + adjustHex(button[button[11] ? 6 : 7], button[14] ? 0.3 : 1);
-  ctxUI.translate(button[0] - button[2] / 2, button[1] - button[3] / 2);
+  ctxUI.translate(button[0] - hw, button[1] - hh);
   ctxUI.save();
   // round button
   if (button[13]) {
     ctxUI.beginPath();
-    ctxUI.arc(button[2] / 2, button[3] / 2, button[2] / 2, 0, TWO_PI, false);
+    ctxUI.arc(hw, hh, hw, 0, TWO_PI, false);
     ctxUI.fill();
     ctxUI.fillStyle = '#000';
     ctxUI.beginPath();
-    ctxUI.arc(button[2] / 2, button[3] / 2, button[2] / 2 - 5, 0, TWO_PI, false);
+    ctxUI.arc(hw, hh, hw - 5, 0, TWO_PI, false);
     ctxUI.fill();
     ctxUI.beginPath();
     ctxUI.fillStyle = '#' + adjustHex(button[7], button[14] ? 0.3 : 1);
-    ctxUI.arc(button[2] / 2, button[3] / 2, button[2] / 2 - 10, 0, TWO_PI, false);
+    ctxUI.arc(hw, hh, hw - 10, 0, TWO_PI, false);
     ctxUI.fill();
   } else {
     ctxUI.transform(1, 0, button[8] * 0.78, 1, 0, 0);

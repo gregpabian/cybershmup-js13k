@@ -1,7 +1,7 @@
 /* global makeBackground updateBackground dt ctxUI
 makeButton changeScene handleButtonClick mx my isMobile updateButton
 focusButton soundOn: true highQuality: true makeLabel drawButton drawLabel
-a1: true a2: true clickButton clicked: true blurButton ku: true kd: true clamp
+a1: true clickButton clicked: true blurButton ku: true kd: true clamp
 a3: true vectorRotate vectorAdd currentScene:true localStorage
 playSound SOUNDS level:true V_DOWN V_CENTER */
 
@@ -54,7 +54,7 @@ var home = [
 
     switch (mode) {
       // the end
-      case 5:
+      case 4:
         home[7].push(makeLabel(190, 170, 'fin', 'fff', 8));
         /* falls through */
       case 0:
@@ -128,6 +128,14 @@ var home = [
             changeScene(1, 0);
           })
         ].concat(settingsButtons);
+
+        if (!isMobile) {
+          home[7].push(
+            makeLabel(20, 540, 'controls:', 'fff', 3),
+            makeLabel(20, 560, 'wasd + enter', 'fff', 3),
+            makeLabel(20, 580, 'arrows + space', 'fff', 3)
+          );
+        }
     }
   },
   // 1 update
@@ -165,9 +173,9 @@ var home = [
 
     if (!isMobile) {
       // if enter or space - click focused button
-      if (a1 || a2) {
+      if (a1) {
         clickButton(home[5][home[6]]);
-        a1 = a2 = 0;
+        a1 = 0;
       }
 
       if (ku) {
