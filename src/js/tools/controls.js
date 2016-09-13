@@ -15,7 +15,6 @@ var kr = 0;
 var ku = 0;
 var kd = 0;
 
-var isFullScreen = 0;
 var a1 = 0;
 var a3 = 0;
 
@@ -32,12 +31,6 @@ function touchMove(event) {
     firstClick = 0;
   } else {
     clicked = 0;
-  }
-
-  if (isMobile && !isFullScreen && document.body.webkitRequestFullScreen) {
-    document.body.webkitRequestFullScreen();
-    resize();
-    isFullScreen = 1;
   }
 
   var touch = event.touches ? event.touches[0] : event;

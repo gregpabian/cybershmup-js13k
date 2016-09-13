@@ -69,7 +69,9 @@ var home = [
         home[7].push(
           makeLabel(160, 250, 'created by', '09c', 4),
           makeLabel(110, 290, 'greg pabian', '0cf', 6),
-          makeLabel(90, 330, 'pixelchinchilla.com', '0cf', 4)
+          makeLabel(90, 330, 'pixelchinchilla.com', '0cf', 4),
+          makeLabel(90, 360, 'twitter: gregpabian', '0cf', 4),
+          makeLabel(100, 390, 'github: gregpabian', '0cf', 4)
         );
         break;
 

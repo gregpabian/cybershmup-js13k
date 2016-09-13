@@ -2,7 +2,7 @@
 currentScene: true isMobile handleKeys wrapper sc: true disableAA makeProgram
 baseVert staticVert textureFrag blurFrag mixFrag makeFramebuffer setFramebuffer
 highQuality getUniformLocation useTexture makeQuadBuffer drawBackground cm
-copyFrag trailFrag loaded projectionMatrix TWO_PI random initialSeed */
+copyFrag trailFrag loaded projectionMatrix TWO_PI random initialSeed cui */
 
 var last = 0;
 var dt = 0;
@@ -164,7 +164,11 @@ function changeScene(id, arg) {
 function resize(ww, wh) {
   sc = Math.min(1 / Math.max(width / ww, height / wh), 1);
 
-  wrapper.style.webkitTransform = 'scale(' + (sc) + ')';
+  cui.style.width = cm.style.width = 480 * sc + 'px';
+  cui.style.height = cm.style.height = 640 * sc + 'px';
+
+  if (isMobile) return;
+
   wrapper.style.top = ~~((wh - (height * sc)) / 2) + 'px';
   wrapper.style.left = ~~((ww - (width * sc)) / 2) + 'px';
 }
