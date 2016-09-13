@@ -6,7 +6,7 @@ You're a computer geek sucked into the cyber space while using your VR goggles d
 You have to fight your way back from the virtual reality by defeating the C.O.R.E.
 The mysterious power of GLITCH will help you on your journey.
 
-**Final size:** 13.307 bytes
+**Final size:** 13.255 bytes
 
 **Play the game:** http://pixelchinchilla.com/cybershmup/
 
