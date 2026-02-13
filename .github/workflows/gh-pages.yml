@@ -36,7 +36,6 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version: '10'
-          cache: 'npm'
       - name: Install Dependencies
         run: npm install
       - name: Build
