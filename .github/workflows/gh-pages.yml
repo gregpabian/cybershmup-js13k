@@ -27,22 +27,18 @@ jobs:
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
-    runs-on: ubuntu-latest
+    # Use an older runner that has Python 2.7 available for node-gyp
+    runs-on: ubuntu-20.04
     steps:
       - name: Checkout
         uses: actions/checkout@v4
-        
+
       - name: Set up Node.js
         uses: actions/setup-node@v4
         with:
           # This is an older project, so we're using Node.js 10.
-          node-version: '10.x'
+          node-version: '10'
 
-      - name: Set up Python 2.7
-        uses: actions/setup-python@v5
-        with:
-          python-version: '2.7'
-          
       - name: Install Dependencies
         run: npm install
 
@@ -57,7 +53,7 @@ jobs:
         with:
           # Upload build directory
           path: './build'
-          
+
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4
