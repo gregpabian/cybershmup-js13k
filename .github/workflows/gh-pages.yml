@@ -31,22 +31,33 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+        
       - name: Set up Node.js
-        # Using Node.js 10 for compatibility with older dependencies.
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v4
         with:
-          node-version: '10'
+          # This is an older project, so we're using Node.js 10.
+          node-version: '10.x'
+
+      - name: Set up Python 2.7
+        uses: actions/setup-python@v5
+        with:
+          python-version: '2.7'
+          
       - name: Install Dependencies
         run: npm install
+
       - name: Build
         run: npm run build
+
       - name: Setup Pages
-        uses: actions/configure-pages@v4
+        uses: actions/configure-pages@v5
+
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
           # Upload build directory
           path: './build'
+          
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4
