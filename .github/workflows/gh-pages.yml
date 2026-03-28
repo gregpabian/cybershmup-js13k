@@ -35,7 +35,7 @@ jobs:
           node-version: '10'
 
       - name: Install Dependencies
-        run: npm install
+        run: npm install --ignore-scripts
 
       - name: Build project (without closure compiler)
         run: |
