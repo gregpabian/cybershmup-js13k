@@ -22,8 +22,7 @@ concurrency:
 
 jobs:
   build:
-    # Use an older runner that has Python 2.7 available for node-gyp
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-latest
 
     steps:
       - name: Checkout
