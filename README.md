@@ -8,7 +8,7 @@ The mysterious power of GLITCH will help you on your journey.
 
 **Final size:** 13.255 bytes
 
-**Play the game:** http://pixelchinchilla.com/cybershmup/
+**Play the game:** [http://pixelchinchilla.com/cybershmup/](https://gregpabian.github.io/cybershmup-js13k/)
 
 ![screenshot](https://raw.githubusercontent.com/gregpabian/cybershmup-js13k/master/cyber_shmup_gameplay.png)
 
