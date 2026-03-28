@@ -38,9 +38,8 @@ jobs:
         run: npm install --ignore-scripts
 
       - name: Build project (without closure compiler)
+        # _images.js and _shaders.js are committed to the repo, no need to regenerate
         run: |
-          npx grunt images
-          npx grunt glsl
           npx grunt lint
           npx grunt clean:build
           npx grunt concat
